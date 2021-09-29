@@ -268,7 +268,7 @@ public class MapleReactor extends AbstractMapleMapObject {
                     attackHit = wHit;
 
                     if (YamlConfig.config.server.USE_DEBUG == true) {
-                        c.getPlayer().dropMessage(5, "Hitted REACTOR " + this.getId() + " with POS " + charPos + " , STANCE " + stance + " , SkillID " + skillid + " , STATE " + stats.getType(state) + " STATESIZE " + stats.getStateSize(state));
+                        c.getPlayer().dropMessage(5, "被击中的反应堆id： " + this.getId() + " with POS " + charPos + " , STANCE " + stance + " , SkillID " + skillid + " , STATE " + stats.getType(state) + " STATESIZE " + stats.getStateSize(state));
                     }
                     ReactorScriptManager.getInstance().onHit(c, this);
 

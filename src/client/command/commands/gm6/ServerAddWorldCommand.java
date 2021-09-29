@@ -45,12 +45,12 @@ public class ServerAddWorldCommand extends Command {
 
                 if(player.isLoggedinWorld()) {
                     if(wid >= 0) {
-                        player.dropMessage(5, "NEW World " + wid + " successfully deployed.");
+                        player.dropMessage(5, "新的服务器ID：" + wid + "已成功部署.");
                     } else {
                         if(wid == -2) {
-                            player.dropMessage(5, "Error detected when loading the 'world.ini' file. World creation aborted.");
+                            player.dropMessage(5, "加载时检测到错误'world.ini'文件。服务器创建已中止.");
                         } else {
-                            player.dropMessage(5, "NEW World failed to be deployed. Check if needed ports are already in use or maximum world count has been reached.");
+                            player.dropMessage(5, "新服务器未能部署。检查所需的端口是否已在使用或已达到最大服务器计数。");
                         }
                     }
                 }

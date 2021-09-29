@@ -46,7 +46,7 @@ public class RemoteStoreHandler extends AbstractMaplePacketHandler {
             }
             return;
         } else {
-           chr.dropMessage(1, "You don't have a Merchant open.");
+           chr.dropMessage(1, "你没有打开的雇佣商人.");
         }
         c.announce(MaplePacketCreator.enableActions());
     }

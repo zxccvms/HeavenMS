@@ -387,74 +387,148 @@ public class Equip extends Item {
         for (Pair<StatUpgrade, Integer> stat : stats) {
             switch (stat.getLeft()) {
                 case incDEX:
-                    statUp = Math.min(stat.getRight(), maxStat - dex);
+                    statUp = Math.min((int) Math.ceil(dex * 0.2), maxStat - dex);
+                    //statUp = Math.min(stat.getRight(), maxStat - dex);
                     dex += statUp;
-                    lvupStr += "+" + statUp + "DEX ";
+                    lvupStr += "+" + statUp + "敏捷 ";
                     break;
                 case incSTR:
-                    statUp = Math.min(stat.getRight(), maxStat - str);
+                    //statUp = Math.min(stat.getRight(), maxStat - str);
+                    statUp = Math.min((int)Math.ceil(str * 0.2), maxStat - str);//属性增长是str+str*20%。
                     str += statUp;
-                    lvupStr += "+" + statUp + "STR ";
+                    lvupStr += "+" + statUp + "力量 ";
                     break;
                 case incINT:
-                    statUp = Math.min(stat.getRight(), maxStat - _int);
+//                    statUp = Math.min(stat.getRight(), maxStat - _int);
+                    statUp = (int)Math.min(Math.ceil(_int * 0.2), maxStat - _int);//lynfan 属性增长是*20%
                     _int += statUp;
-                    lvupStr += "+" + statUp + "INT ";
+                    lvupStr += "+" + statUp + "智力 ";
                     break;
                 case incLUK:
-                    statUp = Math.min(stat.getRight(), maxStat - luk);
+//                    statUp = Math.min(stat.getRight(), maxStat - luk);
+                    statUp = (int)Math.min(Math.ceil(luk * 0.2), maxStat - luk);//lynfan 属性增长是*20%
                     luk += statUp;
-                    lvupStr += "+" + statUp + "LUK ";
+                    lvupStr += "+" + statUp + "运气 ";
                     break;
                 case incMHP:
-                    statUp = Math.min(stat.getRight(), maxStat - hp);
+//                    statUp = Math.min(stat.getRight(), maxStat - hp);
+                    statUp = (int)Math.min(Math.ceil(hp * 0.2), maxStat - hp);//lynfan 属性增长是*50%
                     hp += statUp;
                     lvupStr += "+" + statUp + "HP ";
                     break;
                 case incMMP:
-                    statUp = Math.min(stat.getRight(), maxStat - mp);
+//                    statUp = Math.min(stat.getRight(), maxStat - mp);
+                    statUp = (int)Math.min(Math.ceil(mp * 0.2), maxStat - mp);//lynfan 属性增长是*50%
                     mp += statUp;
                     lvupStr += "+" + statUp + "MP ";
                     break;
                 case incPAD:
-                    statUp = Math.min(stat.getRight(), maxStat - watk);
+                    //statUp = Math.min(stat.getRight(), maxStat - watk);
+//                    statUp = (int)Math.min(Math.ceil(watk * 0.05), maxStat - watk);
+                    statUp = (int)Math.min(Math.ceil(watk * 0.05), maxStat - watk);//lynfan 属性增长是*20%
                     watk += statUp;
-                    lvupStr += "+" + statUp + "WATK ";
+                    lvupStr += "+" + statUp + "物理攻击 ";
                     break;
                 case incMAD:
-                    statUp = Math.min(stat.getRight(), maxStat - matk);
+//                    statUp = Math.min(stat.getRight(), maxStat - matk);
+                    statUp = (int)Math.min(Math.ceil(matk * 0.05), maxStat - matk);//lynfan 属性增长是*50%
                     matk += statUp;
-                    lvupStr += "+" + statUp + "MATK ";
+                    lvupStr += "+" + statUp + "魔法攻击 ";
                     break;
+//                case incPDD:
+//                    statUp = Math.min(stat.getRight(), maxStat - wdef);
+//                    wdef += statUp;
+//                    lvupStr += "+" + statUp + "物理防御 ";
+//                    break;
                 case incPDD:
-                    statUp = Math.min(stat.getRight(), maxStat - wdef);
+                    if(Randomizer.nextInt(10) == 1) {//lynfan 当装备上有此属性时，装备升级有1/50的概率增加?点此属性。
+                    statUp = (int)Math.min(Math.ceil(wdef * 0.2), maxStat - wdef);
                     wdef += statUp;
-                    lvupStr += "+" + statUp + "WDEF ";
+                    lvupStr += "+>" + statUp + "物理防御 ";
+                    }else {//lynfan 装备升级有49/50的概率不增加此属性
+                    statUp = (int)Math.min(Math.ceil(wdef * 0.1), maxStat - wdef);
+                        lvupStr += "+>"+statUp +"物理防御";         
+                    }      
                     break;
+//                case incMDD:
+//                    statUp = Math.min(stat.getRight(), maxStat - mdef);
+//                    mdef += statUp;
+//                    lvupStr += "+" + statUp + "魔法防御 ";
+//                    break;
                 case incMDD:
-                    statUp = Math.min(stat.getRight(), maxStat - mdef);
+                    if(Randomizer.nextInt(10) == 1) {//lynfan 当装备上有此属性时，装备升级有1/50的概率增加?点此属性。
+                    statUp = (int)Math.min(Math.ceil(mdef * 0.2), maxStat - mdef);
                     mdef += statUp;
-                    lvupStr += "+" + statUp + "MDEF ";
+                    lvupStr += "+>" + statUp + "魔法防御 ";
+                    
+                    }else {//lynfan 装备升级有49/50的概率不增加此属性
+                    statUp = (int)Math.min(Math.ceil(mdef * 0.1), maxStat - mdef);
+                        lvupStr += "+>"+statUp +"魔法防御";      
+                    }  
                     break;
+//                case incEVA:
+//                    statUp = Math.min(stat.getRight(), maxStat - avoid);
+//                    avoid += statUp;
+//                    lvupStr += "+" + statUp + "闪避 ";
+//                    break;
                 case incEVA:
-                    statUp = Math.min(stat.getRight(), maxStat - avoid);
+                    if(Randomizer.nextInt(10) == 1) {//lynfan 当装备上有此属性时，装备升级有1/30的概率增加1/2点此属性。
+                    statUp = (int)Math.min(Math.ceil(avoid * 0.1), maxStat - avoid);
+                    //statUp = Math.min(stat.getRight(), maxStat - avoid);
                     avoid += statUp;
-                    lvupStr += "+" + statUp + "AVOID ";
+                    lvupStr += "+>" + statUp + "闪避 ";
+                    }else {//lynfan 装备升级有29/30的概率不增加此属性
+                    statUp = (int)Math.min(Math.ceil(avoid * 0.05), maxStat - avoid);
+                        lvupStr += "+>"+statUp +"闪避";     
+                    } 
                     break;
+//                case incACC:
+//                    statUp = Math.min(stat.getRight(), maxStat - acc);
+//                    acc += statUp;
+//                    lvupStr += "+" + statUp + "命中率 ";
+//                    break;
                 case incACC:
-                    statUp = Math.min(stat.getRight(), maxStat - acc);
+                if(Randomizer.nextInt(10) == 1) {//lynfan 当装备上有此属性时，装备升级有1/30的概率增加1/2点此属性。
+                    statUp = (int)Math.min(Math.ceil(acc * 0.1), maxStat - acc);
+                    //statUp = Math.min(stat.getRight(), maxStat - acc);
                     acc += statUp;
-                    lvupStr += "+" + statUp + "ACC ";
+                    lvupStr += "+>" + statUp + "命中率 ";
+                    }else {//lynfan 装备升级有29/30的概率不增加此属性
+                    statUp = (int)Math.min(Math.ceil(acc * 0.05), maxStat - acc);
+                        lvupStr += "+>"+statUp +"命中率";      
+                    } 
                     break;
+//                case incSpeed:
+//                    statUp = Math.min(stat.getRight(), maxStat - speed);
+//                    speed += statUp;
+//                    lvupStr += "+" + statUp + "移动速度 ";
+//                    break;
                 case incSpeed:
-                    statUp = Math.min(stat.getRight(), maxStat - speed);
+                    if(Randomizer.nextInt(10) == 1 ) {//lynfan 当装备上有此属性时，装备升级有1/30的概率增加1/2点此属性。
+                    statUp = (int) Math.ceil(Math.random()*3+1);/*Math.min(stat.getRight(), maxStat - speed);*/
                     speed += statUp;
-                    lvupStr += "+" + statUp + "SPEED ";
+                    lvupStr += "+>" + statUp + "移动速度 ";
+                    } else {
+                    //lynfan 装备升级有29/30的概率不增加此属性
+                    statUp =1;
+                        lvupStr += "+>"+statUp +"移动速度";       
+                    }
                     break;
+//                case incJump:
+//                    statUp = Math.min(stat.getRight(), maxStat - jump);
+//                    jump += statUp;
+//                    lvupStr += "+" + statUp + "跳跃力 ";
+//                    break;
                 case incJump:
-                    statUp = Math.min(stat.getRight(), maxStat - jump);
+                    if(Randomizer.nextInt(10) == 1 ) {//lynfan 当装备上有此属性时，装备升级有1/30的概率增加1/2点此属性。
+                    statUp = (int) Math.ceil(Math.random()*3+1);/*Math.min(stat.getRight(), maxStat - jump);*/
                     jump += statUp;
-                    lvupStr += "+" + statUp + "JUMP ";
+                    lvupStr += "+>" + statUp + "跳跃力 ";
+                    } else {
+                    //lynfan 装备升级有29/30的概率不增加此属性
+                    statUp =1;
+                        lvupStr += "+>"+statUp +"跳跃力";       
+                    }
                     break;
                     
                 case incVicious:
@@ -509,8 +583,8 @@ public class Equip extends Item {
         
         itemLevel++;
         
-        String lvupStr = "'" + MapleItemInformationProvider.getInstance().getName(this.getItemId()) + "' is now level " + itemLevel + "! ";
-        String showStr = "#e'" + MapleItemInformationProvider.getInstance().getName(this.getItemId()) + "'#b is now #elevel #r" + itemLevel + "#k#b!";
+        String lvupStr = "'" + MapleItemInformationProvider.getInstance().getName(this.getItemId()) + "' 升级到了 " + itemLevel + "! ";
+        String showStr = "#e'" + MapleItemInformationProvider.getInstance().getName(this.getItemId()) + "'#b 升级到了 #r" + itemLevel + "#k#b!";
         
         Pair<String, Pair<Boolean, Boolean>> res = this.gainStats(stats);
         lvupStr += res.getLeft();
@@ -578,7 +652,7 @@ public class Equip extends Item {
         itemExp += baseExpGain;
         int expNeeded = ExpTable.getEquipExpNeededForLevel(itemLevel);
         
-        if(YamlConfig.config.server.USE_DEBUG_SHOW_INFO_EQPEXP) System.out.println("'" + ii.getName(this.getItemId()) + "' -> EXP Gain: " + gain + " Mastery: " + masteryModifier + " Base gain: " + baseExpGain + " exp: " + itemExp + " / " + expNeeded + ", Kills TNL: " + expNeeded / (baseExpGain / c.getPlayer().getExpRate()));
+        if(YamlConfig.config.server.USE_DEBUG_SHOW_INFO_EQPEXP) System.out.println("'" + ii.getName(this.getItemId()) + "' -> 获得经验值: " + gain + " 精通: " + masteryModifier + " 此次获取经验: " + baseExpGain + " exp: " + itemExp + " / " + expNeeded + ", 需要杀怪数: " + expNeeded / (baseExpGain / c.getPlayer().getExpRate()));
         
         if (itemExp >= expNeeded) {
             while(itemExp >= expNeeded) {

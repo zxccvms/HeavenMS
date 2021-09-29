@@ -63,7 +63,7 @@ public final class FamilyAddHandler extends AbstractMaplePacketHandler {
         } else {
             MapleInviteCoordinator.createInvite(InviteType.FAMILY, chr, addChr, addChr.getId());
             addChr.getClient().announce(MaplePacketCreator.sendFamilyInvite(chr.getId(), chr.getName()));
-            chr.dropMessage("The invite has been sent.");
+            chr.dropMessage("邀请已发送.");
             c.announce(MaplePacketCreator.enableActions());
         }
     }

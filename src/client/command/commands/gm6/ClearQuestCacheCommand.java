@@ -37,6 +37,6 @@ public class ClearQuestCacheCommand extends Command {
     public void execute(MapleClient c, String[] params) {
         MapleCharacter player = c.getPlayer();
         MapleQuest.clearCache();
-        player.dropMessage(5, "Quest Cache Cleared.");
+        player.dropMessage(5, "任务缓存已清除.");
     }
 }

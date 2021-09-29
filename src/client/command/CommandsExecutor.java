@@ -18,7 +18,7 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-/*
+/*GM命令
    @Author: Arthur L - Refactored command content into modules
 */
 package client.command;
@@ -88,13 +88,13 @@ public class CommandsExecutor {
                 client.releaseClient();
             }
         } else {
-            client.getPlayer().dropMessage(5, "Try again in a while... Latest commands are currently being processed.");
+            client.getPlayer().dropMessage(5, "过一会儿再试一次..... 最新命令正在处理中.");
         }
     }
     
     private void handleInternal(MapleClient client, String message){
         if (client.getPlayer().getMapId() == 300000012) {
-            client.getPlayer().yellowMessage("You do not have permission to use commands while in jail.");
+            client.getPlayer().yellowMessage("你在监狱里没有使用命令的权限.");
             return;
         }
         final String splitRegex = "[ ]";
@@ -109,11 +109,11 @@ public class CommandsExecutor {
         
         final Command command = registeredCommands.get(commandName);
         if (command == null){
-            client.getPlayer().yellowMessage("Command '" + commandName + "' is not available. See @commands for a list of available commands.");
+            client.getPlayer().yellowMessage("命令 '" + commandName + "' 不可用。有关可用命令的列表，请参见@指令大全.");
             return;
         }
         if (client.getPlayer().gmLevel() < command.getRank()){
-            client.getPlayer().yellowMessage("You do not have permission to use this command.");
+            client.getPlayer().yellowMessage("您没有使用此命令的权限.");
             return;
         }
         String[] params;
@@ -128,8 +128,8 @@ public class CommandsExecutor {
     }
 
     private void writeLog(MapleClient client, String command){
-        SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy HH:mm");
-        FilePrinter.print(FilePrinter.USED_COMMANDS, client.getPlayer().getName() + " used: " + command + " on "
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm"); //yyyy-MM-dd HH:mm:ss
+        FilePrinter.print(FilePrinter.USED_COMMANDS, client.getPlayer().getName() + " 使用命令: " + command + " 于 "
                 + sdf.format(Calendar.getInstance().getTime()));
     }
 
@@ -161,7 +161,7 @@ public class CommandsExecutor {
 
     private void addCommand(String syntax, int rank,  Class<? extends Command> commandClass){
         if (registeredCommands.containsKey(syntax.toLowerCase())){
-            System.out.println("Error on register command with name: " + syntax + ". Already exists.");
+            System.out.println("代码中存在语法错误问题，名称: " + syntax + ". 已存在.");
             return;
         }
         
@@ -179,228 +179,222 @@ public class CommandsExecutor {
             e.printStackTrace();
         }
     }
-
     private void registerLv0Commands(){
         levelCommandsCursor = new Pair<>((List<String>) new ArrayList<String>(), (List<String>) new ArrayList<String>());
         
-        addCommand(new String[]{"help", "commands"}, HelpCommand.class);
-        addCommand("droplimit", DropLimitCommand.class);
-        addCommand("time", TimeCommand.class);
-        addCommand("credits", StaffCommand.class);
-        addCommand("buyback", BuyBackCommand.class);
-        addCommand("uptime", UptimeCommand.class);
-        addCommand("gacha", GachaCommand.class);
-        addCommand("dispose", DisposeCommand.class);
-        addCommand("changel", ChangeLanguageCommand.class);
-        addCommand("equiplv",  EquipLvCommand.class);
-        addCommand("showrates", ShowRatesCommand.class);
-        addCommand("rates", RatesCommand.class);
-        addCommand("online", OnlineCommand.class);
-        addCommand("gm", GmCommand.class);
-        addCommand("reportbug", ReportBugCommand.class);
-        addCommand("points", ReadPointsCommand.class);
-        addCommand("joinevent", JoinEventCommand.class);
-        addCommand("leaveevent", LeaveEventCommand.class);
-        addCommand("ranks", RanksCommand.class);
-        addCommand("str", StatStrCommand.class);
-        addCommand("dex", StatDexCommand.class);
-        addCommand("int", StatIntCommand.class);
-        addCommand("luk", StatLukCommand.class);
-        addCommand("enableauth", EnableAuthCommand.class);
-        addCommand("toggleexp", ToggleExpCommand.class);
-        addCommand("mylawn", MapOwnerClaimCommand.class);
-        addCommand("bosshp", BossHpCommand.class);
-        addCommand("mobhp", MobHpCommand.class);
-        
+        addCommand(new String[]{"帮助", "指令大全"}, HelpCommand.class);
+        addCommand("爆啥", WhatDropsFromCommand.class);
+        addCommand("物品出处", WhoDropsCommand.class);   
+        addCommand("参加活动", JoinEventCommand.class);
+        addCommand("排行榜", RanksCommand.class);
+        addCommand("服务器运行时间", UptimeCommand.class);
+ 
         commandsNameDesc.add(levelCommandsCursor);
     }
-
 
     private void registerLv1Commands() {
         levelCommandsCursor = new Pair<>((List<String>) new ArrayList<String>(), (List<String>) new ArrayList<String>());
         
-        addCommand("whatdropsfrom", 1, WhatDropsFromCommand.class);
-        addCommand("whodrops", 1, WhoDropsCommand.class);
-        addCommand("buffme", 1, BuffMeCommand.class);
-        addCommand("goto", 1, GotoCommand.class);
-        
         commandsNameDesc.add(levelCommandsCursor);
     }
-
-
+    
     private void registerLv2Commands(){
         levelCommandsCursor = new Pair<>((List<String>) new ArrayList<String>(), (List<String>) new ArrayList<String>());
         
-        addCommand("recharge", 2, RechargeCommand.class);
-        addCommand("whereami", 2, WhereaMiCommand.class);
-        addCommand("hide", 2, HideCommand.class);
-        addCommand("unhide", 2, UnHideCommand.class);
-        addCommand("sp", 2, SpCommand.class);
-        addCommand("ap", 2, ApCommand.class);
-        addCommand("empowerme", 2, EmpowerMeCommand.class);
-        addCommand("buffmap", 2, BuffMapCommand.class);
-        addCommand("buff", 2, BuffCommand.class);
-        addCommand("bomb", 2, BombCommand.class);
-        addCommand("dc", 2, DcCommand.class);
-        addCommand("cleardrops", 2, ClearDropsCommand.class);
-        addCommand("clearslot", 2, ClearSlotCommand.class);
-        addCommand("clearsavelocs", 2, ClearSavedLocationsCommand.class);
-        addCommand("warp", 2, WarpCommand.class);
-        addCommand(new String[]{"warphere", "summon"}, 2, SummonCommand.class);
-        addCommand(new String[]{"warpto", "reach", "follow"}, 2, ReachCommand.class);
-        addCommand("gmshop", 2, GmShopCommand.class);
-        addCommand("heal", 2, HealCommand.class);
-        addCommand("item", 2, ItemCommand.class);
-        addCommand("drop", 2, ItemDropCommand.class);
-        addCommand("level", 2, LevelCommand.class);
-        addCommand("levelpro", 2, LevelProCommand.class);
-        addCommand("setslot", 2, SetSlotCommand.class);
-        addCommand("setstat", 2, SetStatCommand.class);
-        addCommand("maxstat", 2, MaxStatCommand.class);
-        addCommand("maxskill", 2, MaxSkillCommand.class);
-        addCommand("resetskill", 2, ResetSkillCommand.class);
-        addCommand("search", 2, SearchCommand.class);
-        addCommand("jail", 2, JailCommand.class);
-        addCommand("unjail", 2, UnJailCommand.class);
-        addCommand("job", 2, JobCommand.class);
-        addCommand("unbug", 2, UnBugCommand.class);
-        addCommand("id", 2, IdCommand.class);
-        addCommand("gachalist", GachaListCommand.class);
-        addCommand("loot", LootCommand.class);
-        
         commandsNameDesc.add(levelCommandsCursor);
     }
-
+    
     private void registerLv3Commands() {
         levelCommandsCursor = new Pair<>((List<String>) new ArrayList<String>(), (List<String>) new ArrayList<String>());
-        
-        addCommand("debuff", 3, DebuffCommand.class);
-        addCommand("fly", 3, FlyCommand.class);
-        addCommand("spawn", 3, SpawnCommand.class);
-        addCommand("mutemap", 3, MuteMapCommand.class);
-        addCommand("checkdmg", 3, CheckDmgCommand.class);
-        addCommand("inmap", 3, InMapCommand.class);
-        addCommand("reloadevents", 3, ReloadEventsCommand.class);
-        addCommand("reloaddrops", 3, ReloadDropsCommand.class);
-        addCommand("reloadportals", 3, ReloadPortalsCommand.class);
-        addCommand("reloadmap", 3, ReloadMapCommand.class);
-        addCommand("reloadshops", 3, ReloadShopsCommand.class);
-        addCommand("hpmp", 3, HpMpCommand.class);
-        addCommand("maxhpmp", 3, MaxHpMpCommand.class);
-        addCommand("music", 3, MusicCommand.class);
-        addCommand("monitor", 3, MonitorCommand.class);
-        addCommand("monitors", 3, MonitorsCommand.class);
-        addCommand("ignore", 3, IgnoreCommand.class);
-        addCommand("ignored", 3, IgnoredCommand.class);
-        addCommand("pos", 3, PosCommand.class);
-        addCommand("togglecoupon", 3, ToggleCouponCommand.class);
-        addCommand("togglewhitechat", 3, ChatCommand.class);
-        addCommand("fame", 3, FameCommand.class);
-        addCommand("givenx", 3, GiveNxCommand.class);
-        addCommand("givevp", 3, GiveVpCommand.class);
-        addCommand("givems", 3, GiveMesosCommand.class);
-        addCommand("giverp", 3, GiveRpCommand.class);
-        addCommand("expeds", 3, ExpedsCommand.class);
-        addCommand("kill", 3, KillCommand.class);
-        addCommand("seed", 3, SeedCommand.class);
-        addCommand("maxenergy", 3, MaxEnergyCommand.class);
-        addCommand("killall", 3, KillAllCommand.class);
-        addCommand("notice", 3, NoticeCommand.class);
-        addCommand("rip", 3, RipCommand.class);
-        addCommand("openportal", 3, OpenPortalCommand.class);
-        addCommand("closeportal", 3, ClosePortalCommand.class);
-        addCommand("pe", 3, PeCommand.class);
-        addCommand("startevent", 3, StartEventCommand.class);
-        addCommand("endevent", 3, EndEventCommand.class);
-        addCommand("startmapevent", 3, StartMapEventCommand.class);
-        addCommand("stopmapevent", 3, StopMapEventCommand.class);
-        addCommand("online2", 3, OnlineTwoCommand.class);
-        addCommand("ban", 3, BanCommand.class);
-        addCommand("unban", 3, UnBanCommand.class);
-        addCommand("healmap", 3, HealMapCommand.class);
-        addCommand("healperson", 3, HealPersonCommand.class);
-        addCommand("hurt", 3, HurtCommand.class);
-        addCommand("killmap", 3, KillMapCommand.class);
-        addCommand("night", 3, NightCommand.class);
-        addCommand("npc", 3, NpcCommand.class);
-        addCommand("face", 3, FaceCommand.class);
-        addCommand("hair", 3, HairCommand.class);
-        addCommand("startquest", 3, QuestStartCommand.class);
-        addCommand("completequest", 3, QuestCompleteCommand.class);
-        addCommand("resetquest", 3, QuestResetCommand.class);
-        addCommand("timer", 3, TimerCommand.class);
-        addCommand("timermap", 3, TimerMapCommand.class);
-        addCommand("timerall", 3, TimerAllCommand.class);
-        addCommand("warpmap", 3, WarpMapCommand.class);
-        addCommand("warparea", 3, WarpAreaCommand.class);
 
         commandsNameDesc.add(levelCommandsCursor);
     }
-
+    
     private void registerLv4Commands(){
         levelCommandsCursor = new Pair<>((List<String>) new ArrayList<String>(), (List<String>) new ArrayList<String>());
         
-        addCommand("servermessage", 4, ServerMessageCommand.class);
-        addCommand("proitem", 4, ProItemCommand.class);
-        addCommand("seteqstat", 4, SetEqStatCommand.class);
-        addCommand("exprate", 4, ExpRateCommand.class);
-        addCommand("mesorate", 4, MesoRateCommand.class);
-        addCommand("droprate", 4, DropRateCommand.class);
-        addCommand("bossdroprate", 4, BossDropRateCommand.class);
-        addCommand("questrate", 4, QuestRateCommand.class);
-        addCommand("travelrate", 4, TravelRateCommand.class);
-        addCommand("fishrate", 4, FishingRateCommand.class);
-        addCommand("itemvac", 4, ItemVacCommand.class);
-        addCommand("forcevac", 4, ForceVacCommand.class);
-        addCommand("zakum", 4, ZakumCommand.class);
-        addCommand("horntail", 4, HorntailCommand.class);
-        addCommand("pinkbean", 4, PinkbeanCommand.class);
-        addCommand("pap", 4, PapCommand.class);
-        addCommand("pianus", 4, PianusCommand.class);
-        addCommand("cake", 4, CakeCommand.class);
-        addCommand("playernpc", 4, PlayerNpcCommand.class);
-        addCommand("playernpcremove", 4, PlayerNpcRemoveCommand.class);
-        addCommand("pnpc", 4, PnpcCommand.class);
-        addCommand("pnpcremove", 4, PnpcRemoveCommand.class);
-        addCommand("pmob", 4, PmobCommand.class);
-        addCommand("pmobremove", 4, PmobRemoveCommand.class);
-        
         commandsNameDesc.add(levelCommandsCursor);
     }
-
+    
     private void registerLv5Commands(){
         levelCommandsCursor = new Pair<>((List<String>) new ArrayList<String>(), (List<String>) new ArrayList<String>());
         
-        addCommand("debug", 5, DebugCommand.class);
-        addCommand("set", 5, SetCommand.class);
-        addCommand("showpackets", 5, ShowPacketsCommand.class);
-        addCommand("showmovelife", 5, ShowMoveLifeCommand.class);
-        addCommand("showsessions", 5, ShowSessionsCommand.class);
-        addCommand("iplist", 5, IpListCommand.class);
-        
         commandsNameDesc.add(levelCommandsCursor);
     }
-
+    
     private void registerLv6Commands(){
         levelCommandsCursor = new Pair<>((List<String>) new ArrayList<String>(), (List<String>) new ArrayList<String>());
         
-        addCommand("setgmlevel", 6, SetGmLevelCommand.class);
-        addCommand("warpworld", 6, WarpWorldCommand.class);
-        addCommand("saveall", 6, SaveAllCommand.class);
-        addCommand("dcall", 6, DCAllCommand.class);
-        addCommand("mapplayers", 6, MapPlayersCommand.class);
-        addCommand("getacc", 6, GetAccCommand.class);
-        addCommand("shutdown", 6, ShutdownCommand.class);
-        addCommand("clearquestcache", 6, ClearQuestCacheCommand.class);
-        addCommand("clearquest", 6, ClearQuestCommand.class);
+        addCommand("go", 6, GotoCommand.class);
+        addCommand("隐身", 6, HideCommand.class);
+        addCommand("取消隐身", 6, UnHideCommand.class);
+        addCommand("小力量", 6, BuffMeCommand.class);
+        addCommand("大力量", 6, EmpowerMeCommand.class);
+        addCommand("给所有人小buff", 6, BuffMapCommand.class);
+        addCommand("当前地图信息", 6, WhereaMiCommand.class);
+        addCommand("丢炸弹", 6, BombCommand.class); //在当前位置丢一个炸弹
+        addCommand(new String[]{"召唤玩家", "召唤"}, 6, SummonCommand.class);
+        addCommand(new String[]{"传送到", "到达", "跟踪"}, 6, ReachCommand.class);
+        addCommand("飞", 6, WarpCommand.class);
+        addCommand("GM商店", 6, GmShopCommand.class);
+        addCommand("刷", 6, ItemCommand.class);
+        addCommand("丢", 6, ItemDropCommand.class);
+        addCommand("等级", 6, LevelCommand.class);
+        addCommand("最高等级", 6, LevelProCommand.class);
+        addCommand("职业", 6, JobCommand.class);
+        addCommand("刷怪", 6, SpawnCommand.class);
+        addCommand("公告", 6, NoticeCommand.class);
+        addCommand("在线1", OnlineCommand.class);
+        addCommand("在线2", 6, OnlineTwoCommand.class);
+        addCommand("扎昆", 6, ZakumCommand.class);
+        addCommand("黑龙", 6, HorntailCommand.class);
+        addCommand("品克缤", 6, PinkbeanCommand.class);
+        addCommand("闹钟", 6, PapCommand.class);
+        addCommand("皮亚奴斯", 6, PianusCommand.class);
+        addCommand("巨型蛋糕", 6, CakeCommand.class);
+        addCommand("killall", 6, KillAllCommand.class);
+        addCommand("重新加载事件", 6, ReloadEventsCommand.class);
+        addCommand("重新加载掉落", 6, ReloadDropsCommand.class);
+        addCommand("重新加载传送点", 6, ReloadPortalsCommand.class);
+        addCommand("重新加载地图", 6, ReloadMapCommand.class);
+        addCommand("重新加载商店", 6, ReloadShopsCommand.class);
+        addCommand("开始任务", 6, QuestStartCommand.class);
+        addCommand("完成任务", 6, QuestCompleteCommand.class);
+        addCommand("重置任务", 6, QuestResetCommand.class);
+        addCommand("经验倍率", 6, ExpRateCommand.class);
+        addCommand("金币倍率", 6, MesoRateCommand.class);
+        addCommand("掉落倍率", 6, DropRateCommand.class);
+        addCommand("boss掉落倍率", 6, BossDropRateCommand.class);
+        addCommand("任务倍率", 6, QuestRateCommand.class);
+        addCommand("钓鱼倍率", 6, FishingRateCommand.class);
+        addCommand("断开所有玩家", 6, DCAllCommand.class);
+        addCommand("关闭服务器", 6, ShutdownCommand.class);
+        addCommand("保存所有", 6, SaveAllCommand.class);
+        addCommand("监狱", 6, JailCommand.class);
+        addCommand("结束监狱生活", 6, UnJailCommand.class);
+        /*以下这些还没整理的
+        addCommand("地上物品数量", DropLimitCommand.class);
+        addCommand("服务器时间", TimeCommand.class);
+        addCommand("服务端历史", StaffCommand.class);//召唤了一个npc出来 好像是服务端历史
+        addCommand("回购", BuyBackCommand.class);
+        addCommand("抽奖", GachaCommand.class); //查询抽奖每个地区的物品
+        addCommand("假死", DisposeCommand.class);
+        addCommand("changel", ChangeLanguageCommand.class); //这个不知道是什么
+        addCommand("装备等级",  EquipLvCommand.class);
+        addCommand("服务器倍率", ShowRatesCommand.class);
+        addCommand("玩家倍率", RatesCommand.class);
+        addCommand("找GM", 6, GmCommand.class);
+        addCommand("提交Bug", 6, ReportBugCommand.class);
+        addCommand("积分", 6, ReadPointsCommand.class);
+        addCommand("离开事件", 6, LeaveEventCommand.class);//传送到了某一个地图
+         addCommand("力量", 6, StatStrCommand.class);
+        addCommand("敏捷", 6, StatDexCommand.class);
+        addCommand("智力", 6, StatIntCommand.class);
+        addCommand("运气", 6, StatLukCommand.class); 
+        addCommand("enableauth", 6, EnableAuthCommand.class);
+        addCommand("toggleexp", 6, ToggleExpCommand.class);//不知道什么
+        addCommand("领地", 6, MapOwnerClaimCommand.class);//不知道什么
+        addCommand("BOSSHP", 6, BossHpCommand.class);
+        addCommand("怪物HP", 6, MobHpCommand.class);
+        addCommand("充值", 6, RechargeCommand.class);
+        addCommand("sp", 6, SpCommand.class);
+        addCommand("ap", 6, ApCommand.class);
+        addCommand("buff", 6, BuffCommand.class);
+        addCommand("dc", 6, DcCommand.class);
+        addCommand("清理掉落物品", 6, ClearDropsCommand.class);
+        addCommand("清空背包物品", 6, ClearSlotCommand.class);
+        addCommand("清除保存的地点", 6, ClearSavedLocationsCommand.class);
+        addCommand("治愈", 6, HealCommand.class);
+        addCommand("设置栏位", 6, SetSlotCommand.class);
+        addCommand("设置状态", 6, SetStatCommand.class);
+        addCommand("最高状态", 6, MaxStatCommand.class);
+        addCommand("满技能", 6, MaxSkillCommand.class);
+        addCommand("重置技能", 6, ResetSkillCommand.class);
+        addCommand("搜索", 6, SearchCommand.class);
+        addCommand("unbug", 6, UnBugCommand.class);
+        addCommand("id", 6, IdCommand.class);
+        addCommand("抽奖列表", 6, GachaListCommand.class);
+        addCommand("战利品", 6, LootCommand.class);
+        addCommand("debuff", 6, DebuffCommand.class);
+        addCommand("飞行模式", 6, FlyCommand.class);
+        addCommand("静音模式", 6, MuteMapCommand.class);
+        addCommand("查数据", 6, CheckDmgCommand.class);
+        addCommand("当前地图", 6, InMapCommand.class);
+        addCommand("hpmp", 6, HpMpCommand.class);
+        addCommand("满hpmp", 6, MaxHpMpCommand.class);
+        addCommand("音乐", 6, MusicCommand.class);
+        addCommand("监视", 6, MonitorCommand.class);
+        addCommand("监视中", 6, MonitorsCommand.class);
+        addCommand("忽视", 6, IgnoreCommand.class);
+        addCommand("忽视中", 6, IgnoredCommand.class);
+        addCommand("位置", 6, PosCommand.class);
+        addCommand("切换coupon", 6, ToggleCouponCommand.class);
+        addCommand("切换聊天颜色", 6, ChatCommand.class);
+        addCommand("人气", 6, FameCommand.class);
+        addCommand("给点劵", 6, GiveNxCommand.class);
+        addCommand("投票点", 6, GiveVpCommand.class);
+        addCommand("给金币", 6, GiveMesosCommand.class);
+        addCommand("给奖励积分", 6, GiveRpCommand.class);
+        addCommand("远征队", 6, ExpedsCommand.class);
+        addCommand("kill", 6, KillCommand.class);
+        addCommand("seed", 6, SeedCommand.class);
+        addCommand("maxenergy", 6, MaxEnergyCommand.class);//不知道最大是啥
+        addCommand("rip", 6, RipCommand.class); //不知道是啥
+        addCommand("openportal", 6, OpenPortalCommand.class); //不知道是啥入口 -开启
+        addCommand("closeportal", 6, ClosePortalCommand.class); //不知道是啥入口 -关闭
+        addCommand("pe", 6, PeCommand.class); //不知道是啥
+        addCommand("开启活动", 6, StartEventCommand.class);
+        addCommand("结束活动", 6, EndEventCommand.class);
+        addCommand("启动地图事件", 6, StartMapEventCommand.class);
+        addCommand("停止地图事件", 6, StopMapEventCommand.class);
+        addCommand("封", 6, BanCommand.class);
+        addCommand("解除封", 6, UnBanCommand.class);
+        addCommand("治疗地图上的人", 6, HealMapCommand.class);
+        addCommand("治疗指定的人", 6, HealPersonCommand.class);
+        addCommand("hurt", 6, HurtCommand.class);
+        addCommand("杀死地图上的人", 6, KillMapCommand.class);
+        addCommand("晚上", 6, NightCommand.class);
+        addCommand("npc", 6, NpcCommand.class);
+        addCommand("脸", 6, FaceCommand.class);
+        addCommand("头", 6, HairCommand.class);
+        addCommand("计时", 6, TimerCommand.class);
+        addCommand("地图计时", 6, TimerMapCommand.class);
+        addCommand("对所有计时", 6, TimerAllCommand.class);
+        addCommand("传送到地图", 6, WarpMapCommand.class);
+        addCommand("传送城市", 6, WarpAreaCommand.class);
+        addCommand("服务器消息", 6, ServerMessageCommand.class);
+        addCommand("物品属性", 6, ProItemCommand.class);
+        addCommand("seteqstat", 6, SetEqStatCommand.class);
+        addCommand("travelrate", 6, TravelRateCommand.class);
+        addCommand("itemvac", 6, ItemVacCommand.class);
+        addCommand("forcevac", 6, ForceVacCommand.class);
+        addCommand("玩家npc", 6, PlayerNpcCommand.class);
+        addCommand("删除玩家npc", 6, PlayerNpcRemoveCommand.class);
+        addCommand("设置npc", 6, PnpcCommand.class);
+        addCommand("删除npc", 6, PnpcRemoveCommand.class);
+        addCommand("pmob", 6, PmobCommand.class);
+        addCommand("删除pmob", 6, PmobRemoveCommand.class);
+        addCommand("debug", 6, DebugCommand.class);
+        addCommand("设置", 6, SetCommand.class);
+        addCommand("显示数据包", 6, ShowPacketsCommand.class);
+        addCommand("showmovelife", 6, ShowMoveLifeCommand.class);
+        addCommand("showsessions", 6, ShowSessionsCommand.class);
+        addCommand("IP列表", 6, IpListCommand.class);
+        addCommand("设置GM等级", 6, SetGmLevelCommand.class);
+        addCommand("传送服务器", 6, WarpWorldCommand.class);
+        addCommand("保存所有", 6, SaveAllCommand.class);
+        addCommand("地图玩家", 6, MapPlayersCommand.class);
+        addCommand("获取玩家账号", 6, GetAccCommand.class);
+        addCommand("清除全部任务缓存", 6, ClearQuestCacheCommand.class);
+        addCommand("清除指定任务缓存", 6, ClearQuestCommand.class);
         addCommand("supplyratecoupon", 6, SupplyRateCouponCommand.class);
-        addCommand("spawnallpnpcs", 6, SpawnAllPNpcsCommand.class);
-        addCommand("eraseallpnpcs", 6, EraseAllPNpcsCommand.class);
-        addCommand("addchannel", 6, ServerAddChannelCommand.class);
-        addCommand("addworld", 6, ServerAddWorldCommand.class);
-        addCommand("removechannel", 6, ServerRemoveChannelCommand.class);
-        addCommand("removeworld", 6, ServerRemoveWorldCommand.class);
-        
+        addCommand("生成所有NPC命令", 6, SpawnAllPNpcsCommand.class);
+        addCommand("删除所有NPC命令", 6, EraseAllPNpcsCommand.class);
+        addCommand("新增频道", 6, ServerAddChannelCommand.class);
+        addCommand("新增服务器", 6, ServerAddWorldCommand.class);
+        addCommand("删除频道", 6, ServerRemoveChannelCommand.class);
+        addCommand("删除服务器", 6, ServerRemoveWorldCommand.class);
+*/
         commandsNameDesc.add(levelCommandsCursor);
     }
 

@@ -34,7 +34,7 @@ public class MapleDataProviderFactory {
             try {
                 return new WZFile(in, provideImages);
             } catch (IOException e) {
-                throw new RuntimeException("Loading WZ File failed", e);
+                throw new RuntimeException("载入WZ文件失败", e);
             }
         } else {
             return new XMLWZFile(in);

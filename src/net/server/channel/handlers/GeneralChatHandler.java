@@ -53,7 +53,7 @@ public final class GeneralChatHandler extends AbstractMaplePacketHandler {
                 } else if (heading != '/') {
                         int show = slea.readByte();
                         if(chr.getMap().isMuted() && !chr.isGM()) {
-                                chr.dropMessage(5, "The map you are in is currently muted. Please try again later.");
+                                chr.dropMessage(5, "您所在的地图目前处于静音状态。请稍后再试。.");
                                 return;
                         }
 

@@ -139,7 +139,7 @@ public abstract class AbstractMovementPacketHandler extends AbstractMaplePacketH
                     break;
                 }
                 default:
-                    System.out.println("Unhandled Case:" + command);
+                    System.out.println("未处理的案例:" + command);
                     throw new EmptyMovementException(lea);
             }
         }
@@ -236,7 +236,7 @@ public abstract class AbstractMovementPacketHandler extends AbstractMaplePacketH
                     break;
                 }
                 default:
-                    System.out.println("Unhandled Case:" + command);
+                    System.out.println("未处理的案例:" + command);
                     throw new EmptyMovementException(lea);
             }
         }

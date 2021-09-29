@@ -230,7 +230,7 @@ public class MaplePlayerShop extends AbstractMapleMapObject {
                     iitem.setQuantity((short) (shopItem.getItem().getQuantity() * shopItem.getBundles()));
                     
                     if (!MapleInventory.checkSpot(chr, iitem)) {
-                        chr.announce(MaplePacketCreator.serverNotice(1, "Have a slot available on your inventory to claim back the item."));
+                        chr.announce(MaplePacketCreator.serverNotice(1, "在你的背包有空位，可以领取物品"));
                         chr.announce(MaplePacketCreator.enableActions());
                         return;
                     }
@@ -273,7 +273,7 @@ public class MaplePlayerShop extends AbstractMapleMapObject {
                     
                     if (c.getPlayer().getMeso() >= price) {
                         if (!owner.canHoldMeso(price)) {    // thanks Rohenn for noticing owner hold check misplaced
-                            c.getPlayer().dropMessage(1, "Transaction failed since the shop owner can't hold any more mesos.");
+                            c.getPlayer().dropMessage(1, "交易失败，因为这土豪已经满钱了。.");
                             c.announce(MaplePacketCreator.enableActions());
                             return false;
                         }
@@ -297,16 +297,16 @@ public class MaplePlayerShop extends AbstractMapleMapObject {
                                     owner.setPlayerShop(null);
                                     this.setOpen(false);
                                     this.closeShop();
-                                    owner.dropMessage(1, "Your items are sold out, and therefore your shop is closed.");
+                                    owner.dropMessage(1, "你的商品已经卖完了，所以你的店铺已经关门了.");
                                 }
                             }
                         } else {
-                            c.getPlayer().dropMessage(1, "Your inventory is full. Please clear a slot before buying this item.");
+                            c.getPlayer().dropMessage(1, "你的背包已经满了，在购买前请先清理背包.");
                             c.announce(MaplePacketCreator.enableActions());
                             return false;
                         }
                     } else {
-                        c.getPlayer().dropMessage(1, "You don't have enough mesos to purchase this item.");
+                        c.getPlayer().dropMessage(1, "你没有足够的金币来购买此商品.");
                         c.announce(MaplePacketCreator.enableActions());
                         return false;
                     }
@@ -526,14 +526,14 @@ public class MaplePlayerShop extends AbstractMapleMapObject {
     
     public synchronized boolean visitShop(MapleCharacter chr) {
         if (this.isBanned(chr.getName())) {
-            chr.dropMessage(1, "You have been banned from this store.");
+            chr.dropMessage(1, "你已被禁止进入.");
             return false;
         }
         
         visitorLock.lock();
         try {
             if(!open.get()) {
-                chr.dropMessage(1, "This store is not yet open.");
+                chr.dropMessage(1, "这个店铺还没开启.");
                 return false;
             }
             

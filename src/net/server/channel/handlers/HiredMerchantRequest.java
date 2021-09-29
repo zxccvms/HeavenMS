@@ -83,10 +83,10 @@ public final class HiredMerchantRequest extends AbstractMaplePacketHandler {
                     ex.printStackTrace();
                 }
             } else {
-                chr.dropMessage(1, "You already have a store open.");
+                chr.dropMessage(1, "你已经开店了.");
             }
         } else {
-            chr.dropMessage(1, "You cannot open your hired merchant here.");
+            chr.dropMessage(1, "你不能再这里开启雇佣商人.");
         }
     }
 }

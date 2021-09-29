@@ -68,15 +68,15 @@ public class IntervalRequirement extends MapleQuestRequirement {
                 switch(mode) {
                         case 2:
                                 int hours   = (int) ((leftTime / (1000*60*60)));
-                                str.append(hours + " hours, ");
+                                str.append(hours + " 小时, ");
 
                         case 1:
                                 int minutes = (int) ((leftTime / (1000*60)) % 60);
-                                str.append(minutes + " minutes, ");
+                                str.append(minutes + " 分钟, ");
 
                         default:
                                 int seconds = (int) (leftTime / 1000) % 60 ;
-                                str.append(seconds + " seconds");
+                                str.append(seconds + " 秒");
                 }
 
                 return str.toString();
@@ -90,7 +90,7 @@ public class IntervalRequirement extends MapleQuestRequirement {
                 if (check || check2) {
                         return true;
                 } else {
-                        chr.message("This quest will become available again in approximately " + getIntervalTimeLeft(chr, this) + ".");
+                        chr.message("T这个任务将在大约" + getIntervalTimeLeft(chr, this) + "开启.");
                         return false;
                 }
 	}

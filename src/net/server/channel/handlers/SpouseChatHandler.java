@@ -45,10 +45,10 @@ public final class SpouseChatHandler extends AbstractMaplePacketHandler {
                     LogHelper.logChat(c, "Spouse", msg);
                 }
             } else {
-                c.getPlayer().dropMessage(5, "Your spouse is currently offline.");
+                c.getPlayer().dropMessage(5, "您的配偶当前处于脱机状态.");
             }
         } else {
-            c.getPlayer().dropMessage(5, "You don't have a spouse.");
+            c.getPlayer().dropMessage(5, "你没有配偶.");
         }
     }
 }

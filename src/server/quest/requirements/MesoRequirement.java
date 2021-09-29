@@ -48,7 +48,7 @@ public class MesoRequirement extends MapleQuestRequirement {
                 if (chr.getMeso() >= meso) {
                         return true;
                 } else {
-                        chr.dropMessage(5, "You don't have enough mesos to complete this quest.");
+                        chr.dropMessage(5, "你没有足够的金币来完成这个任务");
                         return false;
                 }
 	}

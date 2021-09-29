@@ -81,7 +81,7 @@ public final class PacketProcessor {
             handlers[code.getValue()] = handler;
         } catch (ArrayIndexOutOfBoundsException e) {
             e.printStackTrace();
-            System.out.println("Error registering handler - " + code.name());
+            System.out.println("注册处理程序时出错 - " + code.name());
         }
     }
 

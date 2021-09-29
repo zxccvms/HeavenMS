@@ -64,7 +64,7 @@ public class MakerProcessor {
                     int fromLeftover = toCreate;
                     toCreate = ii.getMakerCrystalFromLeftover(toCreate);
                     if(toCreate == -1) {
-                        c.announce(MaplePacketCreator.serverNotice(1, ii.getName(fromLeftover) + " is unavailable for Monster Crystal conversion."));
+                        c.announce(MaplePacketCreator.serverNotice(1, ii.getName(fromLeftover) + " 不可用于怪物水晶转换."));
                         c.announce(MaplePacketCreator.makerEnableActions());
                         return;
                     }
@@ -82,12 +82,12 @@ public class MakerProcessor {
                         if(p != null) {
                             recipe = MakerItemFactory.generateDisassemblyCrystalEntry(toDisassemble, p.getLeft(), p.getRight());
                         } else {
-                            c.announce(MaplePacketCreator.serverNotice(1, ii.getName(toCreate) + " is unavailable for Monster Crystal disassembly."));
+                            c.announce(MaplePacketCreator.serverNotice(1, ii.getName(toCreate) + " 不可用于怪物水晶分解."));
                             c.announce(MaplePacketCreator.makerEnableActions());
                             return;
                         }
                     } else {
-                        c.announce(MaplePacketCreator.serverNotice(1, "An unknown error occurred when trying to apply that item for disassembly."));
+                        c.announce(MaplePacketCreator.serverNotice(1, "发送未知错误."));
                         c.announce(MaplePacketCreator.makerEnableActions());
                         return;
                     }
@@ -135,7 +135,7 @@ public class MakerProcessor {
 
                         if(!reagentids.isEmpty()) {
                             if(!removeOddMakerReagents(toCreate, reagentids)) {
-                                c.announce(MaplePacketCreator.serverNotice(1, "You can only use WATK and MATK Strengthening Gems on weapon items."));
+                                c.announce(MaplePacketCreator.serverNotice(1, "你只能在武器上使用WATK和MATK强化宝石."));
                                 c.announce(MaplePacketCreator.makerEnableActions());
                                 return;
                             }
@@ -149,33 +149,33 @@ public class MakerProcessor {
 
                 switch(createStatus) {
                     case -1:// non-available for Maker itemid has been tried to forge
-                        FilePrinter.printError(FilePrinter.EXPLOITS, "Player " + c.getPlayer().getName() + " tried to craft itemid " + toCreate + " using the Maker skill.");
-                        c.announce(MaplePacketCreator.serverNotice(1, "The requested item could not be crafted on this operation."));
+                        FilePrinter.printError(FilePrinter.EXPLOITS, "玩家 " + c.getPlayer().getName() + " 尝试创建itemid " + toCreate + " 使用Maker技能.");
+                        c.announce(MaplePacketCreator.serverNotice(1, "无法在此操作上创建请求."));
                         c.announce(MaplePacketCreator.makerEnableActions());
                         break;
 
                     case 1: // no items
-                        c.announce(MaplePacketCreator.serverNotice(1, "You don't have all required items in your inventory to make " + ii.getName(toCreate) + "."));
+                        c.announce(MaplePacketCreator.serverNotice(1, "你的背包中没有所有必需的物品 " + ii.getName(toCreate) + "."));
                         c.announce(MaplePacketCreator.makerEnableActions());
                         break;
 
                     case 2: // no meso
-                        c.announce(MaplePacketCreator.serverNotice(1, "You don't have enough mesos (" + GameConstants.numberWithCommas(recipe.getCost()) + ") to complete this operation."));
+                        c.announce(MaplePacketCreator.serverNotice(1, "你妹有足够的金币 (" + GameConstants.numberWithCommas(recipe.getCost()) + ") 来完成这个操作."));
                         c.announce(MaplePacketCreator.makerEnableActions());
                         break;
 
                     case 3: // no req level
-                        c.announce(MaplePacketCreator.serverNotice(1, "You don't have enough level to complete this operation."));
+                        c.announce(MaplePacketCreator.serverNotice(1, "你没有足够的等级来完成这个操作."));
                         c.announce(MaplePacketCreator.makerEnableActions());
                         break;
 
                     case 4: // no req skill level
-                        c.announce(MaplePacketCreator.serverNotice(1, "You don't have enough Maker level to complete this operation."));
+                        c.announce(MaplePacketCreator.serverNotice(1, "你没有足够的Maker等级来完成这个操作."));
                         c.announce(MaplePacketCreator.makerEnableActions());
                         break;
                         
                     case 5: // inventory full
-                        c.announce(MaplePacketCreator.serverNotice(1, "Your inventory is full."));
+                        c.announce(MaplePacketCreator.serverNotice(1, "你的背包已满."));
                         c.announce(MaplePacketCreator.makerEnableActions());
                         break;
 

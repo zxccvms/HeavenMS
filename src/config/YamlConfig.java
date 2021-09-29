@@ -22,10 +22,10 @@ public class YamlConfig {
             reader.close();
             return config;
         } catch (FileNotFoundException e) {
-            String message = "Could not read config file " + filename + ": " + e.getMessage();
+            String message = "无法读取配置文件 " + filename + ": " + e.getMessage();
             throw new RuntimeException(message);
         } catch (IOException e) {
-            String message = "Could not successfully parse config file " + filename + ": " + e.getMessage();
+            String message = "无法成功解析配置文件 " + filename + ": " + e.getMessage();
             throw new RuntimeException(message);
         }
     }

@@ -88,7 +88,7 @@ public final class UseItemHandler extends AbstractMaplePacketHandler {
                 if (ii.getItemEffect(toUse.getItemId()).applyTo(chr)) {
                     remove(c, slot);
                 } else {
-                    chr.dropMessage(5, "You cannot recover from a banish state at the moment.");
+                    chr.dropMessage(5, "你现在不能从放逐状态中恢复过来.");
                 }
                 return;
             }

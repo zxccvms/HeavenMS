@@ -51,7 +51,7 @@ public class StorageProcessor {
                 byte mode = slea.readByte();
 
                 if (chr.getLevel() < 15){
-                        chr.dropMessage(1, "You may only use the storage once you have reached level 15.");
+                        chr.dropMessage(1, "15级后才可以使用.");
                         c.announce(MaplePacketCreator.enableActions());
                         return;
                 }
@@ -91,7 +91,7 @@ public class StorageProcessor {
                                                                 MapleInventoryManipulator.addFromDrop(c, item, false);
 
                                                                 String itemName = ii.getName(item.getItemId());
-                                                                FilePrinter.print(FilePrinter.STORAGE + c.getAccountName() + ".txt", c.getPlayer().getName() + " took out " + item.getQuantity() + " " + itemName + " (" + item.getItemId() + ")");
+                                                                FilePrinter.print(FilePrinter.STORAGE + c.getAccountName() + ".txt", c.getPlayer().getName() + " 取出 " + item.getQuantity() + " " + itemName + " (" + item.getItemId() + ")");
 
                                                                 storage.sendTakenOut(c, item.getInventoryType());
                                                         } else {
@@ -162,7 +162,7 @@ public class StorageProcessor {
                                                 chr.setUsedStorage();
                                                 
                                                 String itemName = ii.getName(item.getItemId());
-                                                FilePrinter.print(FilePrinter.STORAGE + c.getAccountName() + ".txt", c.getPlayer().getName() + " stored " + item.getQuantity() + " " + itemName + " (" + item.getItemId() + ")");
+                                                FilePrinter.print(FilePrinter.STORAGE + c.getAccountName() + ".txt", c.getPlayer().getName() + " 储存 " + item.getQuantity() + " " + itemName + " (" + item.getItemId() + ")");
                                                 
                                                 storage.sendStored(c, ItemConstants.getInventoryType(itemId));
                                         }
@@ -190,7 +190,7 @@ public class StorageProcessor {
                                                 storage.setMeso(storageMesos - meso);
                                                 chr.gainMeso(meso, false, true, false);
                                                 chr.setUsedStorage();
-                                                FilePrinter.print(FilePrinter.STORAGE + c.getPlayer().getName() + ".txt", c.getPlayer().getName() + (meso > 0 ? " took out " : " stored ") + Math.abs(meso) + " mesos");
+                                                FilePrinter.print(FilePrinter.STORAGE + c.getPlayer().getName() + ".txt", c.getPlayer().getName() + (meso > 0 ? " 取出 " : " 储存 ") + Math.abs(meso) + " 金币");
                                                 storage.sendMeso(c);
                                         } else {
                                                 c.announce(MaplePacketCreator.enableActions());

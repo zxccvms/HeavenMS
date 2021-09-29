@@ -82,7 +82,7 @@ public class ItemRequirement extends MapleQuestRequirement {
                                 } else {
                                         if(count < countNeeded) {
                                                 if(chr.getInventory(MapleInventoryType.EQUIPPED).countById(itemId) + count >= countNeeded) {
-                                                        chr.dropMessage(5, "Unequip the required " + ii.getName(itemId) + " before trying this quest operation.");
+                                                        chr.dropMessage(5, "在尝试这个任务操作之前，取消所需的" + ii.getName(itemId) + " 的装备.");
                                                         return false;
                                                 }
                                         }

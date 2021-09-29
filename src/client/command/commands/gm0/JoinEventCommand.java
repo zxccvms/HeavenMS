@@ -52,16 +52,16 @@ public class JoinEventCommand extends Command {
                         player.saveLocationOnWarp();
                         player.changeMap(event.getMapId());
                     } else {
-                        player.dropMessage(5, "The limit of players for the event has already been reached.");
+                        player.dropMessage(5, "已达到该活动的玩家限制.");
                     }
                 } else {
-                    player.dropMessage(5, "You are already in the event.");
+                    player.dropMessage(5, "你已经在活动中了。");
                 }
             } else {
-                player.dropMessage(5, "There is currently no event in progress.");
+                player.dropMessage(5, "当前没有正在进行的活动.");
             }
         } else {
-            player.dropMessage(5, "You are currently in a map where you can't join an event.");
+            player.dropMessage(5, "您当前处于无法加入活动的状态.");
         }
     }
 }

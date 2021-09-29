@@ -70,10 +70,10 @@ public final class CoconutHandler extends AbstractMaplePacketHandler {
 				event.fallCoconut();
 				if (c.getPlayer().getTeam() == 0) {
 					event.addMapleScore();
-					map.broadcastMessage(MaplePacketCreator.serverNotice(5, c.getPlayer().getName() + " of Team Maple knocks down a coconut."));
+					map.broadcastMessage(MaplePacketCreator.serverNotice(5, c.getPlayer().getName() + " 枫树队的敲掉了一个椰子."));
 				} else {
 					event.addStoryScore();
-					map.broadcastMessage(MaplePacketCreator.serverNotice(5, c.getPlayer().getName() + " of Team Story knocks down a coconut."));
+					map.broadcastMessage(MaplePacketCreator.serverNotice(5, c.getPlayer().getName() + " 故事队的敲掉了一个椰子."));
 				}
 				map.broadcastMessage(MaplePacketCreator.coconutScore(event.getMapleScore(), event.getStoryScore()));
 			}

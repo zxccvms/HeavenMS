@@ -123,8 +123,8 @@ public class MapleExpedition {
 		registering = true;
                 leader.announce(MaplePacketCreator.getClock(type.getRegistrationTime() * 60));
 		if (!silent) {
-                        startMap.broadcastMessage(leader, MaplePacketCreator.serverNotice(6, "[Expedition] " + leader.getName() + " has been declared the expedition captain. Please register for the expedition."), false);
-                        leader.announce(MaplePacketCreator.serverNotice(6, "[Expedition] You have become the expedition captain. Gather enough people for your team then talk to the NPC to start."));
+                        startMap.broadcastMessage(leader, MaplePacketCreator.serverNotice(6, "[远征] " + leader.getName() + " 已被宣布为探险队队长。请大家报名参加探险队."), false);
+                        leader.announce(MaplePacketCreator.serverNotice(6, "[远征] 你已经成为探险队的队长。为你的队伍收集足够多的人，然后和NPC对话，然后开始."));
                 }
 		scheduleRegistrationEnd();
 	}
@@ -138,7 +138,7 @@ public class MapleExpedition {
 			public void run() {
 				if (registering){
                                         exped.removeChannelExpedition(startMap.getChannelServer());
-					if (!silent) startMap.broadcastMessage(MaplePacketCreator.serverNotice(6, "[Expedition] The time limit has been reached. Expedition has been disbanded."));
+					if (!silent) startMap.broadcastMessage(MaplePacketCreator.serverNotice(6, "[远征] 时限已到。远征队已经解散了."));
                                         
                                         dispose(false);
 				}
@@ -165,31 +165,31 @@ public class MapleExpedition {
 		finishRegistration();
                 registerExpeditionAttempt();
 		broadcastExped(MaplePacketCreator.removeClock());
-		if (!silent) broadcastExped(MaplePacketCreator.serverNotice(6, "[Expedition] The expedition has started! Good luck, brave heroes!"));
+		if (!silent) broadcastExped(MaplePacketCreator.serverNotice(6, "[远征] 远征开始了! 祝你们好运，勇敢的英雄们!"));
 		startTime = System.currentTimeMillis();
-		Server.getInstance().broadcastGMMessage(startMap.getWorld(), MaplePacketCreator.serverNotice(6, "[Expedition] " + type.toString() + " Expedition started with leader: " + leader.getName()));
+		Server.getInstance().broadcastGMMessage(startMap.getWorld(), MaplePacketCreator.serverNotice(6, "[远征] " + type.toString() + " 远程探险队在领队的带领下出发: " + leader.getName()));
 	}
 
 	public String addMember(MapleCharacter player) {
 		if (!registering){
-			return "Sorry, this expedition is already underway. Registration is closed!";
+			return "对不起，这次探险已经开始了。报名已经结束了!";
 		}
 		if (banned.contains(player.getId())){
-			return "Sorry, you've been banned from this expedition by #b" + leader.getName() + "#k.";
+			return "对不起，你已经被禁止出征了 #b" + leader.getName() + "#k.";
 		}
 		if (members.size() >= this.getMaxSize()){ //Would be a miracle if anybody ever saw this
-			return "Sorry, this expedition is full!";
+			return "对不起，这一次的探险队已经满了!";
 		}
                 
                 int channel = this.getRecruitingMap().getChannelServer().getId();
                 if (!MapleExpeditionBossLog.attemptBoss(player.getId(), channel, this, false)) {    // thanks Conrad, Cato for noticing some expeditions have entry limit
-                        return "Sorry, you've already reached the quota of attempts for this expedition! Try again another day...";
+                        return "对不起，你已经达到了这次探险的尝试次数上限了! 请改天再试...";
                 }
                 
                 members.put(player.getId(), player.getName());
                 player.announce(MaplePacketCreator.getClock((int)(startTime - System.currentTimeMillis()) / 1000));
-                if (!silent) broadcastExped(MaplePacketCreator.serverNotice(6, "[Expedition] " + player.getName() + " has joined the expedition!"));
-                return "You have registered for the expedition successfully!";
+                if (!silent) broadcastExped(MaplePacketCreator.serverNotice(6, "[远程] " + player.getName() + " 已加入探险队!"));
+                return "您已成功报名参加探险活动!";
 	}
         
         public int addMemberInt(MapleCharacter player) {
@@ -205,7 +205,7 @@ public class MapleExpedition {
 
                 members.put(player.getId(), player.getName());
                 player.announce(MaplePacketCreator.getClock((int) (startTime - System.currentTimeMillis()) / 1000));
-                if (!silent) broadcastExped(MaplePacketCreator.serverNotice(6, "[Expedition] " + player.getName() + " has joined the expedition!"));
+                if (!silent) broadcastExped(MaplePacketCreator.serverNotice(6, "[远征] " + player.getName() + " 已加入探险队!"));
                 return 0; //"You have registered for the expedition successfully!";
         }
         
@@ -227,8 +227,8 @@ public class MapleExpedition {
 		if(members.remove(chr.getId()) != null) {
                     chr.announce(MaplePacketCreator.removeClock());
                     if (!silent) {
-                        broadcastExped(MaplePacketCreator.serverNotice(6, "[Expedition] " + chr.getName() + " has left the expedition."));
-                        chr.dropMessage(6, "[Expedition] You have left this expedition.");
+                        broadcastExped(MaplePacketCreator.serverNotice(6, "[远征] " + chr.getName() + "已出征."));
+                        chr.dropMessage(6, "[远征] 你已经离开了这次探险.");
                     }
                     return true;
                 }
@@ -242,12 +242,12 @@ public class MapleExpedition {
                 banned.add(cid);
                 members.remove(cid);
 
-                if (!silent) broadcastExped(MaplePacketCreator.serverNotice(6, "[Expedition] " + chr.getValue() + " has been banned from the expedition."));
+                if (!silent) broadcastExped(MaplePacketCreator.serverNotice(6, "[远征] " + chr.getValue() + " 已被禁止出征."));
 
                 MapleCharacter player = startMap.getWorldServer().getPlayerStorage().getCharacterById(cid);
                 if (player != null && player.isLoggedinWorld()) {
                     player.announce(MaplePacketCreator.removeClock());
-                    if (!silent) player.dropMessage(6, "[Expedition] You have been banned from this expedition.");
+                    if (!silent) player.dropMessage(6, "[远征] 你已经被禁止参加这次探险.");
                     if (MapleExpeditionType.ARIANT.equals(type) || MapleExpeditionType.ARIANT1.equals(type) || MapleExpeditionType.ARIANT2.equals(type)) {
                         player.changeMap(980010000);
                     }
@@ -259,7 +259,7 @@ public class MapleExpedition {
             for (int i = 0; i < EXPEDITION_BOSSES.length; i++) {
                 if (mob.getId() == EXPEDITION_BOSSES[i]) { //If the monster killed was a boss
                     String timeStamp = new SimpleDateFormat("HH:mm:ss").format(new Date());
-                    bossLogs.add(">" + mob.getName() + " was killed after " + LogHelper.getTimeString(startTime) + " - " + timeStamp + "\r\n");
+                    bossLogs.add(">" + mob.getName() + " 花费了" + LogHelper.getTimeString(startTime) + "击杀" + " - " + "击败时间：" + timeStamp + "\r\n");
                     return;
                 }
             }

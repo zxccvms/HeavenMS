@@ -57,7 +57,7 @@ public class AutobanManager {
         }
         if (YamlConfig.config.server.USE_AUTOBAN_LOG) {
             // Lets log every single point too.
-            FilePrinter.print(FilePrinter.AUTOBAN_WARNING, MapleCharacter.makeMapleReadable(chr.getName()) + " caused " + fac.name() + " " + reason);
+            FilePrinter.print(FilePrinter.AUTOBAN_WARNING, MapleCharacter.makeMapleReadable(chr.getName()) + " 引起 " + fac.name() + " " + reason);
         }
     }
 
@@ -70,7 +70,7 @@ public class AutobanManager {
             samemisscount++;
         }
         if (samemisscount > 4)
-        	chr.sendPolice("You will be disconnected for miss godmode.");
+        	chr.sendPolice("你将会因为想念上帝模式而被断开连接.");
             //chr.autoban("Autobanned for : " + misses + " Miss godmode", 1);
         else if (samemisscount > 0)
 
@@ -116,7 +116,7 @@ public class AutobanManager {
                     chr.getClient().disconnect(false, false);
                 }
                 
-                FilePrinter.print(FilePrinter.EXPLOITS, "Player " + chr + " was caught spamming TYPE " + type + " and has been disconnected.");
+                FilePrinter.print(FilePrinter.EXPLOITS, "玩家：" + chr + " 被发现发送大量spamming 类型：" + type + "已断开连接.");
             }
         } else {
             this.timestamp[type] = time;

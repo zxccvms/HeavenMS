@@ -18,7 +18,7 @@ public class TimeoutTask extends BaseTask implements Runnable {
         Collection<MapleCharacter> chars = wserv.getPlayerStorage().getAllCharacters();
         for(MapleCharacter chr : chars) {
             if(time - chr.getClient().getLastPacket() > YamlConfig.config.server.TIMEOUT_DURATION) {
-                FilePrinter.print(FilePrinter.DCS + chr.getClient().getAccountName(), chr.getName() + " auto-disconnected due to inactivity.");
+                FilePrinter.print(FilePrinter.DCS + chr.getClient().getAccountName(), chr.getName() + " 由于没有活动而断开连接.");
                 chr.getClient().disconnect(true, chr.getCashShop().isOpened());
             }
         }

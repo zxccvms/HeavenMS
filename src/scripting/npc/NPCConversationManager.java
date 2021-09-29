@@ -218,7 +218,7 @@ public class NPCConversationManager extends AbstractPlayerInteraction {
                 if (styles.length > 0) {
                         getClient().announce(MaplePacketCreator.getNPCTalkStyle(npc, text, styles));
                 } else {    // thanks Conrad for noticing empty styles crashing players
-                        sendOk("Sorry, there are no options of cosmetics available for you here at the moment.");
+                        sendOk("对不起，这里暂时没有化妆品可供选择.");
                         dispose();
                 }
 	}
@@ -394,7 +394,7 @@ public class NPCConversationManager extends AbstractPlayerInteraction {
             if (shop != null) {
                 shop.sendShop(c);
             } else {    // check for missing shopids thanks to resinate
-                FilePrinter.printError(FilePrinter.NPC_UNCODED, "Shop ID: " + id + " is missing from database.");
+                FilePrinter.printError(FilePrinter.NPC_UNCODED, "商店ID: " + id + " 数据库中缺少.");
                 MapleShopFactory.getInstance().getShop(11000).sendShop(c);
             }
         }
@@ -421,7 +421,7 @@ public class NPCConversationManager extends AbstractPlayerInteraction {
 
 		Item itemGained = gainItem(item.getId(), (short) (item.getId() / 10000 == 200 ? 100 : 1), true, true); // For normal potions, make it give 100.
 
-		sendNext("You have obtained a #b#t" + item.getId() + "##k.");
+		sendNext("您已获得 #b#t" + item.getId() + "##k.");
 		
 		String map = c.getChannelServer().getMapFactory().getMap(maps[(getNpc() != 9100117 && getNpc() != 9100109) ? (getNpc() - 9100100) : getNpc() == 9100109 ? 8 : 9]).getMapName();
 		
@@ -604,19 +604,19 @@ public class NPCConversationManager extends AbstractPlayerInteraction {
                                 return "";
                               
                         case REACTOR:
-                                return "    Obtainable through #rexploring#k (loot boxes).";
+                                return "    可通过以下方式获得 #rexploring#k (战利品箱子).";
                             
                         case SCRIPT:
-                                return "    Obtainable through #rexploring#k (field interaction).";
+                                return "    可通过以下方式获得 #rexploring#k (field interaction).";
                         
                         case QUEST_BOOK:
-                                return "    Obtainable through #rquestline#k (collecting book).";
+                                return "    可通过以下方式获得 #rquestline#k (收藏家).";
                                 
                         case QUEST_REWARD:
-                                return "    Obtainable through #rquestline#k (quest reward).";
+                                return "    可通过以下方式获得 #rquestline#k (寻访奖励).";
 
                         default:
-                                return "    Obtainable through #rquestline#k.";
+                                return "    可通过以下方式获得 #rquestline#k.";
                 }
         }
         
@@ -638,16 +638,16 @@ public class NPCConversationManager extends AbstractPlayerInteraction {
             for (int i = 0; i < 6; i++) {
                 if (fieldTaken(i)) {
                     if (fieldLobbied(i)) {
-                        msg += "#b#L" + i + "#Carnival Field " + (i + 1) + " (Level: "  // "Carnival field" GMS-like improvement thanks to Jayd (jaydenseah)
+                        msg += "#b#L" + i + "#嘉年华 " + (i + 1) + " (等级: "  // "Carnival field" GMS-like improvement thanks to Jayd (jaydenseah)
                                 + cpqCalcAvgLvl(980000100 + i * 100) + " / "
                                 + getPlayerCount(980000100 + i * 100) + "x"
                                 + getPlayerCount(980000100 + i * 100) + ")  #l\r\n";
                     }
                 } else {
                     if (i >= 0 && i <= 3) {
-                        msg += "#b#L" + i + "#Carnival Field " + (i + 1) + " (2x2) #l\r\n";
+                        msg += "#b#L" + i + "#嘉年华 " + (i + 1) + " (2v2) #l\r\n";
                     } else {
-                        msg += "#b#L" + i + "#Carnival Field " + (i + 1) + " (3x3) #l\r\n";
+                        msg += "#b#L" + i + "#嘉年华 " + (i + 1) + " (3v3) #l\r\n";
                     }
                 }
             }
@@ -786,7 +786,7 @@ public class NPCConversationManager extends AbstractPlayerInteraction {
                 final MapleMap lobbyMap = getPlayer().getMap();
                 if (challenger != null) {
                     if (challenger.getParty() == null) {
-                        throw new RuntimeException("No opponent found!");
+                        throw new RuntimeException("未发现对手!");
                     }
                     
                     for (MaplePartyCharacter mpc : challenger.getParty().getMembers()) {
@@ -859,7 +859,7 @@ public class NPCConversationManager extends AbstractPlayerInteraction {
                 final MapleMap lobbyMap = getPlayer().getMap();
                 if (challenger != null) {
                     if (challenger.getParty() == null) {
-                        throw new RuntimeException("No opponent found!");
+                        throw new RuntimeException("未发现对手!");
                     }
                     
                     for (MaplePartyCharacter mpc : challenger.getParty().getMembers()) {
@@ -913,16 +913,16 @@ public class NPCConversationManager extends AbstractPlayerInteraction {
             for (int i = 0; i < 3; i++) {
                 if (fieldTaken2(i)) {
                     if (fieldLobbied2(i)) {
-                        msg += "#b#L" + i + "#Carnival Field " + (i + 1) + " (Level: "  // "Carnival field" GMS-like improvement thanks to Jayd
+                        msg += "#b#L" + i + "#嘉年华 " + (i + 1) + " (等级: "  // "Carnival field" GMS-like improvement thanks to Jayd
                                 + cpqCalcAvgLvl(980031000 + i * 1000) + " / "
                                 + getPlayerCount(980031000 + i * 1000) + "x"
                                 + getPlayerCount(980031000 + i * 1000) + ")  #l\r\n";
                     }
                 } else {
                     if (i == 0 || i == 1) {
-                        msg += "#b#L" + i + "#Carnival Field " + (i + 1) + " (2x2) #l\r\n";
+                        msg += "#b#L" + i + "#嘉年华 " + (i + 1) + " (2v2) #l\r\n";
                     } else {
-                        msg += "#b#L" + i + "#Carnival Field " + (i + 1) + " (3x3) #l\r\n";
+                        msg += "#b#L" + i + "#C嘉年华 " + (i + 1) + " (3v3) #l\r\n";
                     }
                 }
             }
@@ -1039,7 +1039,7 @@ public class NPCConversationManager extends AbstractPlayerInteraction {
             MapleCharacter leader = null;
             MapleMap map = c.getChannelServer().getMapFactory().getMap(980000100 + 100 * field);
             if (map.getAllPlayer().size() != getPlayer().getParty().getMembers().size()) {
-                sendOk("An unexpected error regarding the other party has occurred.");
+                sendOk("发生了有关另一方的意外错误.");
                 return;
             }
             for (MapleMapObject mmo : map.getAllPlayer()) {
@@ -1078,41 +1078,41 @@ public class NPCConversationManager extends AbstractPlayerInteraction {
         
         public String startAriantBattle(MapleExpeditionType expedType, int mapid) {
             if (!GameConstants.isAriantColiseumLobby(mapid)) {
-                return "You cannot start an Ariant tournament from outside the Battle Arena Entrance.";
+                return "您不能从战斗竞技场入口外开始阿里安特比赛.";
             }
             
             MapleExpedition exped = this.getMap().getChannelServer().getExpedition(expedType);
             if (exped == null) {
-                return "Please register on an expedition before attempting to start an Ariant tournament.";
+                return "在尝试开始阿里安特锦标赛之前，请先注册一个探险队，然后再尝试启动阿里安特锦标赛.";
             }
             
             List<MapleCharacter> players = exped.getActiveMembers();
             
             int playersSize = players.size();
             if (!(playersSize >= exped.getMinSize() && playersSize <= exped.getMaxSize())) {
-                return "Make sure there are between #r" + exped.getMinSize() + " ~ " + exped.getMaxSize() + " players#k in this room to start the battle.";
+                return "确保之间有 #r" + exped.getMinSize() + " ~ " + exped.getMaxSize() + " 玩家们在这个房间里开始了战斗.";
             }
             
             MapleMap leaderMap = this.getMap();
             for (MapleCharacter mc : players) {
                 if (mc.getMap() != leaderMap) {
-                    return "All competing players should be on this area to start the battle.";
+                    return "所有参赛选手都应该在这个区域开始战斗。.";
                 }
                 
                 if (mc.getParty() != null) {
-                    return "All competing players must not be on a party to start the battle.";
+                    return "所有竞争的玩家必须不在一个方阵中才能开始战斗.";
                 }
                 
                 int level = mc.getLevel();
                 if (!(level >= expedType.getMinLevel() && level <= expedType.getMaxLevel())) {
-                    return "There are competing players outside of the acceptable level range in this room. All players must be on #blevel between 20~30#k to start the battle.";
+                    return "在这个房间里，有超出可接受的等级范围的玩家竞争. 所有玩家的#b等级必须在20~30级#k 之间才能开始战斗。.";
                 }
             }
             
             if (setupAriantBattle(exped, mapid)) {
                 return "";
             } else {
-                return "Other players are already competing on the Ariant tournament in this room. Please wait a while until the arena becomes available again.";
+                return "其他玩家已经在这个房间的阿里安特竞技场上进行比赛了。请稍等片刻，直到竞技场再次开放为止.";
             }
         }
         

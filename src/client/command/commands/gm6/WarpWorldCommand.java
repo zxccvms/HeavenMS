@@ -41,7 +41,7 @@ public class WarpWorldCommand extends Command {
     public void execute(MapleClient c, String[] params) {
         MapleCharacter player = c.getPlayer();
         if (params.length < 1) {
-            player.yellowMessage("Syntax: !warpworld <worldid>");
+            player.yellowMessage("使用方法: !传送服务器 <服务器ID>");
             return;
         }
 
@@ -58,11 +58,11 @@ public class WarpWorldCommand extends Command {
                 c.announce(MaplePacketCreator.getChannelChange(InetAddress.getByName(socket[0]), Integer.parseInt(socket[1])));
             } catch (UnknownHostException | NumberFormatException ex) {
                 ex.printStackTrace();
-                player.message("Unexpected error when changing worlds, are you sure the world you are trying to warp to has the same amount of channels?");
+                player.message("改变服务器时出现意外错误，您确定要扭曲到的服务器具有相同数量的频道吗?");
             }
 
         } else {
-            player.message("Invalid world; highest number available: " + (server.getWorldsSize() - 1));
+            player.message("无效世界；可用的最大数目: " + (server.getWorldsSize() - 1));
         }
     }
 }

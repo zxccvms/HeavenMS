@@ -128,9 +128,9 @@ public class MapleTrade {
             
             chr.gainMeso(exchangeMeso - fee, show, true, show);
             if(fee > 0) {
-                chr.dropMessage(1, "Transaction completed. You received " + GameConstants.numberWithCommas(exchangeMeso - fee) + " mesos due to trade fees.");
+                chr.dropMessage(1, "交易成功了。\r\n" + "扣除了" + fee + "金币手续费.\r\n" + "你一共收到了 " + GameConstants.numberWithCommas(exchangeMeso - fee) + "金币");
             } else {
-                chr.dropMessage(1, "Transaction completed. You received " + GameConstants.numberWithCommas(exchangeMeso) + " mesos.");
+                chr.dropMessage(1, "交易成功了。你收到了 " + GameConstants.numberWithCommas(exchangeMeso) + " 金币.");
             }
             
             result = TradeResult.NO_RESPONSE.getValue();
@@ -299,34 +299,34 @@ public class MapleTrade {
             
             if (!local.fitsMeso()) {
                 cancelTrade(local.getChr(), TradeResult.UNSUCCESSFUL);
-                chr.message("There is not enough meso inventory space to complete the trade.");
-                partner.getChr().message("Partner does not have enough meso inventory space to complete the trade.");
+                chr.message("没有足够的金币空间来完成交易。");
+                partner.getChr().message("对方没有足够的金币空间来完成交易.");
                 return;
             } else if (!partner.fitsMeso()) {
                 cancelTrade(partner.getChr(), TradeResult.UNSUCCESSFUL);
-                chr.message("Partner does not have enough meso inventory space to complete the trade.");
-                partner.getChr().message("There is not enough meso inventory space to complete the trade.");
+                chr.message("对方没有足够的金币空间来完成交易.");
+                partner.getChr().message("没有足够的金币空间来完成交易.");
                 return;
             }
             
             if (!local.fitsInInventory()) {
                 if (local.fitsUniquesInInventory()) {
                     cancelTrade(local.getChr(), TradeResult.UNSUCCESSFUL);
-                    chr.message("There is not enough inventory space to complete the trade.");
-                    partner.getChr().message("Partner does not have enough inventory space to complete the trade.");
+                    chr.message("背包没有足够的位置来完成交易.");
+                    partner.getChr().message("对方背包没有足够的位置来完成交易.");
                 } else {
                     cancelTrade(local.getChr(), TradeResult.UNSUCCESSFUL_UNIQUE_ITEM_LIMIT);
-                    partner.getChr().message("Partner cannot hold more than one one-of-a-kind item at a time.");
+                    partner.getChr().message("对方已经拥有此物品，部分物品身上只能拥有一件.");
                 }
                 return;
             } else if (!partner.fitsInInventory()) {
                 if (partner.fitsUniquesInInventory()) {
                     cancelTrade(partner.getChr(), TradeResult.UNSUCCESSFUL);
-                    chr.message("Partner does not have enough inventory space to complete the trade.");
-                    partner.getChr().message("There is not enough inventory space to complete the trade.");
+                    chr.message("对方背包没有足够的位置来完成交易.");
+                    partner.getChr().message("背包没有足够的位置来完成交易.");
                 } else {
                     cancelTrade(partner.getChr(), TradeResult.UNSUCCESSFUL_UNIQUE_ITEM_LIMIT);
-                    chr.message("Partner cannot hold more than one one-of-a-kind item at a time.");
+                    chr.message("P对方已经拥有此物品，部分物品身上只能拥有一件.");
                 }
                 return;
             }
@@ -334,7 +334,7 @@ public class MapleTrade {
             if (local.getChr().getLevel() < 15) {
                 if (local.getChr().getMesosTraded() + local.exchangeMeso > 1000000) {
                     cancelTrade(local.getChr(), TradeResult.NO_RESPONSE);
-                    local.getChr().getClient().announce(MaplePacketCreator.serverNotice(1, "Characters under level 15 may not trade more than 1 million mesos per day."));
+                    local.getChr().getClient().announce(MaplePacketCreator.serverNotice(1, "15级以下的角色，每天的交易额不得超过100万金币."));
                     return;
                 } else {
                     local.getChr().addMesosTraded(local.exchangeMeso);
@@ -342,7 +342,7 @@ public class MapleTrade {
             } else if (partner.getChr().getLevel() < 15) {
                 if (partner.getChr().getMesosTraded() + partner.exchangeMeso > 1000000) {
                     cancelTrade(partner.getChr(), TradeResult.NO_RESPONSE);
-                    partner.getChr().getClient().announce(MaplePacketCreator.serverNotice(1, "Characters under level 15 may not trade more than 1 million mesos per day."));
+                    partner.getChr().getClient().announce(MaplePacketCreator.serverNotice(1, "15级以下的角色，每天的交易额不得超过100万金币."));
                     return;
                 } else {
                     partner.getChr().addMesosTraded(partner.exchangeMeso);
@@ -446,14 +446,14 @@ public class MapleTrade {
     public static void inviteTrade(MapleCharacter c1, MapleCharacter c2) {
         if (MapleInviteCoordinator.hasInvite(InviteType.TRADE, c1.getId())) {
             if (hasTradeInviteBack(c1, c2)) {
-                c1.message("You are already managing this player's trade invitation.");
+                c1.message("已经在和这个玩家交易了.");
             } else {
-                c1.message("You are already managing someone's trade invitation.");
+                c1.message("已经在和别个玩家交易了.");
             }
             
             return;
         } else if (c1.getTrade().isFullTrade()) {
-            c1.message("You are already in a trade.");
+            c1.message("你已经在交易中了.");
             return;
         }
         
@@ -466,12 +466,12 @@ public class MapleTrade {
                 c1.getClient().announce(MaplePacketCreator.getTradeStart(c1.getClient(), c1.getTrade(), (byte) 0));
                 c2.getClient().announce(MaplePacketCreator.tradeInvite(c1));
             } else {
-                c1.message("The other player is already trading with someone else.");
+                c1.message("对方已经在和别人交易了.");
                 cancelTrade(c1, TradeResult.NO_RESPONSE);
                 MapleInviteCoordinator.answerInvite(InviteType.TRADE, c2.getId(), c1.getId(), false);
             }
         } else {
-            c1.message("The other player is already managing someone else's trade invitation.");
+            c1.message("对方已经在和别人交易了.");
             cancelTrade(c1, TradeResult.NO_RESPONSE);
         }
     }
@@ -487,10 +487,10 @@ public class MapleTrade {
                 c1.getTrade().setFullTrade(true);
                 c2.getTrade().setFullTrade(true);
             } else {
-                c1.message("The other player has already closed the trade.");
+                c1.message("对方已经完成了交易.");
             }
         } else {
-            c1.message("This trade invitation already rescinded.");
+            c1.message("此交易已被取消.");
             cancelTrade(c1, TradeResult.NO_RESPONSE);
         }
     }
@@ -501,7 +501,7 @@ public class MapleTrade {
             if (trade.getPartner() != null) {
                 MapleCharacter other = trade.getPartner().getChr();
                 if (MapleInviteCoordinator.answerInvite(InviteType.TRADE, chr.getId(), other.getId(), false).result == InviteResult.DENIED) {
-                    other.message(chr.getName() + " has declined your trade request.");
+                    other.message(chr.getName() + " 拒绝了你的交易请求.");
                 }
                 
                 other.getTrade().cancel(TradeResult.PARTNER_CANCEL.getValue());

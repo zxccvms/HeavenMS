@@ -36,14 +36,14 @@ public class GetAccCommand extends Command {
     public void execute(MapleClient c, String[] params) {
         MapleCharacter player = c.getPlayer();
         if (params.length < 1) {
-            player.yellowMessage("Syntax: !getacc <playername>");
+            player.yellowMessage("使用方法: !获取玩家账号 <玩家昵称>");
             return;
         }
         MapleCharacter victim = c.getWorldServer().getPlayerStorage().getCharacterByName(params[0]);
         if (victim != null) {
-            player.message(victim.getName() + "'s account name is " + victim.getClient().getAccountName() + ".");
+            player.message(victim.getName() + "'的账号是：" + victim.getClient().getAccountName() + ".");
         } else {
-            player.message("Player '" + params[0] + "' could not be found on this world.");
+            player.message("玩家'" + params[0] + "'找不到.");
         }
     }
 }

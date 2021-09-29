@@ -458,7 +458,7 @@ public class MapleMonster extends AbstractLoadedMapleLife {
         }
         
         if (YamlConfig.config.server.USE_DEBUG) {
-            from.dropMessage(5, "Hitted MOB " + this.getId() + ", OID " + this.getObjectId());
+            from.dropMessage(5, "被击中的怪物 " + this.getId() + ", OID " + this.getObjectId());
         }
         
         if (!fake) {

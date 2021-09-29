@@ -100,7 +100,7 @@ public final class NewYearCardHandler extends AbstractMaplePacketHandler {
                         NewYearCardRecord.updateNewYearCard(newyear);
 
                         player.getAbstractPlayerInteraction().gainItem(4301000, (short)1);
-                        if(!newyear.getMessage().isEmpty()) player.dropMessage(6, "[New Year] " + newyear.getSenderName() + ": " + newyear.getMessage());
+                        if(!newyear.getMessage().isEmpty()) player.dropMessage(6, "[新年] " + newyear.getSenderName() + ": " + newyear.getMessage());
 
                         player.addNewYearRecord(newyear);
                         player.announce(MaplePacketCreator.onNewYearCardRes(player, newyear, 6, 0));    // successfully rcvd
@@ -110,17 +110,17 @@ public final class NewYearCardHandler extends AbstractMaplePacketHandler {
                         MapleCharacter sender = c.getWorldServer().getPlayerStorage().getCharacterById(newyear.getSenderId());
                         if(sender != null && sender.isLoggedinWorld()) {
                             sender.getMap().broadcastMessage(MaplePacketCreator.onNewYearCardRes(sender, newyear, 0xD, 0));
-                            sender.dropMessage(6, "[New Year] Your addressee successfully received the New Year card.");
+                            sender.dropMessage(6, "[新年] 您的收件人已成功收到新年贺卡.");
                         }
                     } else {
                         player.announce(MaplePacketCreator.onNewYearCardRes(player, -1, 5, 0x10));  // inventory full
                     }
                 } else {
-                    player.dropMessage(6, "[New Year] The sender of the New Year card already dropped it. Nothing to receive.");
+                    player.dropMessage(6, "[新年] 寄贺卡的人已经把它取消了。无需接收.");
                 }
             } else {
                 if(newyear == null) {
-                    player.dropMessage(6, "[New Year] The sender of the New Year card already dropped it. Nothing to receive.");
+                    player.dropMessage(6, "[新年] 寄贺卡的人已经把它取消了。无需接收.");
                 }
             }
         }

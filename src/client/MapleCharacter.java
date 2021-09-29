@@ -173,6 +173,7 @@ import constants.skills.Shadower;
 import constants.skills.Sniper;
 import constants.skills.Warrior;
 import constants.skills.ThunderBreaker;
+import java.text.SimpleDateFormat;
 import net.server.services.type.ChannelServices;
 import net.server.services.task.channel.FaceExpressionService;
 import net.server.services.task.world.CharacterSaveService;
@@ -182,11 +183,11 @@ import tools.LongTool;
 
 public class MapleCharacter extends AbstractMapleCharacterObject {
     private static final MapleItemInformationProvider ii = MapleItemInformationProvider.getInstance();
-    private static final String LEVEL_200 = "[Congrats] %s has reached Level %d! Congratulate %s on such an amazing achievement!";
+    private static final String LEVEL_200 = "[恭喜] %s已达到%d级! 大家一起祝贺%s取得如此惊人的成就!";
     private static final String[] BLOCKED_NAMES = {"admin", "owner", "moderator", "intern", "donor", "administrator", "FREDRICK", "help", "helper", "alert", "notice", "maplestory", "fuck", "wizet", "fucking", "negro", "fuk", "fuc", "penis", "pussy", "asshole", "gay",
         "nigger", "homo", "suck", "cum", "shit", "shitty", "condom", "security", "official", "rape", "nigga", "sex", "tit", "boner", "orgy", "clit", "asshole", "fatass", "bitch", "support", "gamemaster", "cock", "gaay", "gm",
         "operate", "master", "sysop", "party", "GameMaster", "community", "message", "event", "test", "meso", "Scania", "yata", "AsiaSoft", "henesys"};
-    
+    /*以上为昵称中包含此内容将进行阻止*/
     private int world;
     private int accountid, id, level;
     private int rank, rankMove, jobRank, jobRankMove;
@@ -998,7 +999,7 @@ public class MapleCharacter extends AbstractMapleCharacterObject {
                 return false;
             }
         }
-        return getIdByName(name) < 0 && Pattern.compile("[a-zA-Z0-9]{3,12}").matcher(name).matches();
+        return getIdByName(name) < 0 && Pattern.compile("^(?!_)(?!.*?_$)[a-zA-Z0-9_\\u4e00-\\u9fa5]+$").matcher(name).matches(); //中文
     }
 
     public boolean canDoor() {
@@ -1024,7 +1025,7 @@ public class MapleCharacter extends AbstractMapleCharacterObject {
                 for(Item item : new ArrayList<>(inv.list())) {
                     if(MapleInventoryManipulator.isSandboxItem(item)) {
                         MapleInventoryManipulator.removeFromSlot(client, invType, item.getPosition(), item.getQuantity(), false);
-                        dropMessage(5, "[" + ii.getName(item.getItemId()) + "] has passed its trial conditions and will be removed from your inventory.");
+                        dropMessage(5, "[" + ii.getName(item.getItemId()) + "] 已通过试用条件并将从您的库存中删除.");
                     }
                 }
             } finally {
@@ -1285,7 +1286,7 @@ public class MapleCharacter extends AbstractMapleCharacterObject {
         
         if (YamlConfig.config.server.USE_ANNOUNCE_CHANGEJOB) {
             if (!this.isGM()) {
-                broadcastAcquaintances(6, "[" + GameConstants.ordinal(GameConstants.getJobBranch(newJob)) + " Job] " + name + " has just become a " + GameConstants.getJobName(this.job.getId()) + ".");    // thanks Vcoc for noticing job name appearing in uppercase here
+                broadcastAcquaintances(6, "[" + GameConstants.ordinal(GameConstants.getJobBranch(newJob)) + " 职业] " + name + " 刚刚成为 " + GameConstants.getJobName(this.job.getId()) + ".");    // thanks Vcoc for noticing job name appearing in uppercase here
             }
         }
     }
@@ -1829,7 +1830,7 @@ public class MapleCharacter extends AbstractMapleCharacterObject {
                 resetHpDecreaseTask();
             }
         } else {
-            FilePrinter.printError(FilePrinter.MAPLE_MAP, "Character " + this.getName() + " got stuck when moving to map " + map.getId() + ".");
+            FilePrinter.printError(FilePrinter.MAPLE_MAP, "角色 " + this.getName() + " 移动到地图时卡住了，地图id： " + map.getId() + ".");
             client.disconnect(true, false);     // thanks BHB for noticing a player storage stuck case here
             return;
         }
@@ -2086,7 +2087,7 @@ public class MapleCharacter extends AbstractMapleCharacterObject {
                                 int nxGain = mapitem.getItemId() == 4031865 ? 100 : 250;
                                 this.getCashShop().gainCash(1, nxGain);
 
-                                showHint("You have earned #e#b" + nxGain + " NX#k#n. (" + this.getCashShop().getCash(1) + " NX)", 300);
+                                showHint("恭喜你获得了 #e#b" + nxGain + " 点劵#k#n. (" + this.getCashShop().getCash(1) + " 点劵)", 300);
 
                                 this.getMap().pickItemDrop(pickupPacket, mapitem);
                             } else if (MapleInventoryManipulator.addFromDrop(client, mItem, true)) {
@@ -2136,7 +2137,7 @@ public class MapleCharacter extends AbstractMapleCharacterObject {
                         int nxGain = mapitem.getItemId() == 4031865 ? 100 : 250;
                         this.getCashShop().gainCash(1, nxGain);
                         
-                        showHint("You have earned #e#b" + nxGain + " NX#k#n. (" + this.getCashShop().getCash(1) + " NX)", 300);
+                        showHint("恭喜你获得了 #e#b" + nxGain + " 点劵#k#n. (" + this.getCashShop().getCash(1) + " 点劵)", 300);
                     } else if (applyConsumeOnPickup(mItem.getItemId())) {
                     } else if (MapleInventoryManipulator.addFromDrop(client, mItem, true)) {
                         if (mItem.getItemId() == 4031868) {
@@ -3704,12 +3705,12 @@ public class MapleCharacter extends AbstractMapleCharacterObject {
         chrLock.lock();
         try {
             System.out.println("-------------------");
-            System.out.println("CACHED BUFF COUNT: ");
+            System.out.println("缓存BUFF数: ");
             for(Entry<MapleBuffStat, Byte> bpl : buffEffectsCount.entrySet()) {
                 System.out.println(bpl.getKey() + ": " + bpl.getValue());
             }
             System.out.println("-------------------");
-            System.out.println("CACHED BUFFS: ");
+            System.out.println("缓存BUFFS: ");
             for(Entry<Integer, Map<MapleBuffStat, MapleBuffStatValueHolder>> bpl : buffEffects.entrySet()) {
                 System.out.print(bpl.getKey() + ": ");
                 for(Entry<MapleBuffStat, MapleBuffStatValueHolder> pble : bpl.getValue().entrySet()) {
@@ -3719,7 +3720,7 @@ public class MapleCharacter extends AbstractMapleCharacterObject {
             }
             System.out.println("-------------------");
             
-            System.out.println("IN ACTION:");
+            System.out.println("行动中:");
             for(Entry<MapleBuffStat, MapleBuffStatValueHolder> bpl : effects.entrySet()) {
                 System.out.println(bpl.getKey().name() + " -> " + MapleItemInformationProvider.getInstance().getName(bpl.getValue().effect.getSourceId()));
             }
@@ -5738,8 +5739,8 @@ public class MapleCharacter extends AbstractMapleCharacterObject {
                 merchant.saveItems(false);
             } catch (SQLException ex) {
                 ex.printStackTrace();
-                FilePrinter.printError(FilePrinter.EXCEPTION_CAUGHT, "Error while saving " + name + "'s Hired Merchant items.");
-            }
+                FilePrinter.printError(FilePrinter.EXCEPTION_CAUGHT, "保存雇佣商品" + name + "时出错.");
+            }//保存雇佣商品 时出错 
         }
     }
     
@@ -6184,14 +6185,14 @@ public class MapleCharacter extends AbstractMapleCharacterObject {
         int cost = MapleGuild.getIncreaseGuildCost(getGuild().getCapacity());
         
         if (getMeso() < cost) {
-            dropMessage(1, "You don't have enough mesos.");
+            dropMessage(1, "你没有足够的金币.");
             return;
         }
         
         if(Server.getInstance().increaseGuildCapacity(guildid)) {
             gainMeso(-cost, true, false, true);
         } else {
-            dropMessage(1, "Your guild already reached the maximum capacity of players.");
+            dropMessage(1, "你的家族已经达到了最大的玩家人数上限.");
         }
     }
     
@@ -6228,7 +6229,7 @@ public class MapleCharacter extends AbstractMapleCharacterObject {
     }
     
     public void showBuybackInfo() {
-        String s = "#eBUYBACK STATUS#n\r\n\r\nCurrent buyback fee: #b" + getBuybackFee() + " " + (YamlConfig.config.server.USE_BUYBACK_WITH_MESOS ? "mesos" : "NX") + "#k\r\n\r\n";
+        String s = "#e回购状态#n\r\n\r\n当前回购费用: #b" + getBuybackFee() + " " + (YamlConfig.config.server.USE_BUYBACK_WITH_MESOS ? "金币" : "点劵") + "#k\r\n\r\n";
         
         long timeNow = Server.getInstance().getCurrentTime();
         boolean avail = true;
@@ -6236,19 +6237,19 @@ public class MapleCharacter extends AbstractMapleCharacterObject {
             long timeLapsed = timeNow - lastDeathtime;
             long timeRemaining = YamlConfig.config.server.BUYBACK_RETURN_MINUTES * 60 * 1000 - (timeLapsed + Math.max(0, getNextBuybackTime() - timeNow));
             if (timeRemaining < 1) {
-                s += "Buyback #e#rUNAVAILABLE#k#n";
+                s += "回购 #e#r无法提供#k#n";
                 avail = false;
             } else {
-                s += "Buyback countdown: #e#b" + getTimeRemaining(YamlConfig.config.server.BUYBACK_RETURN_MINUTES * 60 * 1000 - timeLapsed) + "#k#n";
+                s += "回购倒计时: #e#b" + getTimeRemaining(YamlConfig.config.server.BUYBACK_RETURN_MINUTES * 60 * 1000 - timeLapsed) + "#k#n";
             }
             s += "\r\n";
         }
         
         if (timeNow < getNextBuybackTime() && avail) {
-            s += "Buyback available in #r" + getTimeRemaining(getNextBuybackTime() - timeNow) + "#k";
+            s += "可回购 #r" + getTimeRemaining(getNextBuybackTime() - timeNow) + "#k";
             s += "\r\n";
         } else {
-            s += "Buyback #bavailable#k";
+            s += "回购 #可用的#k";
         }
         
         this.showHint(s);
@@ -6258,14 +6259,14 @@ public class MapleCharacter extends AbstractMapleCharacterObject {
         int seconds = (int) Math.floor(timeLeft / 1000) % 60;
         int minutes = (int) Math.floor(timeLeft / (1000*60)) % 60;
         
-        return (minutes > 0 ? (String.format("%02d", minutes) + " minutes, ") : "") + String.format("%02d", seconds) + " seconds";
+        return (minutes > 0 ? (String.format("%02d", minutes) + " 分钟, ") : "") + String.format("%02d", seconds) + " 秒";
     }
     
     public boolean couldBuyback() {  // Ronan's buyback system
         long timeNow = Server.getInstance().getCurrentTime();
         
         if (timeNow - lastDeathtime > YamlConfig.config.server.BUYBACK_RETURN_MINUTES * 60 * 1000) {
-            this.dropMessage(5, "The period of time to decide has expired, therefore you are unable to buyback.");
+            this.dropMessage(5, "期限已过，因此无法回购.");
             return false;
         }
         
@@ -6280,7 +6281,7 @@ public class MapleCharacter extends AbstractMapleCharacterObject {
         int fee = getBuybackFee();
         
         if (!canBuyback(fee, usingMesos)) {
-            this.dropMessage(5, "You don't have " + fee + " " + (usingMesos ? "mesos" : "NX") + " to buyback.");
+            this.dropMessage(5, "你没有 " + fee + " " + (usingMesos ? "金币" : "点劵") + "进行回购 ");
             return false;
         }
         
@@ -6609,13 +6610,13 @@ public class MapleCharacter extends AbstractMapleCharacterObject {
                         gainSlots(i, 4, true);
                     }
 
-                    this.yellowMessage("You reached level " + level + ". Congratulations! As a token of your success, your inventory has been expanded a little bit.");
+                    this.yellowMessage("你达到了" + level + "级. 恭喜你! 作为你成功的象征, 你的 inventory 已经增加了一些.");
                 }            
             }
             if (YamlConfig.config.server.USE_ADD_RATES_BY_LEVEL == true) { //For the rate upgrade
                 revertLastPlayerRates();
                 setPlayerRates();
-                this.yellowMessage("You managed to get level " + level + "! Getting experience and items seems a little easier now, huh?");
+                this.yellowMessage("你成功的达到了" + level + "级! 现在获得的经验和物品似乎更加的容易了, 对吧?");
             }
         }
 
@@ -6629,7 +6630,7 @@ public class MapleCharacter extends AbstractMapleCharacterObject {
                 @Override
                 public void run() {
                     if (leaveParty()) {
-                        showHint("You have reached #blevel 10#k, therefore you must leave your #rstarter party#k.");
+                        showHint("你已经达到了 #b10级#k, 你必须离开 #rstarter party#k.");
                     }
                 }
             };
@@ -6678,85 +6679,88 @@ public class MapleCharacter extends AbstractMapleCharacterObject {
             return;
         }
         if (level == 5) {
-            yellowMessage("Aww, you're level 5, how cute!");
-        } else if (level == 10) {
-            yellowMessage("Henesys Party Quest is now open to you! Head over to Henesys, find some friends, and try it out!");
-        } else if (level == 15) {
-            yellowMessage("Half-way to your 2nd job advancement, nice work!");
-        } else if (level == 20) {
-            yellowMessage("You can almost Kerning Party Quest!");
-        } else if (level == 25) {
-            yellowMessage("You seem to be improving, but you are still not ready to move on to the next step.");
+            yellowMessage("哇呜，你已经达到了5级了，真可爱。");
+        } else if (level == 8) {
+            yellowMessage("嘿，你准备转啥职业呢？魔法师8级就可以转职了哦！");
+//        } else if (level == 15) {
+//            yellowMessage("离第二次转职还要一半，干得不错。");
+//        } else if (level == 20) {
+//            yellowMessage("你差不多可以取消Kerning Party任务了!");
+//        } else if (level == 25) {
+//            yellowMessage("你似乎在进步，但你还没有准备好进入下一步。");
         } else if (level == 30) {
-            yellowMessage("You have finally reached level 30! Try job advancing, after that try the Mushroom Castle!");
-        } else if (level == 35) {
-            yellowMessage("Hey did you hear about this mall that opened in Kerning? Try visiting the Kerning Mall.");
-        } else if (level == 40) {
-            yellowMessage("Do @rates to see what all your rates are!");
-        } else if (level == 45) {
-            yellowMessage("I heard that a rock and roll artist died during the grand opening of the Kerning Mall. People are naming him the Spirit of Rock.");
-        } else if (level == 50) {
-            yellowMessage("You seem to be growing very fast, would you like to test your new found strength with the mighty Zakum?");
-        } else if (level == 55) {
-            yellowMessage("You can now try out the Ludibrium Maze Party Quest!");
-        } else if (level == 60) {
-            yellowMessage("Feels good to be near the end of 2nd job, doesn't it?");
-        } else if (level == 65) {
-            yellowMessage("You're only 5 more levels away from 3rd job, not bad!");
+            yellowMessage("你终于达到30级了！尝试去进行2转职业转职后在试试看蘑菇城堡的任务！");
+//        } else if (level == 35) {
+//            yellowMessage("根据老外的说法，好像是在问你知道Kerning开的购物中心吗？可以过去瞅一瞅！");
+//            /*Hey did you hear about this mall that opened in Kerning? Try visiting the Kerning Mall.*/
+//        } else if (level == 40) {
+//            yellowMessage("可以使用@rates看看");
+//            /*Do @rates to see what all your rates are!*/
+//        } else if (level == 45) {
+//            yellowMessage("我听说有一位摇滚艺术家在Kerning购物中心盛大开业的时候扑街了，人们称之为摇滚精神。ps这是什么神逻辑？.");
+//            /*I heard that a rock and roll artist died during the grand opening of the Kerning Mall. People are naming him the Spirit of Rock*/
+//        } else if (level == 50) {
+//            yellowMessage("看来你的成长非常的快呢，扎昆等着你去桶菊！");
+//        } else if (level == 55) {
+//            yellowMessage("你现在可以试试路德迷宫派对任务了！");
+//        } else if (level == 60) {
+//            yellowMessage("2转即将结束了，感觉这很棒，不是吗？");
+//        } else if (level == 65) {
+//            yellowMessage("你还差5级就可以进行职业3转转职了!");
         } else if (level == 70) {
-            yellowMessage("I see many people wearing a teddy bear helmet. I should ask someone where they got it from.");
-        } else if (level == 75) {
-            yellowMessage("You have reached level 3 quarters!");
-        } else if (level == 80) {
-            yellowMessage("You think you are powerful enough? Try facing horntail!");
-        } else if (level == 85) {
-            yellowMessage("Did you know? The majority of people who hit level 85 in HeavenMS don't live to be 85 years old?");
-        } else if (level == 90) {
-            yellowMessage("Hey do you like the amusement park? I heard Spooky World is the best theme park around. I heard they sell cute teddy-bears.");
-        } else if (level == 95) {
-            yellowMessage("100% of people who hit level 95 in HeavenMS don't live to be 95 years old.");
-        } else if (level == 100) {
-            yellowMessage("Mid-journey so far... You just reached level 100! Now THAT's such a feat, however to manage the 200 you will need even more passion and determination than ever! Good hunting!");
-        } else if (level == 105) {
-            yellowMessage("Have you ever been to leafre? I heard they have dragons!");
-        } else if (level == 110) {
-            yellowMessage("I see many people wearing a teddy bear helmet. I should ask someone where they got it from.");
-        } else if (level == 115) {
-            yellowMessage("I bet all you can think of is level 120, huh? Level 115 gets no love.");
+            yellowMessage("哇呜，你可以3转了耶！这么叼的吗？");
+//        } else if (level == 75) {
+//            yellowMessage("You have reached level 3 quarters!");
+//        } else if (level == 80) {
+//            yellowMessage("你认为你足够强大吗? 试试 facing horntail! ps这个我不知道是什么怪....所以没翻译");
+//        } else if (level == 85) {
+//            yellowMessage("你知道吗？玩过天堂达到85级的人，通常活不到85岁！ps???什么逻辑？我大天朝有高科技！");
+//        } else if (level == 90) {
+//            yellowMessage("嘿，你喜欢这个游乐园吗？我听说幽灵世界是附近最好的主题公园。我听说他们卖可爱的泰迪熊。");
+//        } else if (level == 95) {
+//            yellowMessage("天堂中100%人练到95级，都活不到95岁.ps：？？？？");
+//        } else if (level == 100) {
+//            yellowMessage("Mid-journey so far... You just reached level 100! Now THAT's such a feat, however to manage the 200 you will need even more passion and determination than ever! Good hunting!");
+//        } else if (level == 105) {
+//            yellowMessage("Have you ever been to leafre? I heard they have dragons!");
+//        } else if (level == 110) {
+//            yellowMessage("I see many people wearing a teddy bear helmet. I should ask someone where they got it from.");
+//        } else if (level == 115) {
+//            yellowMessage("I bet all you can think of is level 120, huh? Level 115 gets no love.");
         } else if (level == 120) {
-            yellowMessage("Are you ready to learn from the masters? Head over to your job instructor!");
-        } else if (level == 125) {
-            yellowMessage("The struggle for mastery books has begun, huh?");
-        } else if (level == 130) {
-            yellowMessage("You should try Temple of Time. It should be pretty decent EXP.");
-        } else if (level == 135) {
-            yellowMessage("I hope you're still not struggling for mastery books!");
-        } else if (level == 140) {
-            yellowMessage("You're well into 4th job at this point, great work!");
-        } else if (level == 145) {
-            yellowMessage("Level 145 is serious business!");
-        } else if (level == 150) {
-            yellowMessage("You have becomed quite strong, but the journey is not yet over.");
-        } else if (level == 155) {
-            yellowMessage("At level 155, Zakum should be a joke to you. Nice job!");
-        } else if (level == 160) {
-            yellowMessage("Level 160 is pretty impressive. Try taking a picture and putting it on Instagram.");
-        } else if (level == 165) {
-            yellowMessage("At this level, you should start looking into doing some boss runs.");
-        } else if (level == 170) {
-            yellowMessage("Level 170, huh? You have the heart of a champion.");
-        } else if (level == 175) {
-            yellowMessage("You came a long way from level 1. Amazing job so far.");
-        } else if (level == 180) {
-            yellowMessage("Have you ever tried taking a boss on by yourself? It is quite difficult.");
-        } else if (level == 185) {
-            yellowMessage("Legend has it that you're a legend.");
-        } else if (level == 190) {
-            yellowMessage("You only have 10 more levels to go until you hit 200!");
-        } else if (level == 195) {
-            yellowMessage("Nothing is stopping you at this point, level 195!");
+            yellowMessage("你可以屁颠屁颠的去找你的导师进行第四次转职了！");
+//        } else if (level == 125) {
+//            yellowMessage("The struggle for mastery books has begun, huh?");
+//        } else if (level == 130) {
+//            yellowMessage("You should try Temple of Time. It should be pretty decent EXP.");
+//        } else if (level == 135) {
+//            yellowMessage("I hope you're still not struggling for mastery books!");
+//        } else if (level == 140) {
+//            yellowMessage("You're well into 4th job at this point, great work!");
+//        } else if (level == 145) {
+//            yellowMessage("Level 145 is serious business!");
+//        } else if (level == 150) {
+//            yellowMessage("You have becomed quite strong, but the journey is not yet over.");
+//        } else if (level == 155) {
+//            yellowMessage("At level 155, Zakum should be a joke to you. Nice job!");
+//        } else if (level == 160) {
+//            yellowMessage("Level 160 is pretty impressive. Try taking a picture and putting it on Instagram.");
+//        } else if (level == 165) {
+//            yellowMessage("At this level, you should start looking into doing some boss runs.");
+//        } else if (level == 170) {
+//            yellowMessage("Level 170, huh? You have the heart of a champion.");
+//        } else if (level == 175) {
+//            yellowMessage("You came a long way from level 1. Amazing job so far.");
+//        } else if (level == 180) {
+//            yellowMessage("Have you ever tried taking a boss on by yourself? It is quite difficult.");
+//        } else if (level == 185) {
+//            yellowMessage("Legend has it that you're a legend.");
+//        } else if (level == 190) {
+//            yellowMessage("You only have 10 more levels to go until you hit 200!");
+//        } else if (level == 195) {
+//            yellowMessage("Nothing is stopping you at this point, level 195!");
         } else if (level == 200) {
-            yellowMessage("Very nicely done! You have reached the so-long dreamed LEVEL 200!!! You are truly a hero among men, cheers upon you!");
+            yellowMessage("大佬的肝往往都覆盖在全身上下每一个地方，请问需要养肝茶 护肝宝啥的吗？");
         }
     }
     
@@ -7624,7 +7628,7 @@ public class MapleCharacter extends AbstractMapleCharacterObject {
                 }
             }
         } catch (Exception e) {
-            FilePrinter.printError(FilePrinter.EXCEPTION_CAUGHT, e, "MapleCharacter.mobKilled. CID: " + this.id + " last Quest Processed: " + lastQuestProcessed);
+            FilePrinter.printError(FilePrinter.EXCEPTION_CAUGHT, e, "MapleCharacter.mobKilled. CID: " + this.id + " 上次处理的任务 " + lastQuestProcessed);
         }
     }
 
@@ -7665,7 +7669,7 @@ public class MapleCharacter extends AbstractMapleCharacterObject {
             }
         }
         if (possesed > 0 && !GameConstants.isDojo(getMapId())) {
-            message("You have used a safety charm, so your EXP points have not been decreased.");
+            message("你使用了护身符，所以你的经验并没有减少.");
             MapleInventoryManipulator.removeById(client, ItemConstants.getInventoryType(charmID[i]), charmID[i], 1, true, false);
             usedSafetyCharm = true;
         } else if (getJob() != MapleJob.BEGINNER) { //Hmm...
@@ -8146,7 +8150,7 @@ public class MapleCharacter extends AbstractMapleCharacterObject {
             if (tap >= 0) {
                 updateStrDexIntLukSp(tstr, tdex, tint, tluk, tap, tsp, GameConstants.getSkillBook(job.getId()));
             } else {
-                FilePrinter.print(FilePrinter.EXCEPTION_CAUGHT, name + " tried to get their stats reseted, without having enough AP available.");
+                FilePrinter.print(FilePrinter.EXCEPTION_CAUGHT, name + " 试图在没有足够的AP下重置数据");/*tried to get their stats reseted, without having enough AP available.*/
             }
         } finally {
             statWlock.unlock();
@@ -8331,7 +8335,7 @@ public class MapleCharacter extends AbstractMapleCharacterObject {
             int updateRows = ps.executeUpdate();
             if (updateRows < 1) {
                 ps.close();
-                FilePrinter.printError(FilePrinter.INSERT_CHAR, "Error trying to insert " + name);
+                FilePrinter.printError(FilePrinter.INSERT_CHAR, "尝试插入时出错 " + name);
                 return false;
             }
             ResultSet rs = ps.getGeneratedKeys();
@@ -8342,7 +8346,7 @@ public class MapleCharacter extends AbstractMapleCharacterObject {
             } else {
                 rs.close();
                 ps.close();
-                FilePrinter.printError(FilePrinter.INSERT_CHAR, "Inserting char failed " + name);
+                FilePrinter.printError(FilePrinter.INSERT_CHAR, "插入字符失败 " + name);
                 return false;
             }
 
@@ -8456,9 +8460,11 @@ public class MapleCharacter extends AbstractMapleCharacterObject {
         Calendar c = Calendar.getInstance();
         
         if(notAutosave) {
-            FilePrinter.print(FilePrinter.SAVING_CHARACTER, "Attempting to save " + name + " at " + c.getTime().toString());
+            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm"); 
+            FilePrinter.print(FilePrinter.SAVING_CHARACTER, "正在尝试保存 " + " 玩家:" + name + " 时间： " + /*c.getTime().toString()*/sdf.format(Calendar.getInstance().getTime()));
         } else {
-            FilePrinter.print(FilePrinter.AUTOSAVING_CHARACTER, "Attempting to autosave " + name + " at " + c.getTime().toString());
+            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm"); 
+            FilePrinter.print(FilePrinter.AUTOSAVING_CHARACTER, "正在尝试自动保存 " + " 玩家:" + name + " 时间:" + /*c.getTime().toString()*/sdf.format(Calendar.getInstance().getTime()));
         }
         
         Server.getInstance().updateCharacterEntry(this);
@@ -8587,7 +8593,7 @@ public class MapleCharacter extends AbstractMapleCharacterObject {
             ps.close();
             
             if (updateRows < 1) {
-                throw new RuntimeException("Character not in database (" + id + ")");
+                throw new RuntimeException("角色不在数据库中 (" + id + ")");
             }
             
             List<MaplePet> petList = new LinkedList<>();
@@ -8828,18 +8834,18 @@ public class MapleCharacter extends AbstractMapleCharacterObject {
             con.setAutoCommit(true); // only commit after finishing all "con" usages, thanks Zygon
             
         } catch (SQLException | RuntimeException t) {
-            FilePrinter.printError(FilePrinter.SAVE_CHAR, t, "Error saving " + name + " Level: " + level + " Job: " + job.getId());
+            FilePrinter.printError(FilePrinter.SAVE_CHAR, t, "保存时出错 " + name + " 等级: " + level + " 职业: " + job.getId());
             try {
                 con.rollback();
             } catch (SQLException se) {
-                FilePrinter.printError(FilePrinter.SAVE_CHAR, se, "Error trying to rollback " + name);
+                FilePrinter.printError(FilePrinter.SAVE_CHAR, se, "尝试回滚时出错 " + name);
             }
         } catch (Exception e) {
-            FilePrinter.printError(FilePrinter.SAVE_CHAR, e, "Error saving " + name + " Level: " + level + " Job: " + job.getId());
+            FilePrinter.printError(FilePrinter.SAVE_CHAR, e, "保存时出错 " + name + " 等级: " + level + " 职业: " + job.getId());
             try {
                 con.rollback(); // thanks Zygon
             } catch (SQLException se) {
-                FilePrinter.printError(FilePrinter.SAVE_CHAR, se, "Error trying to rollback " + name);
+                FilePrinter.printError(FilePrinter.SAVE_CHAR, se, "尝试回滚时出错 " + name);
             }
         } finally {
             try {
@@ -8853,7 +8859,7 @@ public class MapleCharacter extends AbstractMapleCharacterObject {
     }
 
     public void sendPolice(int greason, String reason, int duration) {
-        announce(MaplePacketCreator.sendPolice(String.format("You have been blocked by the#b %s Police for %s.#k", "HeavenMS", reason)));
+        announce(MaplePacketCreator.sendPolice(String.format("你已经被#b %s 管理员 %s.#k阻止了", "RainMS", reason)));
         this.isbanned = true;
         TimerManager.getInstance().schedule(new Runnable() {
             @Override
@@ -8864,7 +8870,7 @@ public class MapleCharacter extends AbstractMapleCharacterObject {
     }
 
     public void sendPolice(String text) {
-        String message = getName() + " received this - " + text;
+        String message = getName() + " 收到这个 - " + text;
         if (Server.getInstance().isGmOnline(this.getWorld())) { //Alert and log if a GM is online
             Server.getInstance().broadcastGMMessage(this.getWorld(), MaplePacketCreator.sendYellowTip(message));
             FilePrinter.print(FilePrinter.AUTOBAN_WARNING, message);
@@ -9741,7 +9747,7 @@ public class MapleCharacter extends AbstractMapleCharacterObject {
         if(nextWarningTime < curTime) {
             nextWarningTime = curTime + (60 * 1000);   // show underlevel info again after 1 minute
             
-            showHint("You have gained #rno experience#k from defeating #e#b" + mob.getName() + "#k#n (lv. #b" + mob.getLevel() + "#k)! Take note you must have around the same level as the mob to start earning EXP from it.");
+            showHint("你没有从击败 #e#b" + mob.getName() + "#k#n (等级. #b" + mob.getLevel() + "#k)#r获得任何经验#k! 请注意，你必须要有与该怪物相同的等级才能开始赚取经验值。");
         }
     }
     
@@ -9850,7 +9856,7 @@ public class MapleCharacter extends AbstractMapleCharacterObject {
             pet.setFullness(15);
             pet.saveToDb();
             unequipPet(pet, true);
-            dropMessage(6, "Your pet grew hungry! Treat it some pet food to keep it healthy!");
+            dropMessage(6, "你的宠物饿了!给它吃点宠物食品以保持它的健康!");
         } else {
             pet.setFullness(newFullness);
             pet.saveToDb();
@@ -9869,7 +9875,7 @@ public class MapleCharacter extends AbstractMapleCharacterObject {
             if (tiredness > 99) {
                 maplemount.setTiredness(99);
                 this.dispelSkill(this.getJobType() * 10000000 + 1004);
-                this.dropMessage(6, "Your mount grew tired! Treat it some revitalizer before riding it again!");
+                this.dropMessage(6, "你的坐骑累了！在再次骑它之前给它点活力！");
                 return false;
             }
         }
@@ -10323,7 +10329,7 @@ public class MapleCharacter extends AbstractMapleCharacterObject {
         }
         
         this.ban(reason);
-        announce(MaplePacketCreator.sendPolice(String.format("You have been blocked by the#b %s Police for HACK reason.#k", "HeavenMS")));
+        announce(MaplePacketCreator.sendPolice(String.format("你因为黑客行为的原因被#b %s 管理员阻止了！.#k", "RainMS")));
         TimerManager.getInstance().schedule(new Runnable() {
             @Override
             public void run() {
@@ -10482,7 +10488,7 @@ public class MapleCharacter extends AbstractMapleCharacterObject {
                 public void run() {
                     if (pendantExp < 3) {
                         pendantExp++;
-                        message("Pendant of the Spirit has been equipped for " + pendantExp + " hour(s), you will now receive " + pendantExp + "0% bonus exp.");
+                        message("由于目前已佩戴 " + pendantExp + " 小时特殊装备, 已增长 " + pendantExp + "0% 经验值.");
                     } else {
                         pendantOfSpirit.cancel(false);
                     }
@@ -10547,7 +10553,7 @@ public class MapleCharacter extends AbstractMapleCharacterObject {
         }
         
         if(!showMsg.isEmpty()) {
-            this.showHint("#ePLAYER EQUIPMENTS:#n\r\n\r\n" + showMsg, 400);
+            this.showHint("#e播放器设备:#n\r\n\r\n" + showMsg, 400);
         }
     }
     
@@ -10795,7 +10801,7 @@ public class MapleCharacter extends AbstractMapleCharacterObject {
                 }
             } catch(SQLException e) {
                 e.printStackTrace();
-                FilePrinter.printError(FilePrinter.CHANGE_CHARACTER_NAME, e, "Failed to register name change for character " + getName() + ".");
+                FilePrinter.printError(FilePrinter.CHANGE_CHARACTER_NAME, e, "" + getName() + "此角色昵称无法进行注册或更改.");
                 return false;
             }
             try (PreparedStatement ps = con.prepareStatement("INSERT INTO namechanges (characterid, old, new) VALUES (?, ?, ?)")){
@@ -10807,11 +10813,11 @@ public class MapleCharacter extends AbstractMapleCharacterObject {
                     return true;
             } catch (SQLException e) {
                 e.printStackTrace();
-                FilePrinter.printError(FilePrinter.CHANGE_CHARACTER_NAME, e, "Failed to register name change for character " + getName() + ".");
+                FilePrinter.printError(FilePrinter.CHANGE_CHARACTER_NAME, e, "" + getName() + "此角色昵称无法进行注册或更改.");
             }
         } catch(SQLException e) {
             e.printStackTrace();
-            FilePrinter.printError(FilePrinter.CHANGE_CHARACTER_NAME, e, "Failed to get DB connection.");
+            FilePrinter.printError(FilePrinter.CHANGE_CHARACTER_NAME, e, "无法获取数据库连接.");
         }
         return false;
     }
@@ -10825,7 +10831,7 @@ public class MapleCharacter extends AbstractMapleCharacterObject {
             return affectedRows > 0; //rows affected
         } catch(SQLException e) {
             e.printStackTrace();
-            FilePrinter.printError(FilePrinter.CHANGE_CHARACTER_NAME, e, "Failed to cancel name change for character " + getName() + ".");
+            FilePrinter.printError(FilePrinter.CHANGE_CHARACTER_NAME, e, "" + getName() + "此角色昵称无法进行注册或更改.");
             return false;
         }
     }
@@ -10843,16 +10849,16 @@ public class MapleCharacter extends AbstractMapleCharacterObject {
                 newName = rs.getString("new");
             } catch(SQLException e) {
                 e.printStackTrace();
-                FilePrinter.printError(FilePrinter.CHANGE_CHARACTER_NAME, e, "Failed to retrieve pending name changes for character " + getName() + ".");
+                FilePrinter.printError(FilePrinter.CHANGE_CHARACTER_NAME, e, "昵称 " + getName() + "字符无法检索.");
             }
             con.setAutoCommit(false);
             boolean success = doNameChange(con, getId(), getName(), newName, nameChangeId);
             if(!success) con.rollback();
-            else FilePrinter.print(FilePrinter.CHANGE_CHARACTER_NAME, "Name change applied : from \"" + getName() + "\" to \"" + newName + "\" at " + Calendar.getInstance().getTime().toString());
+            else FilePrinter.print(FilePrinter.CHANGE_CHARACTER_NAME, "名称 : 从 \"" + getName() + "\" 到 \"" + newName + "\" 在 " + Calendar.getInstance().getTime().toString());
             con.setAutoCommit(true);
         } catch(SQLException e) {
             e.printStackTrace();
-            FilePrinter.printError(FilePrinter.CHANGE_CHARACTER_NAME, e, "Failed to get DB connection.");
+            FilePrinter.printError(FilePrinter.CHANGE_CHARACTER_NAME, e, "无法获取数据库连接.");
         }
     }
     
@@ -10864,7 +10870,7 @@ public class MapleCharacter extends AbstractMapleCharacterObject {
             con.setAutoCommit(true);
         } catch(SQLException e) {
             e.printStackTrace();
-            FilePrinter.printError(FilePrinter.CHANGE_CHARACTER_NAME, e, "Failed to get DB connection.");
+            FilePrinter.printError(FilePrinter.CHANGE_CHARACTER_NAME, e, "无法获取数据库连接.");
         }
     }
     
@@ -10875,7 +10881,7 @@ public class MapleCharacter extends AbstractMapleCharacterObject {
             ps.executeUpdate();
         } catch(SQLException e) { 
             e.printStackTrace();
-            FilePrinter.printError(FilePrinter.CHANGE_CHARACTER_NAME, e, "Character ID : " + characterId);
+            FilePrinter.printError(FilePrinter.CHANGE_CHARACTER_NAME, e, "角色ID : " + characterId);
             return false;
         }
         try (PreparedStatement ps = con.prepareStatement("UPDATE rings SET partnername = ? WHERE partnername = ?")) {
@@ -10884,7 +10890,7 @@ public class MapleCharacter extends AbstractMapleCharacterObject {
             ps.executeUpdate();
         } catch(SQLException e) { 
             e.printStackTrace();
-            FilePrinter.printError(FilePrinter.CHANGE_CHARACTER_NAME, e, "Character ID : " + characterId);
+            FilePrinter.printError(FilePrinter.CHANGE_CHARACTER_NAME, e, "角色ID : " + characterId);
             return false;
         }
         /*try (PreparedStatement ps = con.prepareStatement("UPDATE playernpcs SET name = ? WHERE name = ?")) {
@@ -10993,7 +10999,7 @@ public class MapleCharacter extends AbstractMapleCharacterObject {
                 ps.executeUpdate();
             } catch(SQLException e) { 
                 e.printStackTrace();
-                FilePrinter.printError(FilePrinter.CHANGE_CHARACTER_NAME, e, "Character ID : " + characterId);
+                FilePrinter.printError(FilePrinter.CHANGE_CHARACTER_NAME, e, "角色ID : " + characterId);
                 return false;
             }
         }
@@ -11017,42 +11023,42 @@ public class MapleCharacter extends AbstractMapleCharacterObject {
     }
     
     public static String checkWorldTransferEligibility(Connection con, int characterId, int oldWorld, int newWorld) {
-        if(!YamlConfig.config.server.ALLOW_CASHSHOP_WORLD_TRANSFER) return "World transfers disabled.";
+        if(!YamlConfig.config.server.ALLOW_CASHSHOP_WORLD_TRANSFER) return "世界转移关闭.";
         int accountId = -1;
         try (PreparedStatement ps = con.prepareStatement("SELECT accountid, level, guildid, guildrank, partnerId, familyId FROM characters WHERE id = ?")) {
             ps.setInt(1, characterId);
             ResultSet rs = ps.executeQuery();
-            if(!rs.next()) return "Character does not exist.";
+            if(!rs.next()) return "角色不存在.";
             accountId = rs.getInt("accountid");
-            if(rs.getInt("level") < 20) return "Character is under level 20.";
-            if(rs.getInt("familyId") != -1) return "Character is in family.";
-            if(rs.getInt("partnerId") != 0) return "Character is married.";
-            if(rs.getInt("guildid") != 0 && rs.getInt("guildrank") < 2) return "Character is the leader of a guild.";
+            if(rs.getInt("level") < 20) return "角色在20级以下.";
+            if(rs.getInt("familyId") != -1) return "角色在学院中.";
+            if(rs.getInt("partnerId") != 0) return "角色已结婚.";
+            if(rs.getInt("guildid") != 0 && rs.getInt("guildrank") < 2) return "角色是家族族长.";
         } catch(SQLException e) {
             e.printStackTrace();
             FilePrinter.printError(FilePrinter.CHANGE_CHARACTER_NAME, e);
-            return "SQL Error";
+            return "SQL错误";
         }
         try (PreparedStatement ps = con.prepareStatement("SELECT tempban FROM accounts WHERE id = ?")) {
             ps.setInt(1, accountId);
             ResultSet rs = ps.executeQuery();
-            if(!rs.next()) return "Account does not exist.";
-            if(rs.getLong("tempban") != 0 && !rs.getString("tempban").equals("2018-06-20 00:00:00.0")) return "Account has been banned.";
+            if(!rs.next()) return "账号不存在.";
+            if(rs.getLong("tempban") != 0 && !rs.getString("tempban").equals("2018-06-20 00:00:00.0")) return "账号已被禁止.";
         } catch(SQLException e) {
             e.printStackTrace();
             FilePrinter.printError(FilePrinter.CHANGE_CHARACTER_NAME, e);
-            return "SQL Error";
+            return "SQL错误";
         }
         try (PreparedStatement ps = con.prepareStatement("SELECT COUNT(*) AS rowcount FROM characters WHERE accountid = ? AND world = ?")) {
             ps.setInt(1, accountId);
             ps.setInt(2, newWorld);
             ResultSet rs = ps.executeQuery();
-            if(!rs.next()) return "SQL Error";
-            if(rs.getInt("rowcount") >= 3) return "Too many characters on destination world.";
+            if(!rs.next()) return "SQL错误";
+            if(rs.getInt("rowcount") >= 3) return "当前世界角色太多.";
         } catch(SQLException e) {
             e.printStackTrace();
             FilePrinter.printError(FilePrinter.CHANGE_CHARACTER_NAME, e);
-            return "SQL Error";
+            return "SQL错误";
         }
         return null;
     }
@@ -11071,7 +11077,7 @@ public class MapleCharacter extends AbstractMapleCharacterObject {
                 }
             } catch(SQLException e) {
                 e.printStackTrace();
-                FilePrinter.printError(FilePrinter.WORLD_TRANSFER, e, "Failed to register world transfer for character " + getName() + ".");
+                FilePrinter.printError(FilePrinter.WORLD_TRANSFER, e, "角色的世界转移登记失败 " + getName() + ".");
                 return false;
             }
             try (PreparedStatement ps = con.prepareStatement("INSERT INTO worldtransfers (characterid, `from`, `to`) VALUES (?, ?, ?)")){
@@ -11082,11 +11088,11 @@ public class MapleCharacter extends AbstractMapleCharacterObject {
                     return true;
             } catch (SQLException e) {
                 e.printStackTrace();
-                FilePrinter.printError(FilePrinter.WORLD_TRANSFER, e, "Failed to register world transfer for character " + getName() + ".");
+                FilePrinter.printError(FilePrinter.WORLD_TRANSFER, e, "角色的世界转移登记失败 " + getName() + ".");
             }
         } catch(SQLException e) {
             e.printStackTrace();
-            FilePrinter.printError(FilePrinter.WORLD_TRANSFER, e, "Failed to get DB connection.");
+            FilePrinter.printError(FilePrinter.WORLD_TRANSFER, e, "无法连接数据库.");
         }
         return false;
     }
@@ -11099,7 +11105,7 @@ public class MapleCharacter extends AbstractMapleCharacterObject {
             return affectedRows > 0; //rows affected
         } catch(SQLException e) {
             e.printStackTrace();
-            FilePrinter.printError(FilePrinter.WORLD_TRANSFER, e, "Failed to cancel pending world transfer for character " + getName() + ".");
+            FilePrinter.printError(FilePrinter.WORLD_TRANSFER, e, "未能取消角色的世界转移 " + getName() + ".");
             return false;
         }
     }
@@ -11110,13 +11116,13 @@ public class MapleCharacter extends AbstractMapleCharacterObject {
             ps.setInt(1, characterId);
             ResultSet rs = ps.executeQuery();
             if(!rs.next()) {
-                FilePrinter.printError(FilePrinter.WORLD_TRANSFER, "Character data invalid? (charid " + characterId + ")");
+                FilePrinter.printError(FilePrinter.WORLD_TRANSFER, "角色数据无效? (charid " + characterId + ")");
                 return false;
             }
             mesos = rs.getInt("meso");
         } catch(SQLException e) { 
             e.printStackTrace();
-            FilePrinter.printError(FilePrinter.WORLD_TRANSFER, e, "Character ID : " + characterId);
+            FilePrinter.printError(FilePrinter.WORLD_TRANSFER, e, "角色ID : " + characterId);
             return false;
         }
         try (PreparedStatement ps = con.prepareStatement("UPDATE characters SET world = ?, meso = ?, guildid = ?, guildrank = ? WHERE id = ?")) {
@@ -11137,7 +11143,7 @@ public class MapleCharacter extends AbstractMapleCharacterObject {
             ps.executeUpdate();
         } catch(SQLException e) { 
             e.printStackTrace();
-            FilePrinter.printError(FilePrinter.WORLD_TRANSFER, e, "Character ID : " + characterId);
+            FilePrinter.printError(FilePrinter.WORLD_TRANSFER, e, "角色ID : " + characterId);
             return false;
         }
         if(worldTransferId != -1) {
@@ -11147,7 +11153,7 @@ public class MapleCharacter extends AbstractMapleCharacterObject {
                 ps.executeUpdate();
             } catch(SQLException e) { 
                 e.printStackTrace();
-                FilePrinter.printError(FilePrinter.WORLD_TRANSFER, e, "Character ID : " + characterId);
+                FilePrinter.printError(FilePrinter.WORLD_TRANSFER, e, "角色ID : " + characterId);
                 return false;
             }
         }
@@ -11203,7 +11209,7 @@ public class MapleCharacter extends AbstractMapleCharacterObject {
 
     public void setReborns(int value) {
         if (!YamlConfig.config.server.USE_REBIRTH_SYSTEM) {
-            yellowMessage("Rebirth system is not enabled!");
+            yellowMessage("重生系统未启动！");
             throw new NotEnabledException();
         }
         Connection con = null;
@@ -11228,7 +11234,7 @@ public class MapleCharacter extends AbstractMapleCharacterObject {
 
     public int getReborns() {
         if (!YamlConfig.config.server.USE_REBIRTH_SYSTEM) {
-            yellowMessage("Rebirth system is not enabled!");
+            yellowMessage("重生系统未启动!");
             throw new NotEnabledException();
         }
         Connection con = null;
@@ -11251,7 +11257,7 @@ public class MapleCharacter extends AbstractMapleCharacterObject {
 
     public void executeReborn() {
         if (!YamlConfig.config.server.USE_REBIRTH_SYSTEM) {
-            yellowMessage("Rebirth system is not enabled!");
+            yellowMessage("重生系统未启动!");
             throw new NotEnabledException();
         }
         if (getLevel() != 200) {

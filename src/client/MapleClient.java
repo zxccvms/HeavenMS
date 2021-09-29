@@ -556,7 +556,7 @@ public class MapleClient {
 			if (rs.next()) {
 				accId = rs.getInt("id");
                                 if (accId <= 0) {
-                                        FilePrinter.printError(FilePrinter.LOGIN_EXCEPTION, "Tried to login with accid " + accId);
+                                        FilePrinter.printError(FilePrinter.LOGIN_EXCEPTION, "尝试使用accid登录 " + accId);
                                         return 15;
                                 }
                                 
@@ -693,7 +693,7 @@ public class MapleClient {
 	public static long dottedQuadToLong(String dottedQuad) throws RuntimeException {
 		String[] quads = dottedQuad.split("\\.");
 		if (quads.length != 4) {
-			throw new RuntimeException("Invalid IP Address format.");
+			throw new RuntimeException("无效的IP地址格式.");
 		}
 		long ipAddress = 0;
 		for (int i = 0; i < 4; i++) {
@@ -864,7 +864,7 @@ public class MapleClient {
 		} catch (SQLException e) {
 			loggedIn = false;
 			e.printStackTrace();
-			throw new RuntimeException("login state");
+			throw new RuntimeException("登录状态");
 		}
 	}
 
@@ -1233,7 +1233,7 @@ public class MapleClient {
             for (World w : Server.getInstance().getWorlds()) {
                 for (MapleCharacter chr : w.getPlayerStorage().getAllCharacters()) {
                     if (accid == chr.getAccountID()) {
-                        FilePrinter.print(FilePrinter.EXPLOITS, "Player:  " + chr.getName() + " has been removed from " + GameConstants.WORLD_NAMES[w.getId()] + ". Possible Dupe attempt.");
+                        FilePrinter.print(FilePrinter.EXPLOITS, "玩家:  " + chr.getName() + "已从 " + GameConstants.WORLD_NAMES[w.getId()] + "中删除. 可能存在的重复尝试.");
                         chr.getClient().forceDisconnect();
                         w.getPlayerStorage().removePlayer(chr.getId());
                     }
@@ -1347,7 +1347,7 @@ public class MapleClient {
 			digester.update(password.getBytes("UTF-8"), 0, password.length());
                         return HexTool.toString(digester.digest()).replace(" ", "").toLowerCase().equals(hash);
 		} catch (NoSuchAlgorithmException | UnsupportedEncodingException e) {
-			throw new RuntimeException("Encoding the string failed", e);
+			throw new RuntimeException("编码字符串失败", e);
 		}
 	}
 
@@ -1504,14 +1504,14 @@ public class MapleClient {
 			announce(MaplePacketCreator.enableActions());
 			return;
 		} else if(MapleMiniDungeonInfo.isDungeonMap(player.getMapId())) {
-                        announce(MaplePacketCreator.serverNotice(5, "Changing channels or entering Cash Shop or MTS are disabled when inside a Mini-Dungeon."));
+                        announce(MaplePacketCreator.serverNotice(5, "当在迷你地牢内更换频道或进入现金商店或拍卖时，将被禁止。"));
                         announce(MaplePacketCreator.enableActions());
 			return;
                 }
                 
                 String[] socket = Server.getInstance().getInetSocket(getWorld(), channel);
                 if(socket == null) {
-                        announce(MaplePacketCreator.serverNotice(1, "Channel " + channel + " is currently disabled. Try another channel."));
+                        announce(MaplePacketCreator.serverNotice(1, "频道 " + channel + " 当前已被禁止，请尝试换个频道！"));
                         announce(MaplePacketCreator.enableActions());
 			return;
                 }

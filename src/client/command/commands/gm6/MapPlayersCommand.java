@@ -50,6 +50,6 @@ public class MapPlayersCommand extends Command {
                 }
             }
         }
-        player.message("Players on mapid " + map + ": " + names);
+        player.message("地图ID：" + map + "当前在这个地图上的玩家: " + names);
     }
 }

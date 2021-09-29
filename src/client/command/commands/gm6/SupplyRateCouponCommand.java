@@ -33,11 +33,11 @@ public class SupplyRateCouponCommand extends Command {
     public void execute(MapleClient c, String[] params) {
         MapleCharacter player = c.getPlayer();
         if (params.length < 1) {
-            player.dropMessage(5, "Syntax: !supplyratecoupon <yes|no>");
+            player.dropMessage(5, "使用方法: !supplyratecoupon <yes|no>");
             return;
         }
         
         YamlConfig.config.server.USE_SUPPLY_RATE_COUPONS = params[0].compareToIgnoreCase("no") != 0;
-        player.dropMessage(5, "Rate coupons are now " + (YamlConfig.config.server.USE_SUPPLY_RATE_COUPONS ? "enabled" : "disabled") + " for purchase at the Cash Shop.");
+        player.dropMessage(5, "Rate coupons are now " + (YamlConfig.config.server.USE_SUPPLY_RATE_COUPONS ? "已开启" : "已关闭") + " for purchase at the Cash Shop.");
     }
 }

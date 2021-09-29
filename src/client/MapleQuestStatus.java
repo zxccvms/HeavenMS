@@ -248,7 +248,7 @@ public class MapleQuestStatus {
         if (forfeited >= this.forfeited) {
             this.forfeited = forfeited;
         } else {
-            throw new IllegalArgumentException("Can't set forfeits to something lower than before.");
+            throw new IllegalArgumentException("不能把罚金设置成比以前低的东西.");
         }
     }
     
@@ -256,7 +256,7 @@ public class MapleQuestStatus {
         if (completed >= this.completed) {
             this.completed = completed;
         } else {
-            throw new IllegalArgumentException("Can't set completes to something lower than before.");
+            throw new IllegalArgumentException("不能将完成度设置为比之前低的东西.");
         }
     }
 

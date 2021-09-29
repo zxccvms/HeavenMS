@@ -69,7 +69,7 @@ public final class PartyOperationHandler extends AbstractMaplePacketHandler {
                 if (res == InviteResult.ACCEPTED) {
                     MapleParty.joinParty(player, partyid, false);
                 } else {
-                    c.announce(MaplePacketCreator.serverNotice(5, "You couldn't join the party due to an expired invitation request."));
+                    c.announce(MaplePacketCreator.serverNotice(5, "由于邀请请求已过期，您无法加入该队伍."));
                 }
                 break;
             }
@@ -78,11 +78,11 @@ public final class PartyOperationHandler extends AbstractMaplePacketHandler {
                 MapleCharacter invited = world.getPlayerStorage().getCharacterByName(name);
                 if (invited != null) {
                     if(invited.getLevel() < 10 && (!YamlConfig.config.server.USE_PARTY_FOR_STARTERS || player.getLevel() >= 10)) { //min requirement is level 10
-                        c.announce(MaplePacketCreator.serverNotice(5, "The player you have invited does not meet the requirements."));
+                        c.announce(MaplePacketCreator.serverNotice(5, "你邀请的玩家不符合要求."));
                         return;
                     }
                     if(YamlConfig.config.server.USE_PARTY_FOR_STARTERS && invited.getLevel() >= 10 && player.getLevel() < 10) {    //trying to invite high level
-                        c.announce(MaplePacketCreator.serverNotice(5, "The player you have invited does not meet the requirements."));
+                        c.announce(MaplePacketCreator.serverNotice(5, "你邀请的玩家不符合要求."));
                         return;
                     }
                     

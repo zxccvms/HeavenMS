@@ -108,7 +108,7 @@ public final class AdminCommandHandler extends AbstractMaplePacketHandler {
             case 0x11: // Entering a map
                 switch (slea.readByte()) {
                     case 0:// /u
-                        StringBuilder sb = new StringBuilder("USERS ON THIS MAP: ");
+                        StringBuilder sb = new StringBuilder("此地图上的玩家: ");
                         for (MapleCharacter mc : c.getPlayer().getMap().getCharacters()) {
                             sb.append(mc.getName());
                             sb.append(" ");
@@ -147,7 +147,7 @@ public final class AdminCommandHandler extends AbstractMaplePacketHandler {
                 break;
             case 0x18: // Maple & Mobhp
                 int mobHp = slea.readInt();
-                c.getPlayer().dropMessage("Monsters HP");
+                c.getPlayer().dropMessage("怪物HP");
                 List<MapleMapObject> monsters = c.getPlayer().getMap().getMapObjectsInRange(c.getPlayer().getPosition(), Double.POSITIVE_INFINITY, Arrays.asList(MapleMapObjectType.MONSTER));
                 for (MapleMapObject mobs : monsters) {
                     MapleMonster monster = (MapleMonster) mobs;
@@ -177,7 +177,7 @@ public final class AdminCommandHandler extends AbstractMaplePacketHandler {
                 }
                 break;
             default:
-                System.out.println("New GM packet encountered (MODE : " + mode + ": " + slea.toString());
+                System.out.println("遇到新的Gm数据包 (模式 : " + mode + ": " + slea.toString());
                 break;
         }
     }

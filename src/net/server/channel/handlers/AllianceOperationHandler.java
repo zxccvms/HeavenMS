@@ -61,7 +61,7 @@ public final class AllianceOperationHandler extends AbstractMaplePacketHandler {
             }
         } else {
             if (b == 4) {
-                chr.dropMessage(5, "Your guild is already registered on a guild alliance.");
+                chr.dropMessage(5, "你的家族已在家族联盟注册.");
                 c.announce(MaplePacketCreator.enableActions());
                 return;
             }
@@ -89,7 +89,7 @@ public final class AllianceOperationHandler extends AbstractMaplePacketHandler {
                 String guildName = slea.readMapleAsciiString();
                 
                 if (alliance.getGuilds().size() == alliance.getCapacity()) {
-                    chr.dropMessage(5, "Your alliance cannot comport any more guilds at the moment.");
+                    chr.dropMessage(5, "你的联盟现在不能再组成家族了.");
                 } else {
                     MapleAlliance.sendInvitation(c, guildName, alliance.getId());
                 }
@@ -114,7 +114,7 @@ public final class AllianceOperationHandler extends AbstractMaplePacketHandler {
                 }
                 
                 if (alliance.getGuilds().size() == alliance.getCapacity()) {
-                    chr.dropMessage(5, "Your alliance cannot comport any more guilds at the moment.");
+                    chr.dropMessage(5, "你的联盟现在不能再组成家族了.");
                     return;
                 }
                 
@@ -134,7 +134,7 @@ public final class AllianceOperationHandler extends AbstractMaplePacketHandler {
                 Server.getInstance().allianceMessage(alliance.getId(), MaplePacketCreator.addGuildToAlliance(alliance, guildid, c), -1, -1);
                 Server.getInstance().allianceMessage(alliance.getId(), MaplePacketCreator.updateAllianceInfo(alliance, c.getWorld()), -1, -1);
                 Server.getInstance().allianceMessage(alliance.getId(), MaplePacketCreator.allianceNotice(alliance.getId(), alliance.getNotice()), -1, -1);
-                guild.dropMessage("Your guild has joined the [" + alliance.getName() + "] union.");
+                guild.dropMessage("你的家族已经加入 [" + alliance.getName() + "] 联盟.");
                
                 break;
             }
@@ -152,7 +152,7 @@ public final class AllianceOperationHandler extends AbstractMaplePacketHandler {
                 Server.getInstance().allianceMessage(alliance.getId(), MaplePacketCreator.allianceNotice(alliance.getId(), alliance.getNotice()), -1, -1);
                 Server.getInstance().guildMessage(guildid, MaplePacketCreator.disbandAlliance(allianceid));
                 
-                alliance.dropMessage("[" + Server.getInstance().getGuild(guildid).getName() + "] guild has been expelled from the union.");
+                alliance.dropMessage("[" + Server.getInstance().getGuild(guildid).getName() + "] 家族已被逐出联盟.");
                 break;
             }
             case 0x07: { // Change Alliance Leader
@@ -192,10 +192,10 @@ public final class AllianceOperationHandler extends AbstractMaplePacketHandler {
                 Server.getInstance().setAllianceNotice(alliance.getId(), notice);
                 Server.getInstance().allianceMessage(alliance.getId(), MaplePacketCreator.allianceNotice(alliance.getId(), notice), -1, -1);
                 
-                alliance.dropMessage(5, "* Alliance Notice : " + notice);
+                alliance.dropMessage(5, "* 联盟公告 : " + notice);
                 break;
             default:
-                chr.dropMessage("Feature not available");
+                chr.dropMessage("功能不可用");
         }
         
         alliance.saveToDB();
@@ -211,7 +211,7 @@ public final class AllianceOperationHandler extends AbstractMaplePacketHandler {
         newLeader.saveGuildStatus();
         
         Server.getInstance().allianceMessage(alliance.getId(), MaplePacketCreator.getGuildAlliances(alliance, newLeader.getWorld()), -1, -1);
-        alliance.dropMessage("'" + newLeader.getName() + "' has been appointed as the new head of this Alliance.");
+        alliance.dropMessage("'" + newLeader.getName() + "' 已被任命为联盟的新盟主.");
     }
     
     private void changePlayerAllianceRank(MapleAlliance alliance, MapleCharacter chr, boolean raise) {
@@ -222,7 +222,7 @@ public final class AllianceOperationHandler extends AbstractMaplePacketHandler {
         chr.saveGuildStatus();
         
         Server.getInstance().allianceMessage(alliance.getId(), MaplePacketCreator.getGuildAlliances(alliance, chr.getWorld()), -1, -1);
-        alliance.dropMessage("'" + chr.getName() + "' has been reassigned to '" + alliance.getRankTitle(newRank) + "' in this Alliance.");
+        alliance.dropMessage("'" + chr.getName() + "' 已重新分配到 '" + alliance.getRankTitle(newRank) + "' 这个联盟里.");
     }
 
     private static byte[] sendShowInfo(int allianceid, int playerid) {

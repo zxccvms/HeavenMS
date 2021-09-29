@@ -79,12 +79,12 @@ public class MaplePacketDecoder extends CumulativeProtocolDecoder {
                 int pHeader = readFirstShort(decryptedPacket);
                 String pHeaderStr = Integer.toHexString(pHeader).toUpperCase();
                 String op = lookupSend(pHeader);
-                String Send = "ClientSend:" + op + " [" + pHeaderStr + "] (" + packetLen + ")\r\n";
+                String Send = "客户端发送:" + op + " [" + pHeaderStr + "] (" + packetLen + ")\r\n";
                 if (packetLen <= 3000) {
                     String SendTo = Send + HexTool.toString(decryptedPacket) + "\r\n" + HexTool.toStringFromAscii(decryptedPacket);
                     System.out.println(SendTo);
                     if (op == null) {
-                        System.out.println("UnknownPacket:" + SendTo);
+                        System.out.println("未知封包:" + SendTo);
                     }
                 } else {
                     FilePrinter.print(FilePrinter.PACKET_STREAM + MapleSessionCoordinator.getSessionRemoteAddress(session) + ".txt", HexTool.toString(new byte[]{decryptedPacket[0], decryptedPacket[1]}) + "...");

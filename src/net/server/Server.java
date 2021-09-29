@@ -107,6 +107,8 @@ import tools.DatabaseConnection;
 import tools.FilePrinter;
 import tools.Pair;
 
+import net.server.task.MobSneakAttackTask;
+
 public class Server {
     
     private static Server instance = null;
@@ -403,7 +405,7 @@ public class Server {
             wldRLock.unlock();
         }
         
-        System.out.println("Starting world " + i);
+        System.out.println("初始世界服务器 " + i);
 
         int exprate = YamlConfig.config.worlds.get(i).exp_rate;
         int mesorate = YamlConfig.config.worlds.get(i).meso_rate;
@@ -449,10 +451,10 @@ public class Server {
         if (canDeploy) {
             world.setServerMessage(YamlConfig.config.worlds.get(i).server_message);
             
-            System.out.println("Finished loading world " + i + "\r\n");
+            System.out.println("完成世界载入，世界服务器： " + i + "\r\n");
             return i;
         } else {
-            System.out.println("Could not load world " + i + "...\r\n");
+            System.out.println("无法加载世界服务器 " + i + "...\r\n");
             world.shutdown();
             return -2;
         }
@@ -864,7 +866,7 @@ public class Server {
     }
     
     public void init() {
-        System.out.println("HeavenMS v" + ServerConstants.VERSION + " starting up.\r\n");
+        System.out.println("RainMS v" + ServerConstants.VERSION + " 开始启动.\r\n");
         
         if(YamlConfig.config.server.SHUTDOWNHOOK)
             Runtime.getRuntime().addShutdownHook(new Thread(shutdown(false)));
@@ -899,16 +901,16 @@ public class Server {
         
         long timeToTake = System.currentTimeMillis();
         SkillFactory.loadAllSkills();
-        System.out.println("Skills loaded in " + ((System.currentTimeMillis() - timeToTake) / 1000.0) + " seconds");
+        System.out.println("加载技能 " + ((System.currentTimeMillis() - timeToTake) / 1000.0) + " 秒");
 
         timeToTake = System.currentTimeMillis();
         
         CashItemFactory.getSpecialCashItems();
-        System.out.println("Items loaded in " + ((System.currentTimeMillis() - timeToTake) / 1000.0) + " seconds");
+        System.out.println("加载物品 " + ((System.currentTimeMillis() - timeToTake) / 1000.0) + " 秒");
         
 	timeToTake = System.currentTimeMillis();
 	MapleQuest.loadAllQuest();
-	System.out.println("Quest loaded in " + ((System.currentTimeMillis() - timeToTake) / 1000.0) + " seconds\r\n");
+	System.out.println("加载任务 " + ((System.currentTimeMillis() - timeToTake) / 1000.0) + " 秒\r\n");
 	
         NewYearCardRecord.startPendingNewYearCardRequests();
         
@@ -935,7 +937,7 @@ public class Server {
         if(YamlConfig.config.server.USE_FAMILY_SYSTEM) {
             timeToTake = System.currentTimeMillis();
             MapleFamily.loadAllFamilies();
-            System.out.println("Families loaded in " + ((System.currentTimeMillis() - timeToTake) / 1000.0) + " seconds\r\n");
+            System.out.println("载入完成时间：" + ((System.currentTimeMillis() - timeToTake) / 1000.0) + " 秒\r\n");
         }
         
         System.out.println();
@@ -952,9 +954,11 @@ public class Server {
             ex.printStackTrace();
         }
         
-        System.out.println("Listening on port 8484\r\n\r\n");
+        System.out.println("监听端口:8484\r\n");
         
-        System.out.println("HeavenMS is now online.\r\n");
+        怪物攻击();
+        
+        System.out.println("服务器已启动完成.\r\n\r\n");
         online = true;
         
         MapleSkillbookInformationProvider.getInstance();
@@ -964,6 +968,9 @@ public class Server {
         for (Channel ch : this.getAllChannels()) {
             ch.reloadEventScriptManager();
         }
+
+
+        
     }
     
     private void initializeTimelyTasks() {
@@ -984,12 +991,36 @@ public class Server {
         tMan.register(new DueyFredrickTask(), 60 * 60 * 1000, timeLeft);
         tMan.register(new InvitationTask(), 30 * 1000, 30 * 1000);
         tMan.register(new RespawnTask(), YamlConfig.config.server.RESPAWN_INTERVAL, YamlConfig.config.server.RESPAWN_INTERVAL);
-        
+
         timeLeft = getTimeLeftForNextDay();
         MapleExpeditionBossLog.resetBossLogTable();
         tMan.register(new BossLogTask(), 24 * 60 * 60 * 1000, timeLeft);
+        
     }
 
+    private void 怪物攻击() {
+        if (YamlConfig.config.server.MONSTER_ATTACK) {
+        TimerManager tMan = TimerManager.getInstance();
+        tMan.start();
+        tMan.register(tMan.purge(), YamlConfig.config.server.PURGING_INTERVAL);//Purging ftw...
+        disconnectIdlesOnLoginTask();
+        
+        long timeLeft = getTimeLeftForNextHour();
+            Calendar clock = Calendar.getInstance();
+            //int hour = clock.get(Calendar.HOUR_OF_DAY);
+            int minute = clock.get(Calendar.MINUTE);
+            int second = clock.get(Calendar.SECOND);
+           		if (minute < 10)
+				timeLeft = 0;
+			else {
+				timeLeft = (59 - minute) * 60 * 1000 + (60 - second) * 1000;
+			}
+			System.out.println(timeLeft / 1000 / 60 + "分钟后启动怪物攻击"+"\r\n");
+			tMan.register(MobSneakAttackTask.getInstance(), 60 * 60 * 1000, timeLeft);
+		}
+    }
+    
+    
     public static void main(String args[]) {
         System.setProperty("wzpath", "wz");
         Security.setProperty("crypto.policy", "unlimited");
@@ -1140,7 +1171,7 @@ public class Server {
                     mc.setMGC(mgc);
                     mgc.setCharacter(mc);
                 } else {
-                    FilePrinter.printError(FilePrinter.GUILD_CHAR_ERROR, "Could not find " + mc.getName() + " when loading guild " + id + ".");
+                    FilePrinter.printError(FilePrinter.GUILD_CHAR_ERROR, "找不到 " + mc.getName() + " 加载家族时 " + id + ".");
                 }
                 
                 g.setOnline(mc.getId(), true, mc.getClient().getChannel());
@@ -1610,11 +1641,11 @@ public class Server {
             }
             //log
             for(Pair<String, String> namePair : changedNames) {
-                FilePrinter.print(FilePrinter.CHANGE_CHARACTER_NAME, "Name change applied : from \"" + namePair.getLeft() + "\" to \"" + namePair.getRight() + "\" at " + Calendar.getInstance().getTime().toString());
+                FilePrinter.print(FilePrinter.CHANGE_CHARACTER_NAME, "应用的名称更改：从 \"" + namePair.getLeft() + "\" 到 \"" + namePair.getRight() + "\" 在 " + Calendar.getInstance().getTime().toString());
             }
         } catch(SQLException e) {
             e.printStackTrace();
-            FilePrinter.printError(FilePrinter.CHANGE_CHARACTER_NAME, e, "Failed to retrieve list of pending name changes.");
+            FilePrinter.printError(FilePrinter.CHANGE_CHARACTER_NAME, e, "检索挂起的名称更改列表失败.");
         }
     }
     
@@ -1631,7 +1662,7 @@ public class Server {
                 String reason = MapleCharacter.checkWorldTransferEligibility(con, characterId, oldWorld, newWorld); //check if character is still eligible
                 if(reason != null) {
                     removedTransfers.add(nameChangeId);
-                    FilePrinter.print(FilePrinter.WORLD_TRANSFER, "World transfer cancelled : Character ID " + characterId + " at " + Calendar.getInstance().getTime().toString() + ", Reason : " + reason);
+                    FilePrinter.print(FilePrinter.WORLD_TRANSFER, "已取消世界传输：字符ID " + characterId + " 在 " + Calendar.getInstance().getTime().toString() + ", 理由 : " + reason);
                     try (PreparedStatement delPs = con.prepareStatement("DELETE FROM worldtransfers WHERE id = ?")) {
                         delPs.setInt(1, nameChangeId);
                         delPs.executeUpdate();
@@ -1936,7 +1967,7 @@ public class Server {
         TimerManager.getInstance().purge();
         TimerManager.getInstance().stop();
         
-        System.out.println("Worlds + Channels are offline.");
+        System.out.println("服务器和频道已离线.");
         acceptor.unbind();
         acceptor = null;
         if (!restart) {  // shutdown hook deadlocks if System.exit() method is used within its body chores, thanks MIKE for pointing that out
@@ -1947,7 +1978,7 @@ public class Server {
                 }
             }).start();
         } else {
-            System.out.println("\r\nRestarting the server....\r\n");
+            System.out.println("\r\n重启服务器中....\r\n");
             try {
                 instance.finalize();//FUU I CAN AND IT'S FREE
             } catch (Throwable ex) {

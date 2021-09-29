@@ -348,7 +348,7 @@ public class MapleParty {
                 player.announce(MaplePacketCreator.partyStatusMessage(10));
                 return false;
             } else if (player.getAriantColiseum() != null) {
-                player.dropMessage(5, "You cannot request a party creation while participating the Ariant Battle Arena.");
+                player.dropMessage(5, "在参加战斗竞技场时，您不能申请创建队伍.");
                 return false;
             }
             
@@ -399,11 +399,11 @@ public class MapleParty {
                     }
                 }
             } else {
-                player.announce(MaplePacketCreator.serverNotice(5, "You couldn't join the party since it had already been disbanded."));
+                player.announce(MaplePacketCreator.serverNotice(5, "你不能参加这个队伍，因为它已经解散了。"));
             }
         } else {
             if (!silentCheck) {
-                player.announce(MaplePacketCreator.serverNotice(5, "You can't join the party as you are already in one."));
+                player.announce(MaplePacketCreator.serverNotice(5, "你不能加入，因为你已经有队伍了。"));
             }
         }
         

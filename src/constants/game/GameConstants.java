@@ -27,7 +27,7 @@ import server.quest.MapleQuest;
  * @author Ronan
  */
 public class GameConstants {
-    public static String[] WORLD_NAMES = {"Scania", "Bera", "Broa", "Windia", "Khaini", "Bellocan", "Mardia", "Kradia", "Yellonde", "Demethos", "Galicia", "El Nido", "Zenith", "Arcenia", "Kastia", "Judis", "Plana", "Kalluna", "Stius", "Croa", "Medere"};
+    public static String[] WORLD_NAMES = {"喷火龙", "Bera", "Broa", "Windia", "Khaini", "Bellocan", "Mardia", "Kradia", "Yellonde", "Demethos", "Galicia", "El Nido", "Zenith", "Arcenia", "Kastia", "Judis", "Plana", "Kalluna", "Stius", "Croa", "Medere"};
     public static final int[]  OWL_DATA = new int[]{1082002, 2070005, 2070006, 1022047, 1102041, 2044705, 2340000, 2040017, 1092030, 2040804};
     public static final String[] stats = {"tuc", "reqLevel", "reqJob", "reqSTR", "reqDEX", "reqINT", "reqLUK", "reqPOP", "cash", "cursed", "success", "setItemID", "equipTradeBlock", "durability", "randOption", "randStat", "masterLevel", "reqSkillLevel", "elemDefault", "incRMAS", "incRMAF", "incRMAI", "incRMAL", "canLevel", "skill", "charmEXP"};
     public static final int[] CASH_DATA = new int[]{50200004, 50200069, 50200117, 50100008, 50000047};
@@ -60,67 +60,67 @@ public class GameConstants {
         return(EXP_RATE_GAIN[slot]);
     }
     
-    // "goto" command for players
+    // 玩家的 "GETO "命令
     public static final HashMap<String, Integer> GOTO_TOWNS = new HashMap<String, Integer>() {{
-        put("southperry", 60000);
-        put("amherst", 1000000);
-        put("henesys", 100000000);
-        put("ellinia", 101000000);
-        put("perion", 102000000);
-        put("kerning", 103000000);
-        put("lith", 104000000);
-        put("sleepywood", 105040300);
-        put("florina", 110000000);
-        put("nautilus", 120000000);
-        put("ereve", 130000000);
-        put("rien", 140000000);
-        put("orbis", 200000000);
-        put("happy", 209000000);
-        put("elnath", 211000000);
-        put("ludi", 220000000);
-        put("aqua", 230000000);
-        put("leafre", 240000000);
-        put("mulung", 250000000);
-        put("herb", 251000000);
-        put("omega", 221000000);
-        put("korean", 222000000);
-        put("ellin", 300000000);
-        put("nlc", 600000000);
-        put("showa", 801000000);
-        put("shrine", 800000000);
-        put("ariant", 260000000);
-        put("magatia", 261000000);
-        put("singapore", 540000000);
-        put("quay", 541000000);
-        put("kampung", 551000000);
-        put("amoria", 680000000);
-        put("temple", 270000100);
-        put("square", 103040000);
-        put("neo", 240070000);
-        put("mushking", 106020000);
+        put("南港", 60000);
+        put("彩虹村", 1000000);
+        put("射手村", 100000000);
+        put("魔法密林", 101000000);
+        put("勇士部落", 102000000);
+        put("废弃都市", 103000000);
+        put("明珠港", 104000000);
+        put("林中之城", 105040300);
+        put("黄金海滩", 110000000);
+        put("诺特勒斯码头", 120000000);
+        put("圣地", 130000000);
+        put("里恩", 140000000);
+        put("天空之城", 200000000);
+        put("幸福村", 209000000);
+        put("冰峰雪域", 211000000);
+        put("玩具城", 220000000);
+        put("水下世界", 230000000);
+        put("神木村", 240000000);
+        put("武陵", 250000000);
+        put("百草堂", 251000000);
+        put("地球防御本部", 221000000);
+        put("童话村", 222000000);
+        put("阿尔泰营地", 300000000);
+        put("新叶都市市中心", 600000000);
+        put("昭和村", 801000000);
+        put("蘑菇神社", 800000000);
+        put("阿里安特", 260000000);
+        put("玛加提亚", 261000000);
+        put("中心商务区", 540000000);
+        put("驳船码头城", 541000000);
+        put("甘榜村", 551000000);
+        put("婚礼村", 680000000);
+        put("神殿入口", 270000100);
+        put("废都广场大厅", 103040000);
+        put("塔拉森林时间门", 240070000);
+        put("蘑菇森林小道", 106020000);
     }};
     
-    // "goto" command for only-GMs
+    // "GETO "命令用于唯一的GMs
     public static final HashMap<String, Integer> GOTO_AREAS = new HashMap<String, Integer>() {{
-        put("gmmap", 180000000);
-        put("excavation", 990000000);
-        put("mushmom", 100000005);
-        put("griffey", 240020101);
-        put("manon", 240020401);
-        put("horseman", 682000001);
-        put("balrog", 105090900);
-        put("zakum", 211042300);
-        put("papu", 220080001);
-        put("guild", 200000301);
-        put("skelegon", 240040511);
-        put("hpq", 100000200);
-        put("pianus", 230040420);
-        put("horntail", 240050400);
-        put("pinkbean", 270050000);
-        put("keep", 610020006);
-        put("dojo", 925020001);
-        put("bosspq", 970030000);
-        put("fm", 910000000);
+        put("工作场所", 180000000);
+        put("遗迹挖掘现场", 990000000);
+        put("蘑菇公园3", 100000005);
+        put("格瑞芬多森林", 240020101);
+        put("喷火龙栖息地", 240020401);
+        put("幻影森林", 682000001);
+        put("被诅咒的寺院", 105090900);
+        put("扎昆入口", 211042300);
+        put("时间塔的本源", 220080001);
+        put("家族中心", 200000301);
+        put("被遗忘的龙之巢穴1", 240040511);
+        put("射手村公园", 100000200);
+        put("皮亚奴斯洞穴", 230040420);
+        put("暗黑龙王洞穴入口", 240050400);
+        put("忘却的黄昏", 270050000);
+        put("守护者的要塞", 610020006);
+        put("武陵道场大厅", 925020001);
+        put("工作人员强化特别训练场", 970030000);
+        put("自由市场", 910000000);
     }};
     
     public static final List<String> GAME_SONGS = new ArrayList<String>(170) {{

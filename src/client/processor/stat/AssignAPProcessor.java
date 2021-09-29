@@ -343,10 +343,10 @@ public class AssignAPProcessor {
 
                 //----------------------------------------------------------------------------------------
 
-                c.announce(MaplePacketCreator.serverNotice(1, "Better AP applications detected:\r\nSTR: +" + statGain[0] + "\r\nDEX: +" + statGain[1] + "\r\nINT: +" + statGain[3] + "\r\nLUK: +" + statGain[2]));
+                c.announce(MaplePacketCreator.serverNotice(1, "Better AP applications detected:\r\n力量: +" + statGain[0] + "\r\n敏捷: +" + statGain[1] + "\r\n智力: +" + statGain[3] + "\r\n运气: +" + statGain[2]));
             } else {
                 if(slea.available() < 16) {
-                    AutobanFactory.PACKET_EDIT.alert(chr, "Didn't send full packet for Auto Assign.");
+                    AutobanFactory.PACKET_EDIT.alert(chr, "未发送自动分配的完整数据包.");
                     
                     c.disconnect(true, false);
                     return;
@@ -435,48 +435,48 @@ public class AssignAPProcessor {
             switch (APFrom) {
                 case 64: // str
                     if (player.getStr() < 5) {
-                        player.message("You don't have the minimum STR required to swap.");
+                        player.message("你没有交换所需要的最低力量值.");
                         c.announce(MaplePacketCreator.enableActions());
                         return false;
                     }
                     if (!player.assignStr(-1)) {
-                        player.message("Couldn't execute AP reset operation.");
+                        player.message("无法执行AP重置操作.");
                         c.announce(MaplePacketCreator.enableActions());
                         return false;
                     }
                     break;
                 case 128: // dex
                     if (player.getDex() < 5) {
-                        player.message("You don't have the minimum DEX required to swap.");
+                        player.message("你没有交换所需要的最低敏捷值.");
                         c.announce(MaplePacketCreator.enableActions());
                         return false;
                     }
                     if (!player.assignDex(-1)) {
-                        player.message("Couldn't execute AP reset operation.");
+                        player.message("无法执行AP重置操作.");
                         c.announce(MaplePacketCreator.enableActions());
                         return false;
                     }
                     break;
                 case 256: // int
                     if (player.getInt() < 5) {
-                        player.message("You don't have the minimum INT required to swap.");
+                        player.message("你没有交换所需要的最低智力值.");
                         c.announce(MaplePacketCreator.enableActions());
                         return false;
                     }
                     if (!player.assignInt(-1)) {
-                        player.message("Couldn't execute AP reset operation.");
+                        player.message("无法执行AP重置操作.");
                         c.announce(MaplePacketCreator.enableActions());
                         return false;
                     }
                     break;
                 case 512: // luk
                     if (player.getLuk() < 5) {
-                        player.message("You don't have the minimum LUK required to swap.");
+                        player.message("你没有交换所需要的最低运气值.");
                         c.announce(MaplePacketCreator.enableActions());
                         return false;
                     }
                     if (!player.assignLuk(-1)) {
-                        player.message("Couldn't execute AP reset operation.");
+                        player.message("无法执行AP重置操作.");
                         c.announce(MaplePacketCreator.enableActions());
                         return false;
                     }
@@ -484,14 +484,14 @@ public class AssignAPProcessor {
                 case 2048: // HP
                     if(YamlConfig.config.server.USE_ENFORCE_HPMP_SWAP) {
                         if (APTo != 8192) {
-                            player.message("You can only swap HP ability points to MP.");
+                            player.message("你只能将HP能力点换成MP能力点。.");
                             c.announce(MaplePacketCreator.enableActions());
                             return false;
                         }
                     }
                     
                     if (player.getHpMpApUsed() < 1) {
-                        player.message("You don't have enough HPMP stat points to spend on AP Reset.");
+                        player.message("你没有足够的HPMP状态点来花在AP重置上。");
                         c.announce(MaplePacketCreator.enableActions());
                         return false;
                     }
@@ -499,7 +499,7 @@ public class AssignAPProcessor {
                     int hp = player.getMaxHp();
                     int level_ = player.getLevel();
                     if (hp < level_ * 14 + 148) {
-                        player.message("You don't have the minimum HP pool required to swap.");
+                        player.message("你没有交换所需的最低HP值.");
                         c.announce(MaplePacketCreator.enableActions());
                         return false;
                     }
@@ -515,14 +515,14 @@ public class AssignAPProcessor {
                 case 8192: // MP
                     if(YamlConfig.config.server.USE_ENFORCE_HPMP_SWAP) {
                         if (APTo != 2048) {
-                            player.message("You can only swap MP ability points to HP.");
+                            player.message("你只能把MP能力点换成HP的能力点。.");
                             c.announce(MaplePacketCreator.enableActions());
                             return false;
                         }
                     }
                     
                     if (player.getHpMpApUsed() < 1) {
-                        player.message("You don't have enough HPMP stat points to spend on AP Reset.");
+                        player.message("你没有足够的HPMP统计点来花在AP重置上.");
                         c.announce(MaplePacketCreator.enableActions());
                         return false;
                     }
@@ -543,7 +543,7 @@ public class AssignAPProcessor {
                     }
 
                     if (!canWash) {
-                        player.message("You don't have the minimum MP pool required to swap.");
+                        player.message("你还没有交换所需的最低限度的MP值.");
                         c.announce(MaplePacketCreator.enableActions());
                         return false;
                     }
@@ -580,42 +580,42 @@ public class AssignAPProcessor {
         switch (apTo) {
             case 64:
                 if (!chr.assignStr(1)) {
-                    chr.message("Couldn't execute AP assign operation.");
+                    chr.message("无法执行AP分配操作.");
                     chr.announce(MaplePacketCreator.enableActions());
                     return false;
                 }
                 break;
             case 128: // Dex
                 if (!chr.assignDex(1)) {
-                    chr.message("Couldn't execute AP assign operation.");
+                    chr.message("无法执行AP分配操作.");
                     chr.announce(MaplePacketCreator.enableActions());
                     return false;
                 }
                 break;
             case 256: // Int
                 if (!chr.assignInt(1)) {
-                    chr.message("Couldn't execute AP assign operation.");
+                    chr.message("无法执行AP分配操作.");
                     chr.announce(MaplePacketCreator.enableActions());
                     return false;
                 }
                 break;
             case 512: // Luk
                 if (!chr.assignLuk(1)) {
-                    chr.message("Couldn't execute AP assign operation.");
+                    chr.message("无法执行AP分配操作.");
                     chr.announce(MaplePacketCreator.enableActions());
                     return false;
                 }
                 break;
             case 2048:
                 if (!chr.assignHP(calcHpChange(chr, usedAPReset), 1)) {
-                    chr.message("Couldn't execute AP assign operation.");
+                    chr.message("无法执行AP分配操作.");
                     chr.announce(MaplePacketCreator.enableActions());
                     return false;
                 }
                 break;
             case 8192:
                 if (!chr.assignMP(calcMpChange(chr, usedAPReset), 1)) {
-                    chr.message("Couldn't execute AP assign operation.");
+                    chr.message("无法执行AP分配操作.");
                     chr.announce(MaplePacketCreator.enableActions());
                     return false;
                 }

@@ -62,34 +62,35 @@ public final class GuildOperationHandler extends AbstractMaplePacketHandler {
                 break;
             case 0x02:
                 if (mc.getGuildId() > 0) {
-                    mc.dropMessage(1, "You cannot create a new Guild while in one.");
+                    mc.dropMessage(1, "你已经在一个家族里了,因此无法在创建家族.");
                     return;
                 }
                 if (mc.getMeso() < YamlConfig.config.server.CREATE_GUILD_COST) {
-                    mc.dropMessage(1, "You do not have " + GameConstants.numberWithCommas(YamlConfig.config.server.CREATE_GUILD_COST) + " mesos to create a Guild.");
+                    mc.dropMessage(1, "你没有" + GameConstants.numberWithCommas(YamlConfig.config.server.CREATE_GUILD_COST) + "金币来创建一个家族.");
                     return;
                 }
                 String guildName = slea.readMapleAsciiString();
-                if (!isGuildNameAcceptable(guildName)) {
-                    mc.dropMessage(1, "The Guild name you have chosen is not accepted.");
-                    return;
-                }
+                // 这里检测家族名称不知道为什么没办法创建一些字符，所以暂时注释掉了，注释掉之后是正常创建的。
+//                if (!isGuildNameAcceptable(guildName)) {
+//                    mc.dropMessage(1, "家族名称无法使用.");
+//                    return;
+//                }
                 
                 Set<MapleCharacter> eligibleMembers = new HashSet<>(MapleGuild.getEligiblePlayersForGuild(mc));
                 if (eligibleMembers.size() < YamlConfig.config.server.CREATE_GUILD_MIN_PARTNERS) {
                     if (mc.getMap().getAllPlayers().size() < YamlConfig.config.server.CREATE_GUILD_MIN_PARTNERS) {
                         // thanks NovaStory for noticing message in need of smoother info
-                        mc.dropMessage(1, "Your Guild doesn't have enough cofounders present here and therefore cannot be created at this time.");
+                        mc.dropMessage(1, "当前地图没有足够的人.");
                     } else {
                         // players may be unaware of not belonging on a party in order to become eligible, thanks Hair (Legalize) for pointing this out
-                        mc.dropMessage(1, "Please make sure everyone you are trying to invite is neither on a guild nor on a party.");
+                        mc.dropMessage(1, "请确保当前地图有足够的人才可以创建家族,不需要组队,提交创建家族时会自动给队长创建队伍.");
                     }
                     
                     return;
                 }
                 
                 if (!MapleParty.createParty(mc, true)) {
-                    mc.dropMessage(1, "You cannot create a new Guild while in a party.");
+                    mc.dropMessage(1, "在组队中无法创建家族.");
                     return;
                 }
                 
@@ -134,7 +135,7 @@ public final class GuildOperationHandler extends AbstractMaplePacketHandler {
                 
                 int s = Server.getInstance().addGuildMember(mc.getMGC(), mc);
                 if (s == 0) {
-                    mc.dropMessage(1, "The guild you are trying to join is already full.");
+                    mc.dropMessage(1, "你要进入的家族人数已经满了.");
                     mc.getMGC().setGuildId(0);
                     return;
                 }
@@ -212,7 +213,7 @@ public final class GuildOperationHandler extends AbstractMaplePacketHandler {
                     return;
                 }
                 if (mc.getMeso() < YamlConfig.config.server.CHANGE_EMBLEM_COST) {
-                    c.announce(MaplePacketCreator.serverNotice(1, "You do not have " + GameConstants.numberWithCommas(YamlConfig.config.server.CHANGE_EMBLEM_COST) + " mesos to change the Guild emblem."));
+                    c.announce(MaplePacketCreator.serverNotice(1, "你没有 " + GameConstants.numberWithCommas(YamlConfig.config.server.CHANGE_EMBLEM_COST) + " 金币改变家族图标."));
                     return;
                 }
                 short bg = slea.readShort();

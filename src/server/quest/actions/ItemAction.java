@@ -249,12 +249,12 @@ public class ItemAction extends MapleQuestAction {
         private void announceInventoryLimit(List<Integer> itemids, MapleCharacter chr) {
                 for (Integer id : itemids) {
                         if (MapleItemInformationProvider.getInstance().isPickupRestricted(id) && chr.haveItemWithId(id, true)) {
-                                chr.dropMessage(1, "Please check if you already have a similar one-of-a-kind item in your inventory.");
+                                chr.dropMessage(1, "请检查您的背包或者身上中是否已经有类似的固有道具或者独一无二的物品,如果在身上请拿下来放在背包里.");
                                 return;
                         }
                 }
                 
-                chr.dropMessage(1, "Please check if you have enough space in your inventory.");
+                chr.dropMessage(1, "请检查您的背包中是否有足够的空间。.");
         }
         
         private boolean canHold(MapleCharacter chr, List<Pair<Item, MapleInventoryType>> gainList) {
@@ -310,7 +310,7 @@ public class ItemAction extends MapleQuestAction {
                     int missingQty = item.getCount() - chr.countItem(itemid);
                     if (missingQty > 0) {
                         if (!chr.canHold(itemid, missingQty)) {
-                            chr.dropMessage(1, "Please check if you have enough space in your inventory.");
+                            chr.dropMessage(1, "请检查您的背包中是否有足够的空间。.");
                             return false;
                         }
                         

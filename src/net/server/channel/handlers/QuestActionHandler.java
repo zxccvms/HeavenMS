@@ -58,7 +58,7 @@ public final class QuestActionHandler extends AbstractMaplePacketHandler {
             
             Point npcP = npc.getPosition();
             if (Math.abs(npcP.getX() - playerP.getX()) > 1200 || Math.abs(npcP.getY() - playerP.getY()) > 800) {
-                player.dropMessage(5, "Approach the NPC to fulfill this quest operation.");
+                player.dropMessage(5, "接近NPC完成这个任务.");
                 return false;
             }
         }

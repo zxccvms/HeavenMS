@@ -55,7 +55,7 @@ public final class TrockAddMapHandler extends AbstractMaplePacketHandler {
 
                  c.announce(MaplePacketCreator.trockRefreshMapList(chr, false, vip));
             } else {
-                chr.message("You may not save this map.");
+                chr.message("您不能保存此地图.");
             }
         }
     }

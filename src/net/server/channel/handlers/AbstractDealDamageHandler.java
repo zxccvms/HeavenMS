@@ -506,7 +506,8 @@ public abstract class AbstractDealDamageHandler extends AbstractMaplePacketHandl
                                             api.gainItem(shellId, (short) -1, false);
                                             totDamageToOneMonster *= player.getLevel();
                                         } else {
-                                            player.dropMessage(5, "You have ran out of shells to activate the hidden power of Three Snails.");
+                                            player.dropMessage(5, "你已经用完了炮弹，可以激活三只蜗牛的隐藏力量了。.");
+                                            //You have ran out of shells to activate the hidden power of Three Snails
                                         }
                                     } else {
                                         totDamageToOneMonster = 0;

@@ -355,7 +355,7 @@ public final class PlayerInteractionHandler extends AbstractMaplePacketHandler {
                     slea.readShort();
                     int birthday = slea.readInt();
                     if (!CashOperationHandler.checkBirthday(c, birthday)) { // birthday check here found thanks to lucasziron
-                        c.announce(MaplePacketCreator.serverNotice(1, "Please check again the birthday date."));
+                        c.announce(MaplePacketCreator.serverNotice(1, "请再核对一下生日日期."));
                         return;
                     }
                     
@@ -493,16 +493,16 @@ public final class PlayerInteractionHandler extends AbstractMaplePacketHandler {
                 }
                 
                 if (item == null) {
-                    c.announce(MaplePacketCreator.serverNotice(1, "Invalid item description."));
+                    c.announce(MaplePacketCreator.serverNotice(1, "无效的项目描述."));
                     c.announce(MaplePacketCreator.enableActions());
                     return;
                 }
                 
                 if (ii.isUnmerchable(item.getItemId())) {
                     if (ItemConstants.isPet(item.getItemId())) {
-                        c.announce(MaplePacketCreator.serverNotice(1, "Pets are not allowed to be traded."));
+                        c.announce(MaplePacketCreator.serverNotice(1, "宠物不允许交易."));
                     } else {
-                        c.announce(MaplePacketCreator.serverNotice(1, "Cash items are not allowed to be traded."));
+                        c.announce(MaplePacketCreator.serverNotice(1, "现金物品不允许交易."));
                     }
                     
                     c.announce(MaplePacketCreator.enableActions());
@@ -510,7 +510,7 @@ public final class PlayerInteractionHandler extends AbstractMaplePacketHandler {
                 }
                 
                 if (quantity < 1 || quantity > item.getQuantity()) {
-                    c.announce(MaplePacketCreator.serverNotice(1, "You don't have enough quantity of the item."));
+                    c.announce(MaplePacketCreator.serverNotice(1, "你没有足够数量的东西."));
                     c.announce(MaplePacketCreator.enableActions());
                     return;
                 }
@@ -520,7 +520,7 @@ public final class PlayerInteractionHandler extends AbstractMaplePacketHandler {
                     if ((quantity <= item.getQuantity() && quantity >= 0) || ItemConstants.isRechargeable(item.getItemId())) {
                         if (ii.isDropRestricted(item.getItemId())) { // ensure that undroppable items do not make it to the trade window
                             if (!MapleKarmaManipulator.hasKarmaFlag(item)) {
-                                c.announce(MaplePacketCreator.serverNotice(1, "That item is untradeable."));
+                                c.announce(MaplePacketCreator.serverNotice(1, "那东西是不可加工的."));
                                 c.announce(MaplePacketCreator.enableActions());
                                 return;
                             }
@@ -531,7 +531,7 @@ public final class PlayerInteractionHandler extends AbstractMaplePacketHandler {
                         try {
                             Item checkItem = chr.getInventory(ivType).getItem(pos);
                             if (checkItem != item || checkItem.getPosition() != item.getPosition()) {
-                                c.announce(MaplePacketCreator.serverNotice(1, "Invalid item description."));
+                                c.announce(MaplePacketCreator.serverNotice(1, "无效的项目描述."));
                                 c.announce(MaplePacketCreator.enableActions());
                                 return;
                             }
@@ -570,14 +570,14 @@ public final class PlayerInteractionHandler extends AbstractMaplePacketHandler {
                 Item ivItem = chr.getInventory(ivType).getItem(slot);
 
                 if (ivItem == null || ivItem.isUntradeable()) {
-                    c.announce(MaplePacketCreator.serverNotice(1, "Could not perform shop operation with that item."));
+                    c.announce(MaplePacketCreator.serverNotice(1, "无法对该项执行操作."));
                     c.announce(MaplePacketCreator.enableActions());
                     return;
                 } else if (MapleItemInformationProvider.getInstance().isUnmerchable(ivItem.getItemId())) {
                     if (ItemConstants.isPet(ivItem.getItemId())) {
-                        c.announce(MaplePacketCreator.serverNotice(1, "Pets are not allowed to be sold on the Player Store."));
+                        c.announce(MaplePacketCreator.serverNotice(1, "玩家商店不允许出售宠物."));
                     } else {
-                        c.announce(MaplePacketCreator.serverNotice(1, "Cash items are not allowed to be sold on the Player Store."));
+                        c.announce(MaplePacketCreator.serverNotice(1, "玩家商店不允许出售现金物品."));
                     }
                     
                     c.announce(MaplePacketCreator.enableActions());
@@ -590,7 +590,7 @@ public final class PlayerInteractionHandler extends AbstractMaplePacketHandler {
                     perBundle = 1;
                     bundles = 1;
                 } else if (ivItem.getQuantity() < (bundles * perBundle)) {     // thanks GabrielSin for finding a dupe here
-                    c.announce(MaplePacketCreator.serverNotice(1, "Could not perform shop operation with that item."));
+                    c.announce(MaplePacketCreator.serverNotice(1, "无法对该项执行操作."));
                     c.announce(MaplePacketCreator.enableActions());
                     return;
                 }
@@ -612,7 +612,7 @@ public final class PlayerInteractionHandler extends AbstractMaplePacketHandler {
                 MapleHiredMerchant merchant = chr.getHiredMerchant();
                 if (shop != null && shop.isOwner(chr)) {
                     if (shop.isOpen() || !shop.addItem(shopItem)) { // thanks Vcoc for pointing an exploit with unlimited shop slots
-                        c.announce(MaplePacketCreator.serverNotice(1, "You can't sell it anymore."));
+                        c.announce(MaplePacketCreator.serverNotice(1, "你不能再卖了."));
                         return;
                     }
                     
@@ -625,12 +625,12 @@ public final class PlayerInteractionHandler extends AbstractMaplePacketHandler {
                     c.announce(MaplePacketCreator.getPlayerShopItemUpdate(shop));
                 } else if (merchant != null && merchant.isOwner(chr)) {
                     if (ivType.equals(MapleInventoryType.CASH) && merchant.isPublished()) {
-                        c.announce(MaplePacketCreator.serverNotice(1, "Cash items are only allowed to be sold when first opening the store."));
+                        c.announce(MaplePacketCreator.serverNotice(1, "现金物品只允许在首次开店时出售."));
                         return;
                     }
                     
                     if (merchant.isOpen() || !merchant.addItem(shopItem)) { // thanks Vcoc for pointing an exploit with unlimited shop slots
-                        c.announce(MaplePacketCreator.serverNotice(1, "You can't sell it anymore."));
+                        c.announce(MaplePacketCreator.serverNotice(1, "你不能再卖了."));
                         return;
                     }
                     
@@ -652,7 +652,7 @@ public final class PlayerInteractionHandler extends AbstractMaplePacketHandler {
                         ex.printStackTrace();
                     }
                 } else {
-                    c.announce(MaplePacketCreator.serverNotice(1, "You can't sell without owning a shop."));
+                    c.announce(MaplePacketCreator.serverNotice(1, "没有商店就卖不出去."));
                 }
             } else if (mode == Action.REMOVE_ITEM.getCode()) {
                 if (isTradeOpen(chr)) return;
@@ -660,7 +660,7 @@ public final class PlayerInteractionHandler extends AbstractMaplePacketHandler {
                 MaplePlayerShop shop = chr.getPlayerShop();
                 if (shop != null && shop.isOwner(chr)) {
                     if (shop.isOpen()) {
-                        c.announce(MaplePacketCreator.serverNotice(1, "You can't take it with the store open."));
+                        c.announce(MaplePacketCreator.serverNotice(1, "你不能在商店开门的时候拿走它."));
                         return;
                     }
 
@@ -719,7 +719,7 @@ public final class PlayerInteractionHandler extends AbstractMaplePacketHandler {
                 MapleHiredMerchant merchant = chr.getHiredMerchant();
                 if (merchant != null && merchant.isOwner(chr)) {
                     if (merchant.isOpen()) {
-                        c.announce(MaplePacketCreator.serverNotice(1, "You can't take it with the store open."));
+                        c.announce(MaplePacketCreator.serverNotice(1, "你不能在商店开门的时候拿走它."));
                         return;
                     }
 

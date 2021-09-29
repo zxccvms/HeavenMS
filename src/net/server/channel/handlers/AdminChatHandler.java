@@ -26,19 +26,19 @@ public class AdminChatHandler extends AbstractMaplePacketHandler {
             case 0:// /alertall, /noticeall, /slideall
                 c.getWorldServer().broadcastPacket(packet);
                 if (YamlConfig.config.server.USE_ENABLE_CHAT_LOG) {
-                    LogHelper.logChat(c, "Alert All", message);
+                    LogHelper.logChat(c, "通知所有人", message);
                 }
                 break;
             case 1:// /alertch, /noticech, /slidech
                 c.getChannelServer().broadcastPacket(packet);
                 if (YamlConfig.config.server.USE_ENABLE_CHAT_LOG) {
-                    LogHelper.logChat(c, "Alert Ch", message);
+                    LogHelper.logChat(c, "通知当前频道的人", message);
                 }
                 break;
             case 2:// /alertm /alertmap, /noticem /noticemap, /slidem /slidemap
                 c.getPlayer().getMap().broadcastMessage(packet);
                 if (YamlConfig.config.server.USE_ENABLE_CHAT_LOG) {
-                    LogHelper.logChat(c, "Alert Map", message);
+                    LogHelper.logChat(c, "通知当前地图的人", message);
                 }
                 break;
 

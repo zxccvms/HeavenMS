@@ -220,7 +220,7 @@ public class MapleHiredMerchant extends AbstractMapleMapObject {
                     iitem.setQuantity((short) (shopItem.getItem().getQuantity() * shopItem.getBundles()));
                     
                     if (!MapleInventory.checkSpot(chr, iitem)) {
-                        chr.announce(MaplePacketCreator.serverNotice(1, "Have a slot available on your inventory to claim back the item."));
+                        chr.announce(MaplePacketCreator.serverNotice(1, "在你的背包上有一个空位的话，可以将物品领回。."));
                         chr.announce(MaplePacketCreator.enableActions());
                         return;
                     }
@@ -321,12 +321,12 @@ public class MapleHiredMerchant extends AbstractMapleMapObject {
                         }
                     }
                 } else {
-                    c.getPlayer().dropMessage(1, "Your inventory is full. Please clear a slot before buying this item.");
+                    c.getPlayer().dropMessage(1, "您的背包已满。购买此商品前请先清理.");
                     c.announce(MaplePacketCreator.enableActions());
                     return;
                 }
             } else {
-                c.getPlayer().dropMessage(1, "You don't have enough mesos to purchase this item.");
+                c.getPlayer().dropMessage(1, "你没有足够的金币来购买此商品.");
                 c.announce(MaplePacketCreator.enableActions());
                 return;
             }
@@ -343,7 +343,7 @@ public class MapleHiredMerchant extends AbstractMapleMapObject {
         
         MapleCharacter player = Server.getInstance().getWorld(world).getPlayerStorage().getCharacterById(ownerId);
         if(player != null && player.isLoggedinWorld()) {
-            player.dropMessage(6, "[Hired Merchant] Item '" + MapleItemInformationProvider.getInstance().getName(item.getItemId()) + "'" + qtyStr + " has been sold for " + mesos + " mesos. (" + inStore + " left)");
+            player.dropMessage(6, "[雇佣商人] 物品 '" + MapleItemInformationProvider.getInstance().getName(item.getItemId()) + "'" + qtyStr + " 已卖出 " + mesos + " 金币. (" + inStore + " 左)");
         }
     }
 

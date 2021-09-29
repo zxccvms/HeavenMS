@@ -77,7 +77,7 @@ public final class DeleteCharHandler extends AbstractMaplePacketHandler {
         		return;
         	}
             if(c.deleteCharacter(cid, c.getAccID())) {
-                FilePrinter.print(FilePrinter.DELETED_CHAR + c.getAccountName() + ".txt", c.getAccountName() + " deleted CID: " + cid);
+                FilePrinter.print(FilePrinter.DELETED_CHAR + c.getAccountName() + ".txt", c.getAccountName() + " 删除 CID: " + cid);
                 c.announce(MaplePacketCreator.deleteCharResponse(cid, 0));
             } else {
                 c.announce(MaplePacketCreator.deleteCharResponse(cid, 0x09));

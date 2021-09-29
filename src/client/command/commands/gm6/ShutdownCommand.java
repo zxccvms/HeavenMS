@@ -39,12 +39,12 @@ public class ShutdownCommand extends Command {
     public void execute(MapleClient c, String[] params) {
         MapleCharacter player = c.getPlayer();
         if (params.length < 1){
-            player.yellowMessage("Syntax: !shutdown [<time>|NOW]");
+            player.yellowMessage("使用方法: !关闭服务器 [<时间>|现在]");
             return;
         }
         
         int time = 60000;
-        if (params[0].equalsIgnoreCase("now")){
+        if (params[0].equalsIgnoreCase("现在")){
             time = 1;
         } else {
             time *= Integer.parseInt(params[0]);
@@ -57,14 +57,14 @@ public class ShutdownCommand extends Command {
             int days = (int) ((time / (1000 * 60 * 60 * 24)));
 
             String strTime = "";
-            if (days > 0) strTime += days + " days, ";
-            if (hours > 0) strTime += hours + " hours, ";
-            strTime += minutes + " minutes, ";
-            strTime += seconds + " seconds";
+            if (days > 0) strTime += days + " 天, ";
+            if (hours > 0) strTime += hours + " 小时, ";
+            strTime += minutes + " 分钟, ";
+            strTime += seconds + " 秒";
 
             for (World w : Server.getInstance().getWorlds()) {
                 for (MapleCharacter chr : w.getPlayerStorage().getAllCharacters()) {
-                    chr.dropMessage("Server is undergoing maintenance process, and will be shutdown in " + strTime + ". Prepare yourself to quit safely in the mean time.");
+                    chr.dropMessage("服务器将在" + strTime + "关闭进行维护. 请做好安全退出的准备.");
                 }
             }
         }

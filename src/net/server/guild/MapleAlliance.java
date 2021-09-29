@@ -478,19 +478,19 @@ public class MapleAlliance {
     public static void sendInvitation(MapleClient c, String targetGuildName, int allianceId) {
         MapleGuild mg = Server.getInstance().getGuildByName(targetGuildName);
         if(mg == null) {
-            c.getPlayer().dropMessage(5, "The entered guild does not exist.");
+            c.getPlayer().dropMessage(5, "已进入的家族不存在.");
         } else {
             if (mg.getAllianceId() > 0) {
-                c.getPlayer().dropMessage(5, "The entered guild is already registered on a guild alliance.");
+                c.getPlayer().dropMessage(5, "输入的家族已经在家族联盟中注册.");
             } else {
                 MapleCharacter victim = mg.getMGC(mg.getLeaderId()).getCharacter();
                 if (victim == null) {
-                    c.getPlayer().dropMessage(5, "The master of the guild that you offered an invitation is currently not online.");
+                    c.getPlayer().dropMessage(5, "你邀请的族长当前不在线.");
                 } else {
                     if (MapleInviteCoordinator.createInvite(InviteType.ALLIANCE, c.getPlayer(), allianceId, victim.getId())) {
                         victim.getClient().announce(MaplePacketCreator.allianceInvite(allianceId, c.getPlayer()));
                     } else {
-                        c.getPlayer().dropMessage(5, "The master of the guild that you offered an invitation is currently managing another invite.");
+                        c.getPlayer().dropMessage(5, "你邀请的家族族长当前正在处理另一个邀请.");
                     }
                 }
             }

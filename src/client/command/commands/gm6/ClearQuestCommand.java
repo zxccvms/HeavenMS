@@ -37,11 +37,11 @@ public class ClearQuestCommand extends Command {
     public void execute(MapleClient c, String[] params) {
         MapleCharacter player = c.getPlayer();
         if (params.length < 1) {
-            player.dropMessage(5, "Please include a quest ID.");
+            player.dropMessage(5, "请输入任务ID.");
             return;
         }
         MapleQuest.clearCache(Integer.parseInt(params[0]));
-        player.dropMessage(5, "Quest Cache for quest " + params[0] + " cleared.");
+        player.dropMessage(5, "任务缓存 " + params[0] + "已清除.");
 
     }
 }

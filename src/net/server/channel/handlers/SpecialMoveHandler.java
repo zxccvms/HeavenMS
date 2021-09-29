@@ -71,7 +71,7 @@ public final class SpecialMoveHandler extends AbstractMaplePacketHandler {
             skillLevel = 1;
             chr.setDojoEnergy(0);
             c.announce(MaplePacketCreator.getEnergy("energy", chr.getDojoEnergy()));
-            c.announce(MaplePacketCreator.serverNotice(5, "As you used the secret skill, your energy bar has been reset."));
+            c.announce(MaplePacketCreator.serverNotice(5, "当你使用秘技时，你的能量条被重置了."));
         }
         if (skillLevel == 0 || skillLevel != __skillLevel) return;
         
@@ -142,7 +142,7 @@ public final class SpecialMoveHandler extends AbstractMaplePacketHandler {
                             chr.cancelMagicDoor();
                             skill.getEffect(skillLevel).applyTo(chr, pos);
                         } else {
-                            chr.message("Please wait 5 seconds before casting Mystic Door again.");
+                            chr.message("请稍等5秒，然后再次施放神秘之门.");
                         }
                     } finally {
                         c.releaseClient();

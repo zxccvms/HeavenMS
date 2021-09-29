@@ -1435,7 +1435,7 @@ public class MapleMap {
             if (removeKilledMonsterObject(monster)) {
                 try {
                     if (monster.getStats().getLevel() >= chr.getLevel() + 30 && !chr.isGM()) {
-                        AutobanFactory.GENERAL.alert(chr, " for killing a " + monster.getName() + " which is over 30 levels higher.");
+                        AutobanFactory.GENERAL.alert(chr, " 击杀了一个高于自身30级的怪物，怪物名称：" + monster.getName());
                     }
 
                     /*if (chr.getQuest(MapleQuest.getInstance(29400)).getStatus().equals(MapleQuestStatus.Status.STARTED)) {
@@ -2939,7 +2939,7 @@ public class MapleMap {
                 String mobName = MapleMonsterInformationProvider.getInstance().getMobNameFromId(monster.getId());
                 if (mobName != null) {
                     mobName = mobName.trim();
-                    this.dropMessage(5, "This lawn has been taken siege by " + mobName + "'s forces and will be kept hold until their defeat.");
+                    this.dropMessage(5, "这个草坪已经被" + mobName + "的部队围攻，将一直守住，直到他们被打败为止。.");
                 }
             }
         }
@@ -3269,9 +3269,9 @@ public class MapleMap {
     }
     
     public void reportMonsterSpawnPoints(MapleCharacter chr) {
-        chr.dropMessage(6, "Mob spawnpoints on map " + getId() + ", with available Mob SPs " + monsterSpawn.size() + ", used " + spawnedMonstersOnMap.get() + ":");
+        chr.dropMessage(6, "地图上的怪物繁殖点点 " + getId() + ", 可用的怪物SP " + monsterSpawn.size() + ", 使用 " + spawnedMonstersOnMap.get() + ":");
         for(SpawnPoint sp: getAllMonsterSpawn()) {
-            chr.dropMessage(6, "  id: " + sp.getMonsterId() + " canSpawn: " + !sp.getDenySpawn() + " numSpawned: " + sp.getSpawned() + " x: " + sp.getPosition().getX() + " y: " + sp.getPosition().getY() + " time: " + sp.getMobTime() + " team: " + sp.getTeam());
+            chr.dropMessage(6, "  id: " + sp.getMonsterId() + " 可以繁殖: " + !sp.getDenySpawn() + " 繁殖数量: " + sp.getSpawned() + " x: " + sp.getPosition().getX() + " y: " + sp.getPosition().getY() + " time: " + sp.getMobTime() + " team: " + sp.getTeam());
         }
     }
 
@@ -4070,15 +4070,15 @@ public class MapleMap {
 
     public String getEventNPC() {
         StringBuilder sb = new StringBuilder();
-        sb.append("Talk to ");
+        sb.append("谈话");
         if (mapid == 60000) {
-            sb.append("Paul!");
+            sb.append("保罗!");
         } else if (mapid == 104000000) {
-            sb.append("Jean!");
+            sb.append("吉恩!");
         } else if (mapid == 200000000) {
-            sb.append("Martin!");
+            sb.append("马丁!");
         } else if (mapid == 220000000) {
-            sb.append("Tony!");
+            sb.append("托尼!");
         } else {
             return null;
         }
@@ -4286,7 +4286,7 @@ public class MapleMap {
         long timeNow = Server.getInstance().getCurrentTime();
         if (timeNow - mapOwnerLastActivityTime > 60000) {
             if (unclaimOwnership() != null) {
-                this.dropMessage(5, "This lawn is now free real estate.");
+                this.dropMessage(5, "这片草坪现在是免费的不动产.");
             }
         }
     }

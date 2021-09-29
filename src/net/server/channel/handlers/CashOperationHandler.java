@@ -67,7 +67,7 @@ public final class CashOperationHandler extends AbstractMaplePacketHandler {
                     final int snCS = slea.readInt();
                     CashItem cItem = CashItemFactory.getItem(snCS);
                     if (!canBuy(chr, cItem, cs.getCash(useNX))) {
-                        FilePrinter.printError(FilePrinter.ITEM, "Denied to sell cash item with SN " + snCS);   // preventing NPE here thanks to MedicOP
+                        FilePrinter.printError(FilePrinter.ITEM, "拒绝出售现金物品 SN:" + snCS);   // preventing NPE here thanks to MedicOP
                         c.enableCSActions();
                         return;
                     }
@@ -123,7 +123,7 @@ public final class CashOperationHandler extends AbstractMaplePacketHandler {
                     c.announce(MaplePacketCreator.showGiftSucceed(recipient.get("name"), cItem));
                     c.announce(MaplePacketCreator.showCash(chr));
                     try {
-                        chr.sendNote(recipient.get("name"), chr.getName() + " has sent you a gift! Go check out the Cash Shop.", (byte) 0); //fame or not
+                        chr.sendNote(recipient.get("name"), chr.getName() + " 已经送你礼物了！去现金商店看看.", (byte) 0); //fame or not
                     } catch (SQLException ex) {
                         ex.printStackTrace();
                     }
@@ -159,7 +159,7 @@ public final class CashOperationHandler extends AbstractMaplePacketHandler {
                             c.announce(MaplePacketCreator.showBoughtInventorySlots(type, chr.getSlots(type)));
                             c.announce(MaplePacketCreator.showCash(chr));
                         } else {
-                            FilePrinter.printError(FilePrinter.CASHITEM_BOUGHT, "Could not add " + qty + " slots of type " + type + " for player " + MapleCharacter.makeMapleReadable(chr.getName()));
+                            FilePrinter.printError(FilePrinter.CASHITEM_BOUGHT, "无法添加 " + qty + " slots of type " + type + " 玩家 " + MapleCharacter.makeMapleReadable(chr.getName()));
                         }
                     } else {
                         CashItem cItem = CashItemFactory.getItem(slea.readInt());
@@ -238,7 +238,7 @@ public final class CashOperationHandler extends AbstractMaplePacketHandler {
                         return;
                     }
                     if (!c.canGainCharacterSlot()) {
-                        chr.dropMessage(1, "You have already used up all 12 extra character slots.");
+                        chr.dropMessage(1, "你已经用完了12个额外的字符槽");
                         c.enableCSActions();
                         return;
                     }
@@ -247,7 +247,7 @@ public final class CashOperationHandler extends AbstractMaplePacketHandler {
                         c.announce(MaplePacketCreator.showBoughtCharacterSlot(c.getCharacterSlots()));
                         c.announce(MaplePacketCreator.showCash(chr));
                     } else {
-                        FilePrinter.printError(FilePrinter.CASHITEM_BOUGHT, "Could not add a character slot to " + MapleCharacter.makeMapleReadable(chr.getName()) + "'s account.");
+                        FilePrinter.printError(FilePrinter.CASHITEM_BOUGHT, "无法将字符槽添加到 " + MapleCharacter.makeMapleReadable(chr.getName()) + "'账户.");
                         c.enableCSActions();
                         return;
                     }
@@ -285,11 +285,11 @@ public final class CashOperationHandler extends AbstractMaplePacketHandler {
                         c.enableCSActions();
                         return;
                     } else if (c.getPlayer().getPetIndex(item.getPetId()) > -1) {
-                        chr.getClient().announce(MaplePacketCreator.serverNotice(1, "You cannot put the pet you currently equip into the Cash Shop inventory."));
+                        chr.getClient().announce(MaplePacketCreator.serverNotice(1, "您不能将当前装备的宠物放入现金商店库存."));
                         c.enableCSActions();
                         return;
                     } else if (ItemConstants.isWeddingRing(item.getItemId()) || ItemConstants.isWeddingToken(item.getItemId())) {
-                        chr.getClient().announce(MaplePacketCreator.serverNotice(1, "You cannot put relationship items into the Cash Shop inventory."));
+                        chr.getClient().announce(MaplePacketCreator.serverNotice(1, "不能将关系项放入现金商店库存中."));
                         c.enableCSActions();
                         return;
                     }
@@ -306,7 +306,7 @@ public final class CashOperationHandler extends AbstractMaplePacketHandler {
                         CashItem itemRing = CashItemFactory.getItem(SN);
                         MapleCharacter partner = c.getChannelServer().getPlayerStorage().getCharacterByName(recipientName);
                         if (partner == null) {
-                            chr.getClient().announce(MaplePacketCreator.serverNotice(1, "The partner you specified cannot be found.\r\nPlease make sure your partner is online and in the same channel."));
+                            chr.getClient().announce(MaplePacketCreator.serverNotice(1, "找不到您指定的伙伴.\r\n请确保您的伙伴在线并在同一个频道."));
                         } else {
 
                           /*  if (partner.getGender() == chr.getGender()) {
@@ -463,7 +463,7 @@ public final class CashOperationHandler extends AbstractMaplePacketHandler {
                     }
                     c.enableCSActions();
                 } else {
-                    System.out.println("Unhandled action: " + action + "\n" + slea);
+                    System.out.println("未处理的操作: " + action + "\n" + slea);
                 }
             } finally {
                 c.releaseClient();
@@ -485,7 +485,7 @@ public final class CashOperationHandler extends AbstractMaplePacketHandler {
     
     private static boolean canBuy(MapleCharacter chr, CashItem item, int cash) {
         if (item != null && item.isOnSale() && item.getPrice() <= cash) {
-            FilePrinter.print(FilePrinter.CASHITEM_BOUGHT, chr + " bought " + MapleItemInformationProvider.getInstance().getName(item.getItemId()) + " (SN " + item.getSN() + ") for " + item.getPrice());
+            FilePrinter.print(FilePrinter.CASHITEM_BOUGHT, "玩家:" + chr + " 购买了:" + MapleItemInformationProvider.getInstance().getName(item.getItemId()) + " (SN:" + item.getSN() + ") 价格:" + item.getPrice());
             return true;
         } else {
             return false;

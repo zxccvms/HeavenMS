@@ -70,7 +70,7 @@ public class MobRequirement extends MapleQuestRequirement {
 			try {
 				progress = Integer.parseInt(status.getProgress(mobID));
 			} catch (NumberFormatException ex) {
-				FilePrinter.printError(FilePrinter.EXCEPTION_CAUGHT, ex, "Mob: " + mobID + " Quest: " + questID + "CID: " + chr.getId() + " Progress: " + status.getProgress(mobID));
+				FilePrinter.printError(FilePrinter.EXCEPTION_CAUGHT, ex, "怪物: " + mobID + " 任务: " + questID + "CID: " + chr.getId() + " 进展: " + status.getProgress(mobID));
 				return false;
 			}
 			

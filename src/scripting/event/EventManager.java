@@ -803,17 +803,17 @@ public class EventManager {
     
     private void exportReadyGuild(Integer guildId) {
         MapleGuild mg = server.getGuild(guildId);
-        String callout = "[Guild Quest] Your guild has been registered to attend to the Sharenian Guild Quest at channel " + this.getChannelServer().getId() 
-                       + " and HAS JUST STARTED THE STRATEGY PHASE. After 3 minutes, no more guild members will be allowed to join the effort."
-                       + " Check out Shuang at the excavation site in Perion for more info.";
+        String callout = "[家族任务]您的公会已经注册，可以在频道参加家族任务 " + this.getChannelServer().getId() 
+                       + " 刚刚开始战略阶段。3分钟后，不再允许家族成员加入."
+                       + " 更多信息，请在佩里翁的挖掘现场查看.";
         
         mg.dropMessage(6, callout);
     }
     
     private void exportMovedQueueToGuild(Integer guildId, int place) {
         MapleGuild mg = server.getGuild(guildId);
-        String callout = "[Guild Quest] Your guild has been registered to attend to the Sharenian Guild Quest at channel " + this.getChannelServer().getId() 
-                       + " and is currently on the " + GameConstants.ordinal(place) + " place on the waiting queue.";
+        String callout = "[家族任务] 你的公会已经注册参加在频道的家族任务 " + this.getChannelServer().getId() 
+                       + " 目前正在 " + GameConstants.ordinal(place) + " 排队等候.";
         
         mg.dropMessage(6, callout);
     }

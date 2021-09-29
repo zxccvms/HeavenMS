@@ -92,7 +92,7 @@ public class ThreadTracker {
         
         
         String s = "----------------------------\r\n" + dateFormat + "\r\n    ";
-        s += "Lock-thread usage count:";
+        s += "锁定线程使用次数:";
         for(Map.Entry<MonitoredLockType, List<Integer>> lock : lockValues.entrySet()) {
             s += ("\r\n  " + lock.getKey().name() + ": ");
             
@@ -100,7 +100,7 @@ public class ThreadTracker {
                 s += (i + " ");
             }
         }
-        s += "\r\n\r\nThread opened lock path:";
+        s += "\r\n\r\n线程打开锁定路径:";
         
         for(Long tid : executingThreads) {
             s += "\r\n";
@@ -151,7 +151,7 @@ public class ThreadTracker {
                             } else {
                                 StackTraceElement[] ste = threads.get(l).getStackTrace();
                                 if(ste.length > 0) {
-                                    DateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
+                                    DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
                                     dateFormat.setTimeZone(TimeZone.getDefault());
                                     String df = dateFormat.format(new Date());
                                     
@@ -193,7 +193,7 @@ public class ThreadTracker {
                         lockUpdate.remove(l);
                     }
                 } else {    // print status
-                    DateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
+                    DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
                     dateFormat.setTimeZone(TimeZone.getDefault());
 
                     FilePrinter.printError(FilePrinter.DEADLOCK_STATE, printThreadTrackerState(dateFormat.format(new Date())));

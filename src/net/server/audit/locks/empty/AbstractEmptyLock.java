@@ -8,7 +8,7 @@ import java.util.TimeZone;
 public abstract class AbstractEmptyLock {
     
     protected static String printThreadStack(StackTraceElement[] list) {
-        DateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");    // DRY-code opportunity performed by jtumidanski
+        DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");    // DRY-code opportunity performed by jtumidanski
         dateFormat.setTimeZone(TimeZone.getDefault());
         String df = dateFormat.format(new Date());
         

@@ -33,7 +33,7 @@ import constants.string.CharsetConstants.MapleLanguageType;
  * @since Revision 323
  */
 public class GenericLittleEndianWriter implements LittleEndianWriter {
-    private static Charset ASCII = Charset.forName(MapleLanguageType.LANGUAGE_US.getAscii());
+    public static Charset ASCII = Charset.forName(MapleLanguageType.LANGUAGE_US.getAscii());//中文支持
     private ByteOutputStream bos;
 
     /**
@@ -130,7 +130,7 @@ public class GenericLittleEndianWriter implements LittleEndianWriter {
      */
     @Override
     public void writeMapleAsciiString(String s) {
-        writeShort((short) s.length());
+        writeShort((short) s.getBytes(ASCII).length);//中文支持
         writeAsciiString(s);
     }
 

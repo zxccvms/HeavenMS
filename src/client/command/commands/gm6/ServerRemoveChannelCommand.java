@@ -39,7 +39,7 @@ public class ServerRemoveChannelCommand extends Command {
         final MapleCharacter player = c.getPlayer();
         
         if (params.length < 1) {
-            player.dropMessage(5, "Syntax: @removechannel <worldid>");
+            player.dropMessage(5, "使用方法: @删除频道 <服务器id>");
             return;
         }
 
@@ -49,11 +49,11 @@ public class ServerRemoveChannelCommand extends Command {
             public void run() {
                 if(Server.getInstance().removeChannel(worldId)) {
                     if(player.isLoggedinWorld()) {
-                        player.dropMessage(5, "Successfully removed a channel on World " + worldId + ". Current channel count: " + Server.getInstance().getWorld(worldId).getChannelsSize() + ".");
+                        player.dropMessage(5, "已成功删除服务器：" + worldId + "上的频道: " + Server.getInstance().getWorld(worldId).getChannelsSize() + ".");
                     }
                 } else {
                     if(player.isLoggedinWorld()) {
-                        player.dropMessage(5, "Failed to remove last Channel on world " + worldId + ". Check if either that world exists or there are people currently playing there.");
+                        player.dropMessage(5, "无法删除服务器ID" + worldId + "上的最后一个频道.");
                     }
                 }
             }

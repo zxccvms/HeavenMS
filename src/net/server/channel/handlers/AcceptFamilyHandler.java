@@ -146,7 +146,7 @@ public final class AcceptFamilyHandler extends AbstractMaplePacketHandler {
                 }
             }
         } catch(SQLException e) {
-            FilePrinter.printError(FilePrinter.FAMILY_ERROR, e, "Could not get connection to DB.");
+            FilePrinter.printError(FilePrinter.FAMILY_ERROR, e, "无法连接到数据库.");
             e.printStackTrace();
         }
     }

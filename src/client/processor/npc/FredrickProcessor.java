@@ -91,9 +91,9 @@ public class FredrickProcessor {
         String msg;
         
         if (daynotes < 4) {
-            msg = "Hi customer! I am Fredrick, the Union Chief of the Hired Merchant Union. A reminder that " + dailyReminders[daynotes] + " days have passed since you used our service. Please reclaim your stored goods at FM Entrance.";
+            msg = "嗨，顾客！我是弗雷德里克，雇佣商人工会的工会主席。提醒您使用我们的服务已经" + dailyReminders[daynotes] + "天了。请在FM入口处取回您储存的货物.";
         } else {
-            msg = "Hi customer! I am Fredrick, the Union Chief of the Hired Merchant Union. " + dailyReminders[daynotes] + " days have passed since you used our service. Consider claiming back the items before we move them away for refund.";
+            msg = "嗨，顾客！我是弗雷德里克，雇佣商人工会的工会主席。您使用我们的服务已经" + dailyReminders[daynotes] + " 天了。在我们把这些东西搬走退钱之前，考虑把它们要回来。";
         }
         
         return msg;
@@ -308,13 +308,13 @@ public class FredrickProcessor {
                             Item item = it.getLeft();
                             MapleInventoryManipulator.addFromDrop(chr.getClient(), item, false);
                             String itemName = MapleItemInformationProvider.getInstance().getName(item.getItemId());
-                            FilePrinter.print(FilePrinter.FREDRICK + chr.getName() + ".txt", chr.getName() + " gained " + item.getQuantity() + " " + itemName + " (" + item.getItemId() + ")");
+                            FilePrinter.print(FilePrinter.FREDRICK + chr.getName() + ".txt", chr.getName() + " 获得：" + item.getQuantity() + " " + itemName + " (" + item.getItemId() + ")");
                         }
 
                         chr.announce(MaplePacketCreator.fredrickMessage((byte) 0x1E));
                         removeFredrickLog(chr.getId());
                     } else {
-                        chr.message("An unknown error has occured.");
+                        chr.message("发生未知错误.");
                     }
                 } catch (SQLException ex) {
                     ex.printStackTrace();

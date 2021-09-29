@@ -55,7 +55,7 @@ public class MapleOla {
            this.time = 360000;
 
            chr.getMap().getPortal("join00").setPortalStatus(true);
-           chr.getClient().announce(MaplePacketCreator.serverNotice(0, "The portal has now opened. Press the up arrow key at the portal to enter."));
+           chr.getClient().announce(MaplePacketCreator.serverNotice(0, "门现已打开。按入口上箭头键进入."));
        }
 
         public boolean isTimerStarted() {

@@ -53,19 +53,19 @@ public final class MobDamageMobFriendlyHandler extends AbstractMaplePacketHandle
                 
                 if (monster.getHp() - damage < 1) {     // friendly dies
                         if(monster.getId() == 9300102) {
-                                map.broadcastMessage(MaplePacketCreator.serverNotice(6, "The Watch Hog has been injured by the aliens. Better luck next time..."));
+                                map.broadcastMessage(MaplePacketCreator.serverNotice(6, "守望者被外星人打伤了。祝你下次好运..."));
                         } else if (monster.getId() == 9300061) {  //moon bunny
-                                map.broadcastMessage(MaplePacketCreator.serverNotice(6, "The Moon Bunny went home because he was sick."));
+                                map.broadcastMessage(MaplePacketCreator.serverNotice(6, "月亮兔因为生病回家了."));
                         } else if(monster.getId() == 9300093) {   //tylus
-                                map.broadcastMessage(MaplePacketCreator.serverNotice(6, "Tylus has fallen by the overwhelming forces of the ambush."));
+                                map.broadcastMessage(MaplePacketCreator.serverNotice(6, "泰勒斯被伏击的压倒性力量击倒了."));
                         } else if(monster.getId() == 9300137) {   //juliet
-                                map.broadcastMessage(MaplePacketCreator.serverNotice(6, "Juliet has fainted in the middle of the combat."));
+                                map.broadcastMessage(MaplePacketCreator.serverNotice(6, "朱丽叶在战斗中晕倒了."));
                         } else if(monster.getId() == 9300138) {   //romeo
-                                map.broadcastMessage(MaplePacketCreator.serverNotice(6, "Romeo has fainted in the middle of the combat."));
+                                map.broadcastMessage(MaplePacketCreator.serverNotice(6, "罗密欧在战斗中晕倒了."));
                         } else if(monster.getId() == 9400322 || monster.getId() == 9400327 || monster.getId() == 9400332) { //snowman
-                                map.broadcastMessage(MaplePacketCreator.serverNotice(6, "The Snowman has melted on the heat of the battle."));
+                                map.broadcastMessage(MaplePacketCreator.serverNotice(6, "雪人在激烈的战斗中融化了."));
                         } else if(monster.getId() == 9300162) {   //delli
-                                map.broadcastMessage(MaplePacketCreator.serverNotice(6, "Delli vanished after the ambush, sheets still laying on the ground..."));
+                                map.broadcastMessage(MaplePacketCreator.serverNotice(6, "德尔利在埋伏后消失了，床单还在地上..."));
                         }
                         
                         map.killFriendlies(monster);

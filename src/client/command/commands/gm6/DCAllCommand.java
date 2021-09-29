@@ -44,6 +44,6 @@ public class DCAllCommand extends Command {
                 }
             }
         }
-        player.message("All players successfully disconnected.");
+        player.message("所有玩家成功断开连接。");
     }
 }

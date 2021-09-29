@@ -43,8 +43,8 @@ public class SaveAllCommand extends Command {
                 chr.saveCharToDB();
             }
         }
-        String message = player.getName() + " used !saveall.";
+        String message = player.getName() + "使用了!保存所有.";
         Server.getInstance().broadcastGMMessage(c.getWorld(), MaplePacketCreator.serverNotice(5, message));
-        player.message("All players saved successfully.");
+        player.message("保存所有玩家成功.");
     }
 }

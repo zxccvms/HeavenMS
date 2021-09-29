@@ -173,7 +173,7 @@ public final class Channel {
             
             services = new ServicesManager(ChannelServices.OVERALL);
             
-            System.out.println("    Channel " + getId() + ": Listening on port " + port);
+            System.out.println("    频道 " + getId() + ": 监听端口: " + port);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -195,7 +195,7 @@ public final class Channel {
                 return;
             }
             
-            System.out.println("Shutting down Channel " + channel + " on World " + world);
+            System.out.println("关闭频道 " + channel + " 在世界 " + world);
             
             closeAllMerchants();
             disconnectAwayPlayers();
@@ -215,10 +215,10 @@ public final class Channel {
             acceptor.unbind();
             
             finishedShutdown = true;
-            System.out.println("Successfully shut down Channel " + channel + " on World " + world + "\r\n");
+            System.out.println("成功关闭频道 " + channel + " 在世界 " + world + "\r\n");
         } catch (Exception e) {
             e.printStackTrace();
-            System.err.println("Error while shutting down Channel " + channel + " on World " + world + "\r\n" + e);
+            System.err.println("关闭频道时出错 " + channel + " 在世界 " + world + "\r\n" + e);
         }
     }
     
@@ -743,7 +743,7 @@ public final class Channel {
         Pair<Boolean, Set<Integer>> typeGuests = wserv.removeMarriageQueued(ret);
         
         Pair<String, String> couple = new Pair<>(MapleCharacter.getNameById(coupleId.getLeft()), MapleCharacter.getNameById(coupleId.getRight()));
-        wserv.dropMessage(6, couple.getLeft() + " and " + couple.getRight() + "'s wedding is going to be started at " + (cathedral ? "Cathedral" : "Chapel") + " on Channel " + channel + ".");
+        wserv.dropMessage(6, couple.getLeft() + " 和 " + couple.getRight() + "'的婚礼将于 " + (cathedral ? "大教堂" : "小教堂") + " 频道 " + channel + "举行.");
         
         return new Pair<>(typeGuests.getLeft(), new Pair<>(ret, typeGuests.getRight()));
     }
@@ -966,7 +966,7 @@ public final class Channel {
                 }
             }
             
-            String venue = (cathedral ? "Cathedral" : "Chapel");
+            String venue = (cathedral ? "大教堂" : "小教堂");
             if(resStatus == 0) {
                 return venue + " - RIGHT NOW";
             }
@@ -1035,22 +1035,22 @@ public final class Channel {
         getWorldServer().debugMarriageStatus();
         
         System.out.println(" ----- CH. " + channel + " -----");
-        System.out.println(" ----- CATHEDRAL -----");
-        System.out.println("Current Queue: " + cathedralReservationQueue);
-        System.out.println("Cancel Task: " + (cathedralReservationTask != null));
+        System.out.println(" ----- 大教堂 -----");
+        System.out.println("当前队列: " + cathedralReservationQueue);
+        System.out.println("取消任务: " + (cathedralReservationTask != null));
         System.out.println("Ongoing wid: " + ongoingCathedral);
         System.out.println();
         System.out.println("Ongoing wid: " + ongoingCathedral + " isPremium: " + ongoingCathedralType);
-        System.out.println("Guest list: " + ongoingCathedralGuests);
+        System.out.println("宾客名单: " + ongoingCathedralGuests);
         System.out.println();
-        System.out.println(" ----- CHAPEL -----");
-        System.out.println("Current Queue: " + chapelReservationQueue);
-        System.out.println("Cancel Task: " + (chapelReservationTask != null));
+        System.out.println(" ----- 小教堂 -----");
+        System.out.println("当前队列: " + chapelReservationQueue);
+        System.out.println("取消任务: " + (chapelReservationTask != null));
         System.out.println("Ongoing wid: " + ongoingChapel);
         System.out.println();
         System.out.println("Ongoing wid: " + ongoingChapel + " isPremium: " + ongoingChapelType);
-        System.out.println("Guest list: " + ongoingChapelGuests);
+        System.out.println("宾客名单: " + ongoingChapelGuests);
         System.out.println();
-        System.out.println("Starttime: " + ongoingStartTime);
+        System.out.println("开始时间: " + ongoingStartTime);
     }
 }

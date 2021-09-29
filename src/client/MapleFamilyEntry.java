@@ -106,11 +106,11 @@ public class MapleFamilyEntry {
             }
             if(!success) {
                 con.rollback();
-                FilePrinter.printError(FilePrinter.FAMILY_ERROR, "Could not absorb " + oldFamily.getName() + " family into " + newFamily.getName() + " family. (SQL ERROR)");
+                FilePrinter.printError(FilePrinter.FAMILY_ERROR, "无法进入 " + oldFamily.getName() + " 家庭进入 " + newFamily.getName() + " 家庭. (SQL错误)");
             }
             con.setAutoCommit(true);
         } catch(SQLException e) {
-            FilePrinter.printError(FilePrinter.FAMILY_ERROR, e, "Could not get connection to DB.");
+            FilePrinter.printError(FilePrinter.FAMILY_ERROR, e, "无法获取数据库连接.");
             e.printStackTrace();
         }
     }
@@ -154,7 +154,7 @@ public class MapleFamilyEntry {
             con.setAutoCommit(true);
             
         } catch(SQLException e) {
-            FilePrinter.printError(FilePrinter.FAMILY_ERROR, e, "Could not get connection to DB.");
+            FilePrinter.printError(FilePrinter.FAMILY_ERROR, e, "无法获取数据库连接.");
             e.printStackTrace();
         }
     }
@@ -326,7 +326,7 @@ public class MapleFamilyEntry {
         try(Connection con = DatabaseConnection.getConnection()) {
             return updateDBChangeFamily(con, cid, familyid, seniorid);
         } catch(SQLException e) {
-            FilePrinter.printError(FilePrinter.FAMILY_ERROR, e, "Could not get connection to DB.");
+            FilePrinter.printError(FilePrinter.FAMILY_ERROR, e, "无法连接到数据库");
             e.printStackTrace();
             return false;
         }
@@ -523,7 +523,7 @@ public class MapleFamilyEntry {
         try(Connection con = DatabaseConnection.getConnection()) {
             return saveReputation(con);
         } catch(SQLException e) {
-            FilePrinter.printError(FilePrinter.FAMILY_ERROR, e, "Could not get connection to DB.");
+            FilePrinter.printError(FilePrinter.FAMILY_ERROR, e, "无法连接到数据库.");
             e.printStackTrace();
             return false;
         }

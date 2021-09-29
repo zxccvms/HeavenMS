@@ -40,7 +40,7 @@ public class ServerRemoveWorldCommand extends Command {
         
         final int rwid = Server.getInstance().getWorldsSize() - 1;
         if(rwid <= 0) {
-            player.dropMessage(5, "Unable to remove world 0.");
+            player.dropMessage(5, "无法删除服务器 0");
             return;
         }
 
@@ -49,14 +49,14 @@ public class ServerRemoveWorldCommand extends Command {
             public void run() {
                 if(Server.getInstance().removeWorld()) {
                     if(player.isLoggedinWorld()) {
-                        player.dropMessage(5, "Successfully removed a world. Current world count: " + Server.getInstance().getWorldsSize() + ".");
+                        player.dropMessage(5, "成功移除一个服务器。当前服务器数: " + Server.getInstance().getWorldsSize() + ".");
                     }
                 } else {
                     if(player.isLoggedinWorld()) {
                         if(rwid < 0) {
-                            player.dropMessage(5, "No registered worlds to remove.");
+                            player.dropMessage(5, "没有要删除的服务器.");
                         } else {
-                            player.dropMessage(5, "Failed to remove world " + rwid + ". Check if there are people currently playing there.");
+                            player.dropMessage(5, "无法删除服务器：" + rwid + ". 请确认那个服务器是否有玩家在线.");
                         }
                     }
                 }

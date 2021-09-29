@@ -541,7 +541,7 @@ public class AbstractPlayerInteraction {
             
             target = getPlayer().getPet(slot);
             if(target == null) {
-                getPlayer().message("Pet could not be evolved...");
+                getPlayer().message("宠物无法进化...");
                 return(null);
             }
             
@@ -655,7 +655,7 @@ public class AbstractPlayerInteraction {
                         }
 
 			if (!MapleInventoryManipulator.checkSpace(c, id, quantity, "")) {
-				c.getPlayer().dropMessage(1, "Your inventory is full. Please remove an item from your " + ItemConstants.getInventoryType(id).name() + " inventory.");
+				c.getPlayer().dropMessage(1, "你的背包已经满了。请确认" + ItemConstants.getInventoryType(id).name() + "栏是否有位置.");
 				return null;
 			}
 			if (ItemConstants.getInventoryType(id) == MapleInventoryType.EQUIP) {

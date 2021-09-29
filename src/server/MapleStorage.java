@@ -236,7 +236,7 @@ public class MapleStorage {
     
     public void sendStorage(MapleClient c, int npcId) {
         if (c.getPlayer().getLevel() < 15){
-            c.getPlayer().dropMessage(1, "You may only use the storage once you have reached level 15.");
+            c.getPlayer().dropMessage(1, "只有达到15级后才能使用仓库。");
             c.announce(MaplePacketCreator.enableActions());
             return;
         }

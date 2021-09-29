@@ -89,9 +89,9 @@ public class BuddylistModifyHandler extends AbstractMaplePacketHandler {
             }
             BuddylistEntry ble = buddylist.get(addName);
             if (ble != null && !ble.isVisible() && group.equals(ble.getGroup())) {
-                c.announce(MaplePacketCreator.serverNotice(1, "You already have \"" + ble.getName() + "\" on your Buddylist"));
+                c.announce(MaplePacketCreator.serverNotice(1, "\"" + ble.getName() + "\" 已经在你的好友列表"));
             } else if (buddylist.isFull() && ble == null) {
-                c.announce(MaplePacketCreator.serverNotice(1, "Your buddylist is already full"));
+                c.announce(MaplePacketCreator.serverNotice(1, "你的好友列表已满"));
             } else if (ble == null) {
                 try {
                     World world = c.getWorldServer();
@@ -133,7 +133,7 @@ public class BuddylistModifyHandler extends AbstractMaplePacketHandler {
                             con.close();
                         }
                         if (buddyAddResult == BuddyAddResult.BUDDYLIST_FULL) {
-                            c.announce(MaplePacketCreator.serverNotice(1, "\"" + addName + "\"'s Buddylist is full"));
+                            c.announce(MaplePacketCreator.serverNotice(1, "\"" + addName + "\"'好友列表已满"));
                         } else {
                             int displayChannel;
                             displayChannel = -1;
@@ -154,7 +154,7 @@ public class BuddylistModifyHandler extends AbstractMaplePacketHandler {
                             c.announce(MaplePacketCreator.updateBuddylist(buddylist.getBuddies()));
                         }
                     } else {
-                        c.announce(MaplePacketCreator.serverNotice(1, "A character called \"" + addName + "\" does not exist"));
+                        c.announce(MaplePacketCreator.serverNotice(1, "名字 \"" + addName + "\" 不存在"));
                     }
                 } catch (SQLException e) {
                     e.printStackTrace();
@@ -185,7 +185,7 @@ public class BuddylistModifyHandler extends AbstractMaplePacketHandler {
                         otherName = otherChar.getName();
                     }
                     if (otherName != null) {
-                        buddylist.put(new BuddylistEntry(otherName, "Default Group", otherCid, channel, true));
+                        buddylist.put(new BuddylistEntry(otherName, "默认组", otherCid, channel, true));
                         c.announce(MaplePacketCreator.updateBuddylist(buddylist.getBuddies()));
                         notifyRemoteChannel(c, channel, otherCid, ADDED);
                     }

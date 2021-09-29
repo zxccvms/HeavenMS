@@ -51,12 +51,12 @@ public class MaplePacketEncoder implements ProtocolEncoder {
                         int pHeader = readFirstShort(input);
                         String pHeaderStr = Integer.toHexString(pHeader).toUpperCase();
                         String op = lookupRecv(pHeader);
-                        String Recv = "ServerSend:" + op + " [" + pHeaderStr + "] (" + packetLen + ")\r\n";
+                        String Recv = "服务端发送:" + op + " [" + pHeaderStr + "] (" + packetLen + ")\r\n";
                         if (packetLen <= 50000) {
                             String RecvTo = Recv + HexTool.toString(input) + "\r\n" + HexTool.toStringFromAscii(input);
                             System.out.println(RecvTo);
                             if (op == null) {
-                                System.out.println("UnknownPacket:" + RecvTo);
+                                System.out.println("未知封包:" + RecvTo);
                             }
                         } else {
                             FilePrinter.print(FilePrinter.PACKET_STREAM + MapleSessionCoordinator.getSessionRemoteAddress(session) + ".txt", HexTool.toString(new byte[]{input[0], input[1]}) + " ...");

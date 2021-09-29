@@ -65,7 +65,7 @@ public class MapleServerHandler extends IoHandlerAdapter {
     
     private PacketProcessor processor;
     private int world = -1, channel = -1;
-    private static final SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy HH:mm");
+    private static final SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm");
     private static AtomicLong sessionId = new AtomicLong(7777);
     
     private MonitoredReentrantLock idleLock = MonitoredReentrantLockFactory.createLock(MonitoredLockType.SRVHANDLER_IDLE, true);
@@ -96,7 +96,7 @@ public class MapleServerHandler extends IoHandlerAdapter {
             MapleClient client = (MapleClient) session.getAttribute(MapleClient.CLIENT_KEY);
             
             if (client != null && client.getPlayer() != null) {
-                FilePrinter.printError(FilePrinter.EXCEPTION_CAUGHT, cause, "Exception caught by: " + client.getPlayer());
+                FilePrinter.printError(FilePrinter.EXCEPTION_CAUGHT, cause, "异常被捕获: " + client.getPlayer());
             }
         }
     }
@@ -135,7 +135,7 @@ public class MapleServerHandler extends IoHandlerAdapter {
                 return;
             }
             
-            FilePrinter.print(FilePrinter.SESSION, "IoSession with " + session.getRemoteAddress() + " opened on " + sdf.format(Calendar.getInstance().getTime()), false);
+            FilePrinter.print(FilePrinter.SESSION, "IP:" + session.getRemoteAddress() + " 登陆时间:" + sdf.format(Calendar.getInstance().getTime()), false);
         }
 
         byte ivRecv[] = {70, 114, 122, 82};

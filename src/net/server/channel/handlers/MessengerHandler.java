@@ -69,7 +69,7 @@ public final class MessengerHandler extends AbstractMaplePacketHandler {
                                             world.joinMessenger(messenger.getId(), messengerplayer, player.getName(), messengerplayer.getChannel());
                                         }
                                     } else {
-                                        player.message("Could not verify your Maple Messenger accept since the invitation rescinded.");
+                                        player.message("无法验证您的Maple Messenger是否接受邀请，因为邀请已取消.");
                                     }
                                 }
                             }
@@ -82,7 +82,7 @@ public final class MessengerHandler extends AbstractMaplePacketHandler {
                         break;
                     case 0x03:
                         if (messenger == null) {
-                            c.announce(MaplePacketCreator.messengerChat(player.getName() + " : This Maple Messenger is currently unavailable. Please quit this chat."));
+                            c.announce(MaplePacketCreator.messengerChat(player.getName() + " : 此Maple Messenger当前不可用。请退出此聊天。"));
                         } else if (messenger.getMembers().size() < 3) {
                             input = slea.readMapleAsciiString();
                             MapleCharacter target = c.getChannelServer().getPlayerStorage().getCharacterByName(input);
@@ -92,10 +92,10 @@ public final class MessengerHandler extends AbstractMaplePacketHandler {
                                         target.getClient().announce(MaplePacketCreator.messengerInvite(c.getPlayer().getName(), messenger.getId()));
                                         c.announce(MaplePacketCreator.messengerNote(input, 4, 1));
                                     } else {
-                                        c.announce(MaplePacketCreator.messengerChat(player.getName() + " : " + input + " is already managing a Maple Messenger invitation"));
+                                        c.announce(MaplePacketCreator.messengerChat(player.getName() + " : " + input + " 正在管理Maple Messenger邀请"));
                                     }
                                 } else {
-                                    c.announce(MaplePacketCreator.messengerChat(player.getName() + " : " + input + " is already using Maple Messenger"));
+                                    c.announce(MaplePacketCreator.messengerChat(player.getName() + " : " + input + " 已经在使用Maple Messenger"));
                                 }
                             } else {
                                 if (world.find(input) > -1) {
@@ -105,7 +105,7 @@ public final class MessengerHandler extends AbstractMaplePacketHandler {
                                 }
                             }
                         } else {
-                            c.announce(MaplePacketCreator.messengerChat(player.getName() + " : You cannot have more than 3 people in the Maple Messenger"));
+                            c.announce(MaplePacketCreator.messengerChat(player.getName() + " : 人数不能超过3人r"));
                         }
                         break;
                     case 0x05:

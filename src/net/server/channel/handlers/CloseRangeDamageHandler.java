@@ -158,7 +158,7 @@ public final class CloseRangeDamageHandler extends AbstractDealDamageHandler {
             
             chr.setDojoEnergy(0);
             c.announce(MaplePacketCreator.getEnergy("energy", chr.getDojoEnergy()));
-            c.announce(MaplePacketCreator.serverNotice(5, "As you used the secret skill, your energy bar has been reset."));
+            c.announce(MaplePacketCreator.serverNotice(5, "由于你使用了秘密技能，你的能量条已经被重置了."));
         } else if (attack.skill > 0) {
             Skill skill = SkillFactory.getSkill(attack.skill);
             MapleStatEffect effect_ = skill.getEffect(chr.getSkillLevel(skill));

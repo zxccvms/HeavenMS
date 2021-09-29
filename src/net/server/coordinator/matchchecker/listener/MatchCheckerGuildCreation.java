@@ -92,19 +92,19 @@ public class MatchCheckerGuildCreation implements MatchCheckerListenerRecipe {
                     return;
                 }
                 if (leader.getMapId() != 200000301) {
-                    leader.dropMessage(1, "You cannot establish the creation of a new Guild outside of the Guild Headquarters.");
+                    leader.dropMessage(1, "不能在家族总部外建立新家族.");
                     broadcastGuildCreationDismiss(matchPlayers);
                     return;
                 }
                 for (MapleCharacter chr : matchPlayers) {
                     if (leader.getMap().getCharacterById(chr.getId()) == null) {
-                        leader.dropMessage(1, "You cannot establish the creation of a new Guild if one of the members is not present here.");
+                        leader.dropMessage(1, "如果队伍里有人不在这里，将无法创建一个新的家族.");
                         broadcastGuildCreationDismiss(matchPlayers);
                         return;
                     }
                 }
                 if (leader.getMeso() < YamlConfig.config.server.CREATE_GUILD_COST) {
-                    leader.dropMessage(1, "You do not have " + GameConstants.numberWithCommas(YamlConfig.config.server.CREATE_GUILD_COST) + " mesos to create a Guild.");
+                    leader.dropMessage(1, "你没有 " + GameConstants.numberWithCommas(YamlConfig.config.server.CREATE_GUILD_COST) + "金币来创建家族.");
                     broadcastGuildCreationDismiss(matchPlayers);
                     return;
                 }
@@ -122,7 +122,7 @@ public class MatchCheckerGuildCreation implements MatchCheckerListenerRecipe {
                 Server.getInstance().changeRank(gid, leader.getId(), 1);
                 
                 leader.announce(MaplePacketCreator.showGuildInfo(leader));
-                leader.dropMessage(1, "You have successfully created a Guild.");
+                leader.dropMessage(1, "你已经成功创建了一个家族.");
                 
                 for (MapleCharacter chr : matchPlayers) {
                     boolean cofounder = chr.getPartyId() == partyid;
@@ -138,9 +138,9 @@ public class MatchCheckerGuildCreation implements MatchCheckerListenerRecipe {
                         chr.announce(MaplePacketCreator.showGuildInfo(chr));
                         
                         if (cofounder) {
-                            chr.dropMessage(1, "You have successfully cofounded a Guild.");
+                            chr.dropMessage(1, "你已经成功的创建了一个新的家族.");
                         } else {
-                            chr.dropMessage(1, "You have successfully joined the new Guild.");
+                            chr.dropMessage(1, "你已经成功家族了新的家族.");
                         }
                     }
                     

@@ -50,7 +50,7 @@ public class SpawnPetProcessor {
                 if (petid == 5000028 || petid == 5000047) //Handles Dragon AND Robos
                 {
                     if (chr.haveItem(petid + 1)) {
-                        chr.dropMessage(5, "You can't hatch your " + (petid == 5000028 ? "Dragon egg" : "Robo egg") + " if you already have a Baby " + (petid == 5000028 ? "Dragon." : "Robo."));
+                        chr.dropMessage(5, "你不能孵化你的 " + (petid == 5000028 ? "龙蛋" : "机器人") + " 如果你已经有了 " + (petid == 5000028 ? "龙." : "机器人."));
                         c.announce(MaplePacketCreator.enableActions());
                         return;
                     } else {

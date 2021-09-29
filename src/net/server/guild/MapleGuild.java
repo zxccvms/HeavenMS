@@ -526,7 +526,7 @@ public class MapleGuild {
                                 try (PreparedStatement ps = con.prepareStatement("INSERT INTO notes (`to`, `from`, `message`, `timestamp`) VALUES (?, ?, ?, ?)")) {
                                     ps.setString(1, mgc.getName());
                                     ps.setString(2, initiator.getName());
-                                    ps.setString(3, "You have been expelled from the guild.");
+                                    ps.setString(3, "你已被逐出家族.");
                                     ps.setLong(4, System.currentTimeMillis());
                                     ps.executeUpdate();
                                 }

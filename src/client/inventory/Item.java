@@ -139,7 +139,7 @@ public class Item implements Comparable<Item> {
     
     @Override
     public String toString() {
-        return "Item: " + id + " quantity: " + quantity;
+        return "物品ID: " + id + " 数量: " + quantity;
     }
 
     public List<String> getLog() {

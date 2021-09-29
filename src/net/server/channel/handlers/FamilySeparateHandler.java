@@ -59,7 +59,7 @@ public class FamilySeparateHandler extends AbstractMaplePacketHandler {
         int repCost = separateRepCost(forkOn);
         senior.gainReputation(-repCost, false);
         if(senior.getSenior() != null) senior.getSenior().gainReputation(-(repCost/2), false);
-        forkOn.announceToSenior(MaplePacketCreator.serverNotice(5, forkOn.getName() + " has left the family."), true);
+        forkOn.announceToSenior(MaplePacketCreator.serverNotice(5, forkOn.getName() + " 离开了家族."), true);
         forkOn.fork();
         c.announce(MaplePacketCreator.getFamilyInfo(forkOn)); //pedigree info will be requested from the client if the window is open
         forkOn.updateSeniorFamilyInfo(true);

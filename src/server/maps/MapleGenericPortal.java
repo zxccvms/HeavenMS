@@ -151,7 +151,7 @@ public class MapleGenericPortal implements MaplePortal {
                 chr.changeMap(to, pto); //late resolving makes this harder but prevents us from loading the whole world at once
                 changed = true;
             } else {
-                chr.dropMessage(5, "You cannot enter this map with the chalkboard opened.");
+                chr.dropMessage(5, "打开黑板后不能进入此地图.");
             }
         }
         if (!changed) {

@@ -43,19 +43,19 @@ public class PartySearchStartHandler extends AbstractMaplePacketHandler {
 
             MapleCharacter chr = c.getPlayer();
             if (min > max) {
-                chr.dropMessage(1, "The min. value is higher than the max!");
+                chr.dropMessage(1, "最小值高于最大值！");
                 c.announce(MaplePacketCreator.enableActions());
                 return;
             }
 
             if (max - min > 30) {
-                chr.dropMessage(1, "You can only search for party members within a range of 30 levels.");
+                chr.dropMessage(1, "只能搜索30级范围内的成员。");
                 c.announce(MaplePacketCreator.enableActions());
                 return;
             }
 
             if (chr.getLevel() < min || chr.getLevel() > max) {
-                chr.dropMessage(1, "The range of level for search has to include your own level.");
+                chr.dropMessage(1, "搜索级别的范围必须包括您自己的级别.");
                 c.announce(MaplePacketCreator.enableActions());
                 return;
             }

@@ -25,6 +25,7 @@ public class ServerConfig {
 
     public boolean ENABLE_PIC;
     public boolean ENABLE_PIN;
+    
 
     public int BYPASS_PIC_EXPIRATION;
     public int BYPASS_PIN_EXPIRATION;
@@ -49,6 +50,9 @@ public class ServerConfig {
     //Other configuration
     public boolean SHUTDOWNHOOK;
 
+    //拓展玩法
+    public boolean MONSTER_ATTACK;
+    
     //Server Flags
     public boolean USE_CUSTOM_KEYSET;
     public boolean USE_DEBUG;

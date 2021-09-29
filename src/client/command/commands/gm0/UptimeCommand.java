@@ -39,6 +39,6 @@ public class UptimeCommand extends Command {
         int minutes = (int) ((milliseconds / (1000*60)) % 60);
         int hours   = (int) ((milliseconds / (1000*60*60)) % 24);
         int days    = (int) ((milliseconds / (1000*60*60*24)));
-        c.getPlayer().yellowMessage("Server has been online for " + days + " days " + hours + " hours " + minutes + " minutes and " + seconds + " seconds.");
+        c.getPlayer().yellowMessage("服务器已开启：" + days + "天" + hours + "小时" + minutes + "分钟" + seconds + "秒.");
     }
 }

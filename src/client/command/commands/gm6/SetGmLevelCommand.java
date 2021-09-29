@@ -36,7 +36,7 @@ public class SetGmLevelCommand extends Command {
     public void execute(MapleClient c, String[] params) {
         MapleCharacter player = c.getPlayer();
         if (params.length < 2) {
-            player.yellowMessage("Syntax: !setgmlevel <playername> <newlevel>");
+            player.yellowMessage("使用方法: !设置GM <玩家名称> <GM等级>");
             return;
         }
 
@@ -46,10 +46,10 @@ public class SetGmLevelCommand extends Command {
             target.setGMLevel(newLevel);
             target.getClient().setGMLevel(newLevel);
 
-            target.dropMessage("You are now a level " + newLevel + " GM. See @commands for a list of available commands.");
-            player.dropMessage(target + " is now a level " + newLevel + " GM.");
+            target.dropMessage("您现在是" + newLevel + "级GM. 请使用命令@commands查看所有命令列表");
+            player.dropMessage(target + "现在是" + newLevel + "级GM.");
         } else {
-            player.dropMessage("Player '" + params[0] + "' was not found on this channel.");
+            player.dropMessage("玩家 '" + params[0] + "'在这个频道上找不到.");
         }
     }
 }

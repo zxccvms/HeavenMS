@@ -93,8 +93,8 @@ public abstract class CharacterFactory {
                 c.announce(MaplePacketCreator.addNewCharEntry(newchar));
                 
                 Server.getInstance().createCharacterEntry(newchar);
-                Server.getInstance().broadcastGMMessage(c.getWorld(), MaplePacketCreator.sendYellowTip("[New Char]: " + c.getAccountName() + " has created a new character with IGN " + name));
-                FilePrinter.print(FilePrinter.CREATED_CHAR + c.getAccountName() + ".txt", c.getAccountName() + " created character with IGN " + name);
+                Server.getInstance().broadcastGMMessage(c.getWorld(), MaplePacketCreator.sendYellowTip("[角色创建通知]:使用 " + c.getAccountName() + " 账号创建了一个新的角色，角色昵称：" + name));
+                FilePrinter.print(FilePrinter.CREATED_CHAR + c.getAccountName() + ".txt", c.getAccountName() + "创建了角色，昵称： " + name);
                 
                 return 0;
         }        

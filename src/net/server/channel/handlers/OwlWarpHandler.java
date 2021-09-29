@@ -38,7 +38,7 @@ public final class OwlWarpHandler extends AbstractMaplePacketHandler {
         int mapid = slea.readInt();
         
         if(ownerid == c.getPlayer().getId()) {
-            c.announce(MaplePacketCreator.serverNotice(1, "You cannot visit your own shop."));
+            c.announce(MaplePacketCreator.serverNotice(1, "你不能查看自己的商店."));
             return;
         }
         
@@ -67,10 +67,10 @@ public final class OwlWarpHandler extends AbstractMaplePacketHandler {
                             c.announce(MaplePacketCreator.getOwlMessage(18));
                         }
                     } else {
-                        c.announce(MaplePacketCreator.serverNotice(1, "That shop is currently located in another channel. Current location: Channel " + hm.getChannel() + ", '" + hm.getMap().getMapName() + "'."));
+                        c.announce(MaplePacketCreator.serverNotice(1, "商店在另外一个频道. 当前位置: 频道 " + hm.getChannel() + ", '" + hm.getMap().getMapName() + "'."));
                     }
                 } else {
-                    c.announce(MaplePacketCreator.serverNotice(1, "That shop is currently located outside of the FM area. Current location: Channel " + hm.getChannel() + ", '" + hm.getMap().getMapName() + "'."));
+                    c.announce(MaplePacketCreator.serverNotice(1, "That shop is currently located outside of the FM area. 当前位置: 频道 " + hm.getChannel() + ", '" + hm.getMap().getMapName() + "'."));
                 }
             } else {
                 //c.announce(MaplePacketCreator.serverNotice(1, "That merchant has either been closed or is under maintenance."));
@@ -95,10 +95,10 @@ public final class OwlWarpHandler extends AbstractMaplePacketHandler {
                             c.announce(MaplePacketCreator.getOwlMessage(18));
                         }
                     } else {
-                        c.announce(MaplePacketCreator.serverNotice(1, "That merchant is currently located in another channel. Current location: Channel " + hm.getChannel() + ", '" + hm.getMap().getMapName() + "'."));
+                        c.announce(MaplePacketCreator.serverNotice(1, "商人在另外一个频道. 当前位置: 频道 " + hm.getChannel() + ", '" + hm.getMap().getMapName() + "'."));
                     }
                 } else {
-                    c.announce(MaplePacketCreator.serverNotice(1, "That merchant is currently located outside of the FM area. Current location: Channel " + hm.getChannel() + ", '" + hm.getMap().getMapName() + "'."));
+                    c.announce(MaplePacketCreator.serverNotice(1, "That merchant is currently located outside of the FM area. 当前位置: 频道 " + hm.getChannel() + ", '" + hm.getMap().getMapName() + "'."));
                 }
             } else {
                 //c.announce(MaplePacketCreator.serverNotice(1, "That merchant has either been closed or is under maintenance."));

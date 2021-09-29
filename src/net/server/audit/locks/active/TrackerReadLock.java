@@ -61,7 +61,7 @@ public class TrackerReadLock extends ReentrantReadWriteLock.ReadLock implements 
     public void lock() {
         if(YamlConfig.config.server.USE_THREAD_TRACKER) {
             if(deadlockedState != null) {
-                DateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
+                DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
                 dateFormat.setTimeZone(TimeZone.getDefault());
 
                 //FilePrinter.printError(FilePrinter.DEADLOCK_ERROR, "[CRITICAL] " + dateFormat.format(new Date()) + " Deadlock occurred when trying to use the '" + id.name() + "' lock resources:\r\n" + printStackTrace(deadlockedState));

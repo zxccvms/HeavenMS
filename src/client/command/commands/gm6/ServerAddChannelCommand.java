@@ -39,7 +39,7 @@ public class ServerAddChannelCommand extends Command {
         final MapleCharacter player = c.getPlayer();
         
         if (params.length < 1) {
-            player.dropMessage(5, "Syntax: @addchannel <worldid>");
+            player.dropMessage(5, "使用方法: @新增频道 <服务器ID>");
             return;
         }
 
@@ -51,16 +51,16 @@ public class ServerAddChannelCommand extends Command {
                 int chid = Server.getInstance().addChannel(worldid);
                 if(player.isLoggedinWorld()) {
                     if(chid >= 0) {
-                        player.dropMessage(5, "NEW Channel " + chid + " successfully deployed on world " + worldid + ".");
+                        player.dropMessage(5, "新的频道" + chid + "已成功部署在" + worldid + ".");
                     } else {
                         if(chid == -3) {
-                            player.dropMessage(5, "Invalid worldid detected. Channel creation aborted.");
+                            player.dropMessage(5, "检测到无效的世界ID。通道创建已中止.");
                         } else if(chid == -2) {
-                            player.dropMessage(5, "Reached channel limit on worldid " + worldid + ". Channel creation aborted.");
+                            player.dropMessage(5, "世界ID：" + worldid + "已达到频道限制，创建频道终止.");
                         } else if(chid == -1) {
-                            player.dropMessage(5, "Error detected when loading the 'world.ini' file. Channel creation aborted.");
+                            player.dropMessage(5, "加载时检测到错误 'world.ini' 文件。频道创建中止。");
                         } else {
-                            player.dropMessage(5, "NEW Channel failed to be deployed. Check if the needed port is already in use or other limitations are taking place.");
+                            player.dropMessage(5, "无法部署新频道。检查所需的端口是否已在使用中或正在发生其他限制.");
                         }
                     }
                 }

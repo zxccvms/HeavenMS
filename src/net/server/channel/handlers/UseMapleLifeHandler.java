@@ -36,7 +36,7 @@ public class UseMapleLifeHandler extends AbstractMaplePacketHandler {
         long timeNow = currentServerTime();
         
         if(timeNow - player.getLastUsedCashItem() < 3000) {
-            player.dropMessage(5, "Please wait a moment before trying again.");
+            player.dropMessage(5, "请稍等片刻再试一次.");
             c.announce(MaplePacketCreator.sendMapleLifeError(3));
             c.announce(MaplePacketCreator.enableActions());
             return;

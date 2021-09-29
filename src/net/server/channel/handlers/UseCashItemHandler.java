@@ -72,7 +72,7 @@ public final class UseCashItemHandler extends AbstractMaplePacketHandler {
         
         long timeNow = currentServerTime();
         if (timeNow - player.getLastUsedCashItem() < 3000) {
-            player.dropMessage(1, "You have used a cash item recently. Wait a moment, then try again.");
+            player.dropMessage(1, "你最近使用了一个现金项目。请稍等片刻，然后再试一次.");
             c.announce(MaplePacketCreator.enableActions());
             return;
         }
@@ -108,7 +108,7 @@ public final class UseCashItemHandler extends AbstractMaplePacketHandler {
         }
         
         if (itemType == 504) { // vip teleport rock
-            String error1 = "Either the player could not be found or you were trying to teleport to an illegal location.";
+            String error1 = "要不就是找不到玩家，要不就是试图传送到一个非法的地方。.";
             boolean vip = slea.readByte() == 1 && itemId / 1000 >= 5041;
             remove(c, position, itemId);
             boolean success = false;
@@ -123,7 +123,7 @@ public final class UseCashItemHandler extends AbstractMaplePacketHandler {
                         player.dropMessage(1, error1);
                     }
                 } else {
-                    player.dropMessage(1, "You cannot teleport between continents with this teleport rock.");
+                    player.dropMessage(1, "你不能用这个传送石在大陆之间传送.");
                 }
             } else {
                 String name = slea.readMapleAsciiString();
@@ -139,10 +139,10 @@ public final class UseCashItemHandler extends AbstractMaplePacketHandler {
                             player.dropMessage(1, error1);
                         }
                     } else {
-                        player.dropMessage(1, "You cannot teleport to this map.");
+                        player.dropMessage(1, "你不能传送到这个地图.");
                     }
                 } else {
-                    player.dropMessage(1, "Player could not be found in this channel.");
+                    player.dropMessage(1, "在这个频道找不到.");
                 }
             }
             
@@ -271,7 +271,7 @@ public final class UseCashItemHandler extends AbstractMaplePacketHandler {
                     if (player.getLevel() > 9) {
                         player.getClient().getChannelServer().broadcastPacket(MaplePacketCreator.serverNotice(2, medal + player.getName() + " : " + slea.readMapleAsciiString()));
                     } else {
-                        player.dropMessage(1, "You may not use this until you're level 10.");
+                        player.dropMessage(1, "10级以后才能使用.");
                         return;
                     }
                     break;
@@ -309,7 +309,7 @@ public final class UseCashItemHandler extends AbstractMaplePacketHandler {
                     slea.readInt();
                     
                     if (!MapleTVEffect.broadcastMapleTVIfNotActive(player, victim, messages, tvType)) {
-                        player.dropMessage(1, "MapleTV is already in use.");
+                        player.dropMessage(1, "MapleTV已经在使用中.");
                         return;
                     }
                     
@@ -432,7 +432,7 @@ public final class UseCashItemHandler extends AbstractMaplePacketHandler {
             DueyProcessor.dueySendTalk(c, true);
         } else if (itemType == 537) {
             if (GameConstants.isFreeMarketRoom(player.getMapId())) {
-                player.dropMessage(5, "You cannot use the chalkboard here.");
+                player.dropMessage(5, "你不能在这里用黑板.");
                 player.getClient().announce(MaplePacketCreator.enableActions());
                 return;
             }
@@ -468,7 +468,7 @@ public final class UseCashItemHandler extends AbstractMaplePacketHandler {
             c.announce(MaplePacketCreator.enableActions());
         } else if (itemType == 543) {
             if(itemId == 5432000 && !c.gainCharacterSlot()) {
-                player.dropMessage(1, "You have already used up all 12 extra character slots.");
+                player.dropMessage(1, "你已经用完了所有12个额外的字符槽.");
                 c.announce(MaplePacketCreator.enableActions());
                 return;
             }

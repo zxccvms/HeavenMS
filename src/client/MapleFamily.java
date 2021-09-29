@@ -119,7 +119,7 @@ public class MapleFamily {
                 ps.setInt(2, getLeader().getChrId());
                 ps.executeUpdate();
             } catch(SQLException e) {
-                FilePrinter.printError(FilePrinter.FAMILY_ERROR, e, "Could not save new precepts for family " + getID() + ".");
+                FilePrinter.printError(FilePrinter.FAMILY_ERROR, e, "无法为家人保存新的 " + getID() + ".");
                 e.printStackTrace();
             }
         }
@@ -202,11 +202,11 @@ public class MapleFamily {
                             level = rs.getInt("level");
                             jobID = rs.getInt("job");
                         } else {
-                            FilePrinter.printError(FilePrinter.FAMILY_ERROR, "Could not load character information of " + cid + " in loadAllFamilies(). (RECORD DOES NOT EXIST)");
+                            FilePrinter.printError(FilePrinter.FAMILY_ERROR, "无法加载字符信息 " + cid + " 在 loadAllFamilies(). (记录不存在)");
                             continue;
                         }
                     } catch(SQLException e) {
-                        FilePrinter.printError(FilePrinter.FAMILY_ERROR, e, "Could not load character information of " + cid + " in loadAllFamilies(). (SQL ERROR)");
+                        FilePrinter.printError(FilePrinter.FAMILY_ERROR, e, "无法加载字符信息 " + cid + " 在 loadAllFamilies(). (SQL错误)");
                         continue;
                     }
                     int familyid = rsEntries.getInt("familyid");
@@ -252,7 +252,7 @@ public class MapleFamily {
                     }
                 }
             } catch(SQLException e) {
-                FilePrinter.printError(FilePrinter.FAMILY_ERROR, e, "Could not get family_character entries.");
+                FilePrinter.printError(FilePrinter.FAMILY_ERROR, e, "无法获取学院字符项.");
                 e.printStackTrace();
             }
             // link missing ones (out of order)
@@ -264,11 +264,11 @@ public class MapleFamily {
                 if(senior != null) {
                     junior.setSenior(senior, false);
                 } else {
-                    FilePrinter.printError(FilePrinter.FAMILY_ERROR, "Missing senior for character " + junior.getName() + " in world " + world);
+                    FilePrinter.printError(FilePrinter.FAMILY_ERROR, "缺少高级角色 " + junior.getName() + " 在世界 " + world);
                 }
             }
         } catch(SQLException e) {
-            FilePrinter.printError(FilePrinter.FAMILY_ERROR, e, "Could not get DB connection.");
+            FilePrinter.printError(FilePrinter.FAMILY_ERROR, e, "无法获取数据库连接.");
             e.printStackTrace();
         }
         for(World world : Server.getInstance().getWorlds()) {
@@ -288,7 +288,7 @@ public class MapleFamily {
             }
             if(!success) {
                 con.rollback();
-                FilePrinter.printError(FilePrinter.FAMILY_ERROR, "Family rep autosave failed for family " + getID() + " on " + Calendar.getInstance().getTime().toString() + ".");
+                FilePrinter.printError(FilePrinter.FAMILY_ERROR, "学院代表自动保存失败 " + getID() + " 在 " + Calendar.getInstance().getTime().toString() + ".");
             }
             con.setAutoCommit(true);
             //reset repChanged after successful save
@@ -296,7 +296,7 @@ public class MapleFamily {
                 entry.savedSuccessfully();
             }
         } catch(SQLException e) {
-            FilePrinter.printError(FilePrinter.FAMILY_ERROR, e, "Could not get connection to DB.");
+            FilePrinter.printError(FilePrinter.FAMILY_ERROR, e, "无法获取数据库连接.");
             e.printStackTrace();
         }
     }

@@ -59,19 +59,19 @@ public final class EnterMTSHandler extends AbstractMaplePacketHandler {
             }
 
             if(chr.getEventInstance() != null) {
-                c.announce(MaplePacketCreator.serverNotice(5, "Entering Cash Shop or MTS are disabled when registered on an event."));
+                c.announce(MaplePacketCreator.serverNotice(5, "当在活动时，进入现金商店或MTS将无法进入."));
                 c.announce(MaplePacketCreator.enableActions());
                 return;
             }
             
             if(MapleMiniDungeonInfo.isDungeonMap(chr.getMapId())) {
-                c.announce(MaplePacketCreator.serverNotice(5, "Changing channels or entering Cash Shop or MTS are disabled when inside a Mini-Dungeon."));
+                c.announce(MaplePacketCreator.serverNotice(5, "当在迷你地牢内更换频道或进入现金商店或MTS时，将被禁止。"));
                 c.announce(MaplePacketCreator.enableActions());
                 return;
             }
             
             if (FieldLimit.CANNOTMIGRATE.check(chr.getMap().getFieldLimit())) {
-                chr.dropMessage(1, "You can't do it here in this map.");
+                chr.dropMessage(1, "在这张地图上你不能这么做.");
                 c.announce(MaplePacketCreator.enableActions());
                 return;
             }
